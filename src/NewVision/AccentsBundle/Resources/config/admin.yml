@@ -1,0 +1,24 @@
+parameters:
+    newvision.accents.admin.accents.class: NewVision\AccentsBundle\Admin\AccentsAdmin
+    newvision.accents.admin.accents.controller: NewVisionCoreBundle:SortableCRUD
+    newvision.accents.admin.accents.translation: NewVisionAccentsBundle
+
+
+services:
+    newvision.accents.admin.accents:
+        class: %newvision.accents.admin.accents.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "newvision_site", label: "newvision_accents" }
+        arguments:
+            - ~
+            - %newvision.accents.admin.accents.entity%
+            - %newvision.accents.admin.accents.controller%
+        calls:
+            - [ setTranslationDomain, [%newvision.accents.admin.accents.translation%]]
+            - [ setTemplates, [outer_list_rows_mosaic: NewVisionCoreBundle:Admin:list_outer_rows_mosaic.html.twig]]
+
+    newvision.accents.admin.accents_translation:
+        class: NewVision\AccentsBundle\Admin\AccentTranslationsAdmin
+        arguments: [~, NewVision\AccentsBundle\Entity\AccentTranslation, ~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, show_in_dashboard: false}

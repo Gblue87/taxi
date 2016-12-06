@@ -1,0 +1,26 @@
+{
+    "name": "newvision/mailchimp-bundle",
+    "description": "This Symfony bundle provide easy way to create MailChimp",
+    "keywords": ["Symfony", "MailChimp", "Bundle"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nikolay Tumbalev",
+            "email": "n.tumbalev@newvision.bg"
+        }
+    ],
+    "require": {
+        "newvision/core-bundle": "dev-master",
+    },
+    "repositories":[
+        {
+            "type": "vcs",
+            "url": "git@dev.newvisiongroup.com:symfony-bundles/newvision-core-bundle.git"
+        }
+    ],
+    "autoload": {
+        "psr-0": { "NewVision\\MailChimpBundle": "" }
+    },
+    "target-dir": "NewVision/MailChimpBundle"
+}

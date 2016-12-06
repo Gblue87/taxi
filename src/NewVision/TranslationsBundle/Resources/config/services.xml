@@ -1,0 +1,103 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="newvision_translations.translator.class">NewVision\TranslationsBundle\Translation\Translator</parameter>
+        <parameter key="newvision_translations.loader.database.class">NewVision\TranslationsBundle\Translation\Loader\DatabaseLoader</parameter>
+
+        <parameter key="newvision_translations.trans_unit.manager.class">NewVision\TranslationsBundle\Manager\TransUnitManager</parameter>
+        <parameter key="newvision_translations.file.manager.class">NewVision\TranslationsBundle\Manager\FileManager</parameter>
+
+        <parameter key="newvision_translations.importer.file.class">NewVision\TranslationsBundle\Translation\Importer\FileImporter</parameter>
+
+        <parameter key="newvision_translations.exporter_collector.class">NewVision\TranslationsBundle\Translation\Exporter\ExporterCollector</parameter>
+        <parameter key="newvision_translations.exporter.xliff.class">NewVision\TranslationsBundle\Translation\Exporter\XliffExporter</parameter>
+        <parameter key="newvision_translations.exporter.yml.class">NewVision\TranslationsBundle\Translation\Exporter\YamlExporter</parameter>
+        <parameter key="newvision_translations.exporter.php.class">NewVision\TranslationsBundle\Translation\Exporter\PhpExporter</parameter>
+
+        <parameter key="newvision_translations.orm.storage.class">NewVision\TranslationsBundle\Storage\DoctrineORMStorage</parameter>
+        <parameter key="newvision_translations.orm.trans_unit.class">NewVision\TranslationsBundle\Entity\TransUnit</parameter>
+        <parameter key="newvision_translations.orm.translation.class">NewVision\TranslationsBundle\Entity\Translation</parameter>
+        <parameter key="newvision_translations.orm.file.class">NewVision\TranslationsBundle\Entity\File</parameter>
+
+        <parameter key="newvision_translations.listener.get_database_resources.class">NewVision\TranslationsBundle\Translation\GetDatabaseResourcesListener</parameter>
+    </parameters>
+
+    <services>
+
+        <!-- Storage -->
+
+        <service id="newvision_translations.translation_storage" class="%newvision_translations.orm.storage.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="collection">
+                <argument key="trans_unit">%newvision_translations.orm.trans_unit.class%</argument>
+                <argument key="translation">%newvision_translations.orm.translation.class%</argument>
+                <argument key="file">%newvision_translations.orm.file.class%</argument>
+            </argument>
+        </service>
+
+        <!-- Translator -->
+        <service id="newvision_translations.translator" class="%newvision_translations.translator.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="translator.selector" />
+            <argument type="collection" /> <!-- translation loaders -->
+            <argument type="collection">
+                <argument key="cache_dir">%kernel.cache_dir%/translations</argument>
+                <argument key="debug">%kernel.debug%</argument>
+            </argument>
+            <argument type="service" id="session" on-invalid="ignore" />
+        </service>
+
+        <!-- Managers -->
+        <service id="newvision_translations.trans_unit.manager" class="%newvision_translations.trans_unit.manager.class%">
+            <argument type="service" id="newvision_translations.translation_storage" />
+            <argument type="service" id="newvision_translations.file.manager" />
+            <argument>%kernel.root_dir%</argument>
+        </service>
+
+        <service id="newvision_translations.file.manager" class="%newvision_translations.file.manager.class%">
+            <argument type="service" id="newvision_translations.translation_storage" />
+            <argument>%kernel.root_dir%</argument>
+        </service>
+
+        <!-- Loader -->
+        <service id="newvision_translations.loader.database" class="%newvision_translations.loader.database.class%">
+            <argument type="service" id="newvision_translations.translation_storage" />
+            <tag name="translation.loader" alias="database" />
+        </service>
+
+        <!-- Importer -->
+        <service id="newvision_translations.importer.file" class="%newvision_translations.importer.file.class%">
+            <argument type="collection" /> <!-- translation loaders -->
+            <argument type="service" id="newvision_translations.translation_storage" />
+            <argument type="service" id="newvision_translations.trans_unit.manager" />
+            <argument type="service" id="newvision_translations.file.manager" />
+        </service>
+
+        <!-- Exporter -->
+        <service id="newvision_translations.exporter_collector" class="%newvision_translations.exporter_collector.class%" />
+
+        <service id="newvision_translations.exporter.xliff" class="%newvision_translations.exporter.xliff.class%">
+            <tag name="newvision_translations.exporter" alias="xlf" />
+        </service>
+
+        <service id="newvision_translations.exporter.yml" class="%newvision_translations.exporter.yml.class%">
+            <argument>%newvision_translations.use_yml_tree%</argument>
+            <tag name="newvision_translations.exporter" alias="yml" />
+        </service>
+
+        <service id="newvision_translations.exporter.php" class="%newvision_translations.exporter.php.class%">
+            <tag name="newvision_translations.exporter" alias="php" />
+        </service>
+
+        <!-- Listener -->
+        <service id="newvision_translations.listener.get_database_resources" class="%newvision_translations.listener.get_database_resources.class%">
+            <argument type="service" id="newvision_translations.translation_storage" />
+            <tag name="kernel.event_listener" event="newvision_translations.event.get_database_resources" method="onGetDatabaseResources"  />
+        </service>
+
+    </services>
+</container>

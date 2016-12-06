@@ -1,0 +1,272 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends base_template %}
+
+{% block actions %}
+    <li>{% include 'SonataAdminBundle:Button:edit_button.html.twig' %}</li>
+    <li>{% include 'SonataAdminBundle:Button:history_button.html.twig' %}</li>
+    <li>{% include 'SonataAdminBundle:Button:list_button.html.twig' %}</li>
+    <li>{% include 'SonataAdminBundle:Button:create_button.html.twig' %}</li>
+{% endblock %}
+
+{% block tab_menu %}{{ knp_menu_render(admin.sidemenu(action), {'currentClass' : 'active', 'template': admin_pool.getTemplate('tab_menu_template')}, 'twig') }}{% endblock %}
+
+{% block show %}
+    {% set path = '/uploads/career-applyment/' %}
+    <div class="sonata-ba-view">
+
+        {{ sonata_block_render_event('sonata.admin.show.top', { 'admin': admin, 'object': object }) }}
+
+        {% for name, view_group in admin.showgroups %}
+            <table class="table table-bordered">
+                {% if name %}
+                    <thead>
+                        {% block show_title %}
+                            <tr class="sonata-ba-view-title">
+                                <th colspan="4">
+                                    {{ object.no }}
+                                </th>
+                            </tr>
+                        {% endblock %}
+                    </thead>
+                {% endif %}
+
+                <tbody>
+                    {% block show_field %}
+                        {% if object.name is defined and object.name is not null and object.name|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.name'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.name }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.family is defined and object.family is not null and object.family|length %}\
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.family'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.family }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.phone is defined and object.phone is not null and object.phone|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.phone'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.phone }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.email is defined and object.email is not null and object.email|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.email'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.email }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.baggageDetails is defined and object.baggageDetails is not null and object.baggageDetails|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.email'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.email }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.info is defined and object.info is not null and object.info|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.info'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.info }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.from is defined and object.from is not null and object.from|length %}{% endif %}
+                        <tr class="sonata-ba-view-container">
+                            <td>
+                                {{'career.form.from'|trans({}, 'messages')}}
+                            </td>
+                            <td>
+                                {{ object.from }}
+                            </td>
+                        </tr>
+                        {% if object.to is defined and object.to is not null and object.to|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.to'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.to }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.via is defined and object.via is not null and object.via|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.via'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.via }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.fromLng is defined and object.fromLng is not null and object.fromLng|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.fromLng'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.fromLng }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.fromLat is defined and object.fromLat is not null and object.fromLat|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.fromLat'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.fromLat }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.toLng is defined and object.toLng is not null and object.toLng|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.toLng'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.toLng }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.toLat is defined and object.toLat is not null and object.toLat|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.toLat'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.toLat }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.viaLat is defined and object.viaLat is not null and object.viaLat|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.viaLat'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.viaLat }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.viaLng is defined and object.viaLng is not null and object.viaLng|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.viaLng'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.viaLng }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.date is defined and object.date is not null and object.date|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.date'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.date }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.startTime is defined and object.startTime is not null and object.startTime|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.start_time'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.startTime }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.amount is defined and object.amount is not null and object.amount|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.amount'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.amount }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.distance is defined and object.distance is not null and object.distance|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.distance'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.distance }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.duration is defined and object.duration is not null and object.duration|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.duration'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.duration }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.type is defined and object.type is not null and object.type|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.type'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.type }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.paymentType is defined and object.paymentType is not null and object.paymentType|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'career.form.paymentType'|trans({}, 'messages')}}
+                                </td>
+                                <td>
+                                    {{ object.paymentType }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endblock %}
+                </tbody>
+            </table>
+        {% endfor %}
+
+        {{ sonata_block_render_event('sonata.admin.show.bottom', { 'admin': admin, 'object': object }) }}
+
+    </div>
+{% endblock %}

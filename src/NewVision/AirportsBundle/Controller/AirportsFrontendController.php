@@ -1,0 +1,266 @@
+<?php
+
+namespace NewVision\AirportsBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Knp\Menu\MenuFactory;
+use Knp\Menu\Renderer\ListRenderer;
+use Knp\Menu\Matcher\Matcher;
+use Knp\Menu\Matcher\Voter\UriVoter;
+use NewVision\FrontendBundle\Entity\Order;
+
+class AirportsFrontendController extends Controller
+{
+    use \NewVision\FrontendBundle\Traits\NewVisionHelperTrait;
+
+    protected $matcher, $router;
+    protected $contentPageId             = 23;
+    protected $mainRootName              = 'airports_list';
+    protected $airportsCategoriesPerPage = 1000;
+    protected $airportsPerPage           = 1000;
+    protected $itemsRepo                 = 'NewVisionAirportsBundle:Airport';
+
+
+    /**
+     * @Route("/airport-transfers", name="airports_list")
+     * @Template("NewVisionAirportsBundle:Frontend:airports_list.html.twig")
+     */
+    public function airportsListAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $locale = $request->getLocale();
+        $airportsRepo = $em->getRepository($this->itemsRepo);
+
+        $content = $this->getContentPage();
+
+        $query = $airportsRepo->getAirportsListingQuery(null, $locale, null, null);
+        $airports = $query->getResult();
+
+        $this->generateSeoAndOgTags($content);
+
+        return array(
+            'airports'    => $airports,
+            'content'     => $content
+        );
+    }
+
+    /**
+     * @Route("/airport-transfer/{slug}", name="airport_view")
+     * @Template("NewVisionAirportsBundle:Frontend:airportOrder.html.twig")
+     */
+    public function airportsOrderAction(Request $request, $slug)
+    {
+        $settingsManager = $this->get('newvision.settings_manager');
+        $to = false;
+        $from = false;
+        $em = $this->getDoctrine()->getManager();
+        $locale = $request->getLocale();
+        $servicesRepo = $em->getRepository($this->itemsRepo);
+        $point = $request->query->get('point');
+        $airport = $servicesRepo->findOneBySlugAndLocale($slug, $locale);
+        if ($point == 'from') {
+            $from = true;
+        }else{
+            $to = true;
+        }
+
+        $form = $this->container->get('form.factory')->create('order', new Order(), array(
+            'method' => 'POST',
+            'action' => $this->generateUrl('airport_view', array('slug' => $airport->getSlug()))
+        ));
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            $session = $this->get('session');
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $data->setNo(rand(5, 16).time());
+                $data->setType('airport');
+                $em->persist($data);
+                $em->flush();
+
+                $price = $data->getAmount() * $settingsManager->get('surcharge', 1);
+                if(!$price){
+                    throw $this->createNotFoundException();
+                }
+
+                //LIVE "https://www.paypal.com/cgi-bin/webscr",
+                $paypalForm = array(
+                    'action' => "https://www.sandbox.paypal.com/cgi-bin/webscr",
+                    'fields' => array(
+                        'cmd' => "_ext-enter",
+                        'redirect_cmd' => "_xclick",
+                        'business' => 'taxichester.uk@gmail.com',
+                        'invoice' => $data->getNo(),
+                        'amount' => $price,
+                        'currency_code' => 'GBP',
+                        'paymentaction' => "sale",
+                        'return' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_success', array('id' => $data->getNo())),
+                        'cancel_return' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_success', array('id' => $data->getNo())),
+                        'notify_url' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_notify', array('id' => $data->getNo())),
+                        'item_name' => "TaxiChester Order #".$data->getNo(),
+                        'lc' => "en_GB",
+                        'charset' => "utf-8",
+                        'no_shipping' => "1",
+                        'no_note' => "1",
+                        'image_url' => "",
+                        'email' => $data->getEmail(),
+                        'first_name' => $data->getName(),
+                        'last_name' => $data->getFamily(),
+                        'custom' => $data->getNo(),
+                        'cs' => "0",
+                        'page_style' => "PayPal"
+                    )
+                );
+                return $this->redirectToRoute('paypal_gateway', array('form' => $paypalForm));
+
+            } else {
+                $session->getFlashBag()->clear();
+                $session->getFlashBag()->add(
+                    'error',
+                    'applyment_error'
+                );
+            }
+        }
+
+        $this->generateSeoAndOgTags($airport);
+        $offer['id'] = $airport->getId();
+        return array(
+            'airport' => $airport,
+            'from' => $from,
+            'to' => $to,
+            'offerPoint' => $point,
+            'offer' => json_encode($offer),
+            'form' => $form->createView()
+        );
+    }
+
+    /**
+     * @Route("/paypal-gateway", name="paypal_gateway")
+     * @Template("NewVisionFrontendBundle:Controller:gateway.html.twig")
+     */
+    public function paypalGatewayAction($form){
+        return array(
+            'form' => $form,
+        );
+    }
+
+    /**
+     * @Route("/paypal-success/{id}", name="paypal_success")
+     * @Template("NewVisionFrontendBundle:Controller:paypalSuccess.html.twig")
+     */
+    public function paypalSuccessAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
+        if (!preg_match('/^\d+$/', $id))
+            throw $this->createNotFoundException();
+        $order = $ordersRepository->findOneByNo($id);
+
+        if (empty($order))
+            throw $this->createNotFoundException();
+
+        // $this->sendOrderAdminMail($order);
+        // $this->sendOrderUserMail($order);
+        return array(
+            'order' => $order,
+        );
+    }
+
+    /**
+     * @Route("/paypal-notify", name="paypal_notify")
+     */
+    public function paypalNotifyAction(Request $request, $id)
+    {
+        $settingsManager = $this->get('newvision.settings_manager');
+        $requestData = $request->request->all();
+        if (!isset($requestData['invoice']) ||
+            !isset($requestData['payment_status']) ||
+            !isset($requestData['mc_gross']) ||
+            !preg_match('/^\d+$/', $id)
+        )
+            return false;
+        $em = $this->getDoctrine()->getManager();
+        $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
+        $order = $ordersRepository->findOneByNo($id);
+
+        $p = $requestData;
+        $status = strtolower($p['payment_status']);
+
+        if (in_array($status, array('denied', 'expired', 'failed'))) {
+            $result = self::paypalReturnQuery($p);
+            if ($result == 'verified'){
+                $order->setPaymentStatus('payment-failed');
+                $em->persist($order);
+                $em->flush();
+            }
+
+        } elseif ($status == "completed") {
+
+            $result = self::paypalReturnQuery($p);
+
+            if ($result == "verified") {
+                $status = "paid";
+
+                $price = $order->getAmount() * $settingsManager->get('surcharge');
+                if (!$price || $price > (int) $requestData['mc_gross']) {
+                    $status = "payment-failed";
+                }
+
+                if ($status == "paid") {
+                    // $this->sendOrderAdminMail($order);
+                    // $this->sendOrderUserMail($order);
+                }
+
+                $order->setPaymentStatus($status);
+                $em->persist($order);
+                $em->flush();
+            }
+        }
+    }
+
+
+    private static function paypalReturnQuery($p)
+    {
+        return "verified";
+
+        $url = "www.sandbox.paypal.com";
+            //: "www.paypal.com";
+
+        $url = "https://$url:443/cgi-bin/webscr";
+
+        $p['receiver_email'] = 'taxichester.uk@gmail.com';
+        $p['cmd'] = '_notify-validate';
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $p);
+        curl_setopt($ch, CURLOPT_SSLVERSION, 4);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // On dev server only!
+        $result = curl_exec($ch);
+        if ($result === false)
+            self::dump('ERROR: ' . curl_error($ch));
+        else
+            self::dump('SUCCESS: ' . $result);
+        curl_close($ch);
+
+//        $result = file_get_contents($url, null, stream_context_create(array(
+//            'http' => array(
+//                'method' => 'POST',
+//                'header' => 'Content-type: application/x-www-form-urlencoded',
+//                'content' => http_build_query($p)
+//            )
+//        )));
+
+        return trim(strtolower($result));
+    }
+
+
+}

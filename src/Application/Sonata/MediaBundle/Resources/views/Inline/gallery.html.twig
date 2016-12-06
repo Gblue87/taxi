@@ -1,0 +1,7 @@
+<div class="widgetGallery">
+    {% for image in gallery.galleryHasMedias %}
+        <a class="galleryImage" href="{% path image.media, 'reference' %}" title="{{ gallery.customDescription }}">
+            {% thumbnail image.media, 'thumb' with { 'alt': image.media.title, 'title': image.media.title } %}
+        </a>
+    {% endfor %}
+</div>

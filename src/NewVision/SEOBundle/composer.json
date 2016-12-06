@@ -1,0 +1,20 @@
+{
+    "name": "newvision/seo-bundle",
+    "description": "This Symfony bundle provide easy way to add seo meta data to other objects",
+    "keywords": ["Symfony", "seo", "Bundle"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hristo Hristoff",
+            "email": "hristo.hristov@newvision.bg"
+        }
+    ],
+    "require": {
+        "newvision/core-bundle": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "NewVision\\SEOBundle": "" }
+    },
+    "target-dir": "NewVision/SEOBundle"
+}

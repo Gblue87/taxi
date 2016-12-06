@@ -1,0 +1,27 @@
+Аccent List: 'Accents List'
+Аccent Delete: 'Accents Delete'
+
+newvision_accents: 'Accents'
+form:
+  created_at: 'Created at'
+  description: 'Description'
+  id: 'ID'
+  image: 'Image'
+  is_hidden: 'Hidden?'
+  general: 'General'
+  label_image: 'Image'
+  more: 'More'
+  type: 'Type'
+  title: 'Title'
+  translations: 'Translations'
+  target: 'Target'
+  url: 'URL address'
+  button_title: 'Link title'
+
+tab:
+  general: 'General'
+  more: 'More'
+
+table.label_actions: 'Actions'
+
+Publish Workflow: 'Publish Workflow'

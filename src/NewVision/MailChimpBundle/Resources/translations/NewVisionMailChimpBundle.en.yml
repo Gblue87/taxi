@@ -1,0 +1,23 @@
+Аccent List: 'MailChimp List'
+Аccent Delete: 'MailChimp Delete'
+
+newvision_mail_chimp: 'MailChimp'
+form:
+  created_at: 'Created at'
+  id: 'ID'
+  general: 'General'
+  label_image: 'Image'
+  more: 'More'
+  title: 'Title'
+  translations: 'Translations'
+  doubleOptin: 'Double Opt-in'
+  apiKey: 'API key'
+  listId: 'Subscribe list'
+
+tab:
+  general: 'General'
+  more: 'More'
+
+table.label_actions: 'Actions'
+
+Publish Workflow: 'Publish Workflow'

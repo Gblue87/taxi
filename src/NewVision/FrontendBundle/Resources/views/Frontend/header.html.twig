@@ -1,0 +1,22 @@
+<header class="" itemscope="" itemtype="http://schema.org/WPHeader">
+	<div class="forfixing">
+	 	<div class="center">
+		 	<a href="{{ path("homepage") }}" class="logo">
+			 	<img src="/images/logo.png" alt="logo" >
+		 	</a>
+			<nav>
+				<input id="menu" type="checkbox" name="menu">
+				<label for="menu"><div></div></label>
+				{{ knp_menu_render('NewVisionFrontendBundle:Builder:mainMenu', {'currentClass': 'active'}) }}
+			</nav>
+			<div class="right phone">
+				<a href="{{ path("new_order") }}" class="mbtn mbtn-orange sticky">Book now</a>
+				<div class="static"><i></i><span>{{ settings.get('header_phone_1') }}<br>{{ settings.get('header_phone_2') }}</span></div>
+			</div>
+		 	<a href="tel:{{ settings.get('header_phone_1') }}" class="hidden mobileversion"></a>
+			<div class="clear"></div>
+	 	</div>
+	</div>
+ 	<div class="push"></div>
+</header>
+<div class="clear"></div>

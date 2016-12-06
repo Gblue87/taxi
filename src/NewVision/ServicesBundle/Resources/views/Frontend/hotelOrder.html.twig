@@ -1,0 +1,17 @@
+{% extends '::base.html.twig' %}
+
+{% block main %}
+     <div class="inner-page">
+        <div class="page-header">
+            <div class="center">
+                <h1 class="title">{{ 'book_now'|trans({}, "NewVisionFrontendBundle")}}</h1>
+            </div>
+        </div>
+        <div class="center">
+            {% include 'NewVisionFrontendBundle:Frontend:ordersForm.html.twig' with {'hotel': hotel, 'from': from, 'to': to} %}
+        </div>
+    </div>
+{% endblock %}
+{% block footerJS %}
+    {{ parent() }}
+{% endblock %}

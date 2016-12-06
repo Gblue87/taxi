@@ -1,0 +1,90 @@
+{
+    "name": "symfony/framework-standard-edition",
+    "license": "MIT",
+    "type": "project",
+    "description": "The \"Symfony Standard Edition\" distribution",
+    "autoload": {
+        "psr-4": { "": "src/", "SymfonyStandard\\": "app/SymfonyStandard/" }
+    },
+    "require": {
+        "php": ">=5.3.9",
+        "symfony/symfony": "2.6.3",
+        "doctrine/orm": "~2.2,>=2.2.3,<2.5",
+        "doctrine/dbal": "<2.5",
+        "doctrine/doctrine-bundle": "~1.4",
+        "symfony/assetic-bundle": "~2.3",
+        "symfony/swiftmailer-bundle": "~2.3",
+        "symfony/monolog-bundle": "~2.4",
+        "sensio/distribution-bundle": "~3.0",
+        "sensio/framework-extra-bundle": "~2.3",
+        "incenteev/composer-parameter-handler": "~2.0",
+
+        "gedmo/doctrine-extensions": "dev-wip-v2.4.0",
+
+        "a2lix/translation-form-bundle": "2.0.4",
+
+        "knplabs/knp-menu": "~2.1",
+        "knplabs/knp-menu-bundle": "dev-master",
+
+        "sonata-project/core-bundle": "^2.2.1",
+        "sonata-project/admin-bundle": "2.x-dev",
+        "sonata-project/block-bundle": "~2.2,>=2.2.7,<2.3",
+        "sonata-project/doctrine-orm-admin-bundle": "2.3.3",
+        "sonata-project/datagrid-bundle" : "dev-master",
+        "sonata-project/user-bundle" : "2.x",
+        "sonata-project/easy-extends-bundle": "~2.1",
+        "sonata-project/intl-bundle": "~2.2",
+        "sonata-project/seo-bundle" : "2.0.0",
+
+        "nelmio/api-doc-bundle": "dev-master",
+        "jms/serializer-bundle": "~0.11",
+        "jms/di-extra-bundle": "dev-master",
+        "dario_swain/ds-recaptcha-bundle": "dev-master",
+        "jms/payment-paypal-bundle": "^1.1"
+    },
+    "require-dev": {
+        "sensio/generator-bundle": "~2.3"
+    },
+    "scripts": {
+        "post-root-package-install": [
+            "SymfonyStandard\\Composer::hookRootPackageInstall"
+        ],
+        "post-install-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+        ],
+        "post-update-cmd": [
+            "NewVision\\CoreBundle\\Composer\\ScriptHandler::init",
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "NewVision\\CoreBundle\\Composer\\ScriptHandler::installBundles",
+            "NewVision\\CoreBundle\\Composer\\ScriptHandler::fixBootstrapCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "NewVision\\CoreBundle\\Composer\\ScriptHandler::createDB",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
+            "NewVision\\CoreBundle\\Composer\\ScriptHandler::changeDirName"
+        ]
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "extra": {
+        "symfony-app-dir": "app",
+        "symfony-web-dir": "web",
+        "symfony-assets-install": "relative",
+        "incenteev-parameters": {
+            "file": "app/config/parameters.yml"
+        },
+        "branch-alias": {
+            "dev-master": "2.7-dev"
+        }
+    }
+}

@@ -1,0 +1,42 @@
+'Content List': 'Текстови страници'
+'Content Delete': Изтрий
+td_revision: 'Ревизия'
+'Publish Workflow': 'Видимост в сайта'
+td_timestamp: Дата
+td_username: Администратор
+td_action: Действия
+label_view_revision: 'Виж ревизията'
+action_edit: Виж
+action_history: Версии
+label_revert_to_revision: 'Върни се до тази ревизия'
+newvision_content: 'Текстови страници'
+not_found_revisions: 'Няма намерени ревизии'
+General: Общи
+More: Още
+Meta Data: 'Мета данни'
+actions: Действия
+list:
+    title: Заглавие
+    path: Подреждане
+    is_hidden: Скрит
+    createdAt: 'Дата на създаване'
+    actions: Действия
+form:
+    parent: 'Главен обкет'
+    slug: Слъг
+    translations: Преводи
+    title: Заглавие
+    description: Описание
+    meta_title: 'Мета заглавие'
+    meta_description: 'Мета описание'
+    meta_keywords: 'Мета ключови думи'
+    isSystem: 'Системна страница'
+    general: Основни
+    is_seo_visible: 'От линк'
+    createdAt: 'Създанен на'
+    lft: 'Родител'
+    isActive: 'Активен?'
+    showSocialIcons: 'Покажи социалните икони'
+    headerImage: 'Хедър изображение'
+select:
+    parent: '-- Моля изберете --'

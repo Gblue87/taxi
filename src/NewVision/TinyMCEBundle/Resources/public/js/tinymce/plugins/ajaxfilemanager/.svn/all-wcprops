@@ -1,0 +1,179 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager
+END
+editor_plugin.js
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/editor_plugin.js
+END
+ajax_editor_reset.php
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_editor_reset.php
+END
+ajax_image_editor.php
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_image_editor.php
+END
+ajax_file_cut.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_file_cut.php
+END
+ajax_text_editor.php
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_text_editor.php
+END
+_ajax_load_folders.php
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/_ajax_load_folders.php
+END
+ajax_no_auth.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_no_auth.php
+END
+editor_plugin_src.js
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/editor_plugin_src.js
+END
+ajax_create_folder.php
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_create_folder.php
+END
+ajax_save_name.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_save_name.php
+END
+ajax_image_save.php
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_image_save.php
+END
+debug.html
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/debug.html
+END
+mediaplayer.swf
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/mediaplayer.swf
+END
+ajax_delete_file.php
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_delete_file.php
+END
+ajax_save_text.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_save_text.php
+END
+ajax_get_folder_listing.php
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_get_folder_listing.php
+END
+ajax_save_as_form.php
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_save_as_form.php
+END
+ajax_download.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_download.php
+END
+ajax_image_undo.php
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_image_undo.php
+END
+ajax_get_file_listing.php
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_get_file_listing.php
+END
+ajax_login.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_login.php
+END
+ajax_file_copy.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_file_copy.php
+END
+_ajax_get_thumbnail_listing.php
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/_ajax_get_thumbnail_listing.php
+END
+ajax_file_paste.php
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_file_paste.php
+END
+ajaxfilemanager.php
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajaxfilemanager.php
+END
+_ajax_get_details_listing.php
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/_ajax_get_details_listing.php
+END
+ajax_preview.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_preview.php
+END
+ajax_file_upload.php
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_file_upload.php
+END
+ajax_image_thumbnail.php
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/simpatik/!svn/ver/2/trunk/web/js/backend/tiny_mce/plugins/ajaxfilemanager/ajax_image_thumbnail.php
+END

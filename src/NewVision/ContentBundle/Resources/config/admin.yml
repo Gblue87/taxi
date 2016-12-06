@@ -1,0 +1,24 @@
+parameters:
+    newvision.content.admin.content.class: NewVision\ContentBundle\Admin\ContentAdmin
+    newvision.content.admin.content.controller: NewVisionContentBundle:ContentCRUD
+    newvision.content.admin.content.translation: NewVisionContentBundle
+
+services:
+    newvision.content.admin.content:
+        class: %newvision.content.admin.content.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "newvision_site", label: "newvision_content" }
+        arguments:
+            - ~
+            - %newvision.content.admin.content.entity%
+            - %newvision.content.admin.content.controller%
+        calls:
+            - [ setTranslationDomain, [%newvision.content.admin.content.translation%]]
+
+    newvision.content.admin.content_translations:
+        class: NewVision\ContentBundle\Admin\ContentTranslationsAdmin
+        arguments: [~, NewVision\ContentBundle\Entity\ContentTranslation, ~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, show_in_dashboard: false}
+        calls:
+            - [ setTranslationDomain, [%newvision.content.admin.content.translation%]]

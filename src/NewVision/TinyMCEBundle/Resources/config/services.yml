@@ -1,0 +1,7 @@
+services:
+  twig.extension.newvision_tinymce:
+    class: NewVision\TinyMCEBundle\Twig\Extension\NewVisionTinyMCEExtension
+    calls:
+      - [ setContainer,[ @service_container ] ]
+    tags:
+      - { name: twig.extension }

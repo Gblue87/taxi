@@ -1,0 +1,43 @@
+parameters:
+    newvision.services.admin.services.translation: NewVisionServicesBundle
+
+services:
+    newvision.services.admin.services:
+        class: NewVision\ServicesBundle\Admin\ServicesAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "newvision_site_services", label: "newvision_services" }
+        arguments:
+            - ~
+            - NewVision\ServicesBundle\Entity\Service
+            - NewVisionCoreBundle:SortableCRUD
+        calls:
+            - [ setTranslationDomain, [%newvision.services.admin.services.translation%]]
+            - [ setTemplates, [outer_list_rows_mosaic: NewVisionCoreBundle:Admin:list_outer_rows_mosaic.html.twig]]
+
+    newvision.service_categories.admin.service_category:
+        class: NewVision\ServicesBundle\Admin\ServiceCategoryAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "newvision_site_services", label: "newvision_service_categories", audit: true }
+        arguments:
+            - ~
+            - NewVision\ServicesBundle\Entity\ServiceCategory
+            - NewVisionCoreBundle:TreeCRUD
+        calls:
+            - [ setTranslationDomain, [%newvision.services.admin.services.translation%]]
+            - [ setTemplates, [outer_list_rows_mosaic: NewVisionCoreBundle:Admin:list_outer_rows_mosaic.html.twig]]
+
+    newvision.services.admin.services_translations:
+        class: NewVision\ServicesBundle\Admin\ServicesTranslationsAdmin
+        arguments: [~, NewVision\ServicesBundle\Entity\ServiceTranslation, ~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, show_in_dashboard: false}
+        calls:
+            - [ setTranslationDomain, [%newvision.services.admin.services.translation%]]
+
+    newvision.services.admin.service_category_translations:
+        class: NewVision\ServicesBundle\Admin\ServiceCategoryTranslationsAdmin
+        arguments: [~, NewVision\ServicesBundle\Entity\ServiceCategoryTranslation, ~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, show_in_dashboard: false}
+        calls:
+            - [ setTranslationDomain, [%newvision.services.admin.services.translation%]]

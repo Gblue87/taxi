@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html {{ sonata_seo_html_attributes() }}>
+    <head {{ sonata_seo_head_attributes() }}>
+        {{ sonata_seo_title() }}
+        {{ sonata_seo_metadatas() }}
+        {{ sonata_seo_link_canonical() }}
+        {{ sonata_seo_lang_alternates() }}
+        <link rel="icon" href="/images/favicon2.png" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link href='https://fonts.googleapis.com/css?family=Raleway:400,500,700' rel='stylesheet' type='text/css'>
+        {# LOADER STYLES #}
+        <style>
+            body {background: #fff;}.container{opacity:0;visibility:hidden}.spinner{position:fixed;top:50%;left:50%;width:50px;height:40px;font-size:10px;text-align:center;-webkit-transform:translate(-50%,-50%);-moz-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);-о-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}.spinner>div{display:inline-block;width:6px;height:100%;background-color:#3097d1;-webkit-animation:sk-stretchdelay 1.2s infinite ease-in-out;animation:sk-stretchdelay 1.2s infinite ease-in-out}.spinner .rect2{-webkit-animation-delay:-1.1s;animation-delay:-1.1s}.spinner .rect3{-webkit-animation-delay:-1s;animation-delay:-1s}.spinner .rect4{-webkit-animation-delay:-.9s;animation-delay:-.9s}.spinner .rect5{-webkit-animation-delay:-.8s;animation-delay:-.8s}@-webkit-keyframes sk-stretchdelay{0%,100%,40%{-webkit-transform:scaleY(.4)}20%{-webkit-transform:scaleY(1)}}@keyframes sk-stretchdelay{0%,100%,40%{transform:scaleY(.4);-webkit-transform:scaleY(.4)}20%{transform:scaleY(1);-webkit-transform:scaleY(1)}}
+        </style>
+        {% block stylesheets %}
+            {% stylesheets 'css/*' filter='?uglifycss, cssrewrite' output='generatedCss/*.css' %}
+                <link rel="stylesheet"  type="text/css" href="{{ asset_url }}">
+            {% endstylesheets %}
+        {% endblock %}
+        {% block javascripts %}
+            {% javascripts 'js/*' filter='?uglifyjs2' output='generatedJs/*.js' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
+    </head>
+    <body itemscope itemtype="http://schema.org/WebPage">
+        <div id="wrap">
+            <div id="main">
+                {{ render(controller('NewVisionFrontendBundle:Frontend:renderHeader', { 'locale': app.request.locale, 'route': app.request.attributes.get('_route'), 'route_params': app.request.attributes.get('_route_params') })) }}
+                <div id="content">
+                    {% block main %}{% endblock %}
+                </div>
+            </div>
+        </div>
+        {{ render(controller('NewVisionFrontendBundle:Frontend:renderFooter')) }}
+        {{ render(controller('NewVisionSettingsBundle:Settings:render', {'key':'footer_miscellanous'})) }}
+        {{ render(controller('NewVisionSettingsBundle:Settings:render', {'key':'ga_code'})) }}
+        {% block footerJS %}
+        {% endblock %}
+    </body>
+</html>

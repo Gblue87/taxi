@@ -1,0 +1,18 @@
+newvision_translations: Translations
+clear-cache: Clear cache
+list:
+  file: File
+  locale: Language
+  trans_unit: Key
+  content: Value
+form:
+  actions: Actions
+  key: Key
+  domain: Domain
+  file: File
+  locale: Language
+  trans_unit: Key
+  content: Value
+
+translations:
+    cache_removed: 'Cache removed successfuly!'

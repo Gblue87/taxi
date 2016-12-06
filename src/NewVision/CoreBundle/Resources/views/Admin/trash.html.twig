@@ -1,0 +1,17 @@
+{% extends 'SonataAdminBundle:CRUD:base_list.html.twig' %}
+
+{% block table_body %}
+        <tbody>
+            {% for object in admin.datagrid.results %}
+                <tr id="item_{{object.id}}">
+                    {% include 'NewVisionCoreBundle:Admin:list_trash_inner_row.html.twig' %}
+                </tr>
+            {% endfor %}
+        </tbody>
+{% endblock %}
+{% block pager_links %}
+    {% if admin.datagrid.pager.haveToPaginate() %}
+        <hr/>
+        {% include 'NewVisionCoreBundle:Admin:trash_pager_links.html.twig' %}
+    {% endif %}
+{% endblock %}

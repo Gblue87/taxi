@@ -1,0 +1,25 @@
+Translation List: 'Преводи'
+Translation Delete: 'Изтрий'
+
+
+General: 'Главни'
+clear-cache: 'Изтрий кеша'
+newvision_translations: 'Преводи'
+list:
+  key: 'Ключ'
+  file: 'Файл'
+  trans_unit: 'Ключ'
+  locale: 'Език'
+  content: 'Превод'
+  domain: 'Файл'
+form:
+  key: 'Ключ'
+  file: 'Файл'
+  trans_unit: 'Ключ'
+  locale: 'Език'
+  content: 'Превод'
+  domain: 'Файл'
+  actions: Действия
+
+translations:
+    cache_removed: 'Кеша е изчистен успешно!'

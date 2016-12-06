@@ -1,0 +1,23 @@
+Contact List: 'Contacts requests'
+Contact Delete: 'Delete'
+
+newvision_contacts: 'Contacts requests'
+menu.item: 'General'
+form:
+  id: 'ID'
+  created_at: 'Created at'
+  general: 'General'
+  more: 'Additional'
+  name: 'Name'
+  family: 'Family'
+  phone: 'Phone'
+  email: 'E-mail'
+  message: 'Message'
+  contactFor: 'Contact for'
+  commingFrom: 'Идва от'
+
+tab:
+  general: 'General'
+  more: 'Additional'
+
+table.label_actions: 'Actions'

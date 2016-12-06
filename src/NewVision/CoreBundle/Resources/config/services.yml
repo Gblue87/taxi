@@ -1,0 +1,47 @@
+services:
+  newvision_core.form.type.newvision_tree:
+      class: NewVision\CoreBundle\Form\Type\TreeType
+      arguments: [ "@property_accessor" ]
+      tags:
+          - { name: form.type, alias: newvision_tree }
+
+  newvision_core.form.type_guesser.tree:
+    class: NewVision\CoreBundle\Form\Type\TreeTypeGuesser
+    arguments: [ "@doctrine" ]
+    tags:
+      - { name: form.type_guesser }
+  newvision.core.route.entity:
+    class: NewVision\CoreBundle\Route\EntityRouterBuilder
+    arguments: ["@sonata.admin.audit.manager"]
+
+
+  newvision_core.form.type_guesser.tree:
+      class: NewVision\CoreBundle\Form\Type\TreeTypeGuesser
+      arguments: [ "@doctrine" ]
+      tags:
+          - { name: form.type_guesser }
+
+  newvision.og_tags:
+      class: NewVision\CoreBundle\Services\OgTagsService
+      arguments: [ "@service_container", '@request_stack' ]
+      tags:
+          - { name: newvision.og_tags }
+
+  sonata.media.resizer.custom:
+      class: NewVision\CoreBundle\Resizer\CustomResizer
+      arguments: [@sonata.media.adapter.image.gd, 'outbound', @sonata.media.metadata.proxy, @service_container]
+
+  newvision_soft_delete.event.listener.delete:
+        class: NewVision\CoreBundle\EventListener\SoftDeletableListener
+        tags:
+            - { name: doctrine.event_listener, event: preSoftDelete}
+            - { name: doctrine.event_listener, event: postSoftDelete}
+        arguments:
+            - @service_container
+
+  newvision.twig.extensions:
+    class: NewVision\CoreBundle\Twig\Extension\NewVisionTwigExtensions
+    calls:
+      - [ setContainer,[ @service_container ] ]
+    tags:
+      - { name: twig.extension }

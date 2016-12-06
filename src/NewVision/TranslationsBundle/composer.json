@@ -1,0 +1,26 @@
+{
+    "name": "newvision/translations-bundle",
+    "type": "symfony-bundle",
+    "description": "This bundle allow to import translation files content into the database and provide a GUI to edit translations.",
+    "keywords": ["Symfony2", "bundle", "translation", "i18n"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hristo Hristoff",
+            "email": "hristo.hristov@newvision.bg"
+        }
+    ],
+    "require": {
+        "newvision/core-bundle": "dev-master"
+    },
+    "repositories":[
+        {
+            "type": "vcs",
+            "url": "git@dev.newvisiongroup.com:symfony-bundles/newvision-core-bundle.git"
+        }
+    ],
+    "autoload": {
+        "psr-0": { "NewVision\\TranslationsBundle": "" }
+    },
+    "target-dir": "NewVision/TranslationsBundle"
+}

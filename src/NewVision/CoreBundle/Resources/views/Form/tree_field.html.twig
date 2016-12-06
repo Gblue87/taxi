@@ -1,0 +1,109 @@
+{% block newvision_tree_widget %}
+    {% spaceless %}
+        {% if expanded %}
+            <ul {{ block('tree_widget_container_attributes') }}>
+            {% for child in form %}
+                <li>
+                    {{ form_widget(child) }}
+                    {{ form_label(child) }}
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            {# just let the choice widget render the select tag #}
+            {{ block('tree_choice_widget') }}
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
+
+{% block tree_choice_widget -%}
+    {% if expanded %}
+        {{- block('tree_choice_widget_expanded') -}}
+    {% else %}
+        {{- block('tree_choice_widget_collapsed') -}}
+    {% endif %}
+{%- endblock tree_choice_widget %}
+
+{% block tree_choice_widget_expanded -%}
+    <div {{ block('tree_widget_container_attributes') }}>
+    {%- for child in form %}
+        {{- form_widget(child) -}}
+        {{- form_label(child) -}}
+    {% endfor -%}
+    </div>
+{% endblock tree_choice_widget_expanded %}
+
+{% block tree_choice_widget_collapsed -%}
+    {% if required and placeholder is defined and not placeholder_in_choices and not multiple -%}
+        {% set required = false %}
+    {%- endif -%}
+    <select {{ block('tree_widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+        {% if placeholder is defined and placeholder is not none -%}
+            <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder|trans({}, translation_domain) }}</option>
+        {%- endif %}
+        {%- if preferred_choices|length > 0 -%}
+            {% set options = preferred_choices %}
+            {{- block('tree_choice_widget_options') -}}
+            {% if choices|length > 0 and separator is not none -%}
+                <option disabled="disabled">{{ separator }}</option>
+            {%- endif %}
+        {%- endif -%}
+        {% set options = choices -%}
+        {{- block('tree_choice_widget_options') -}}
+    </select>
+    {% if attr['upUrl'] %}
+        <a href="{{attr['upUrl']}}" class="btn btn-sm btn-default edit_link">
+            <i class="glyphicon glyphicon-arrow-up"></i>
+        </a>
+    {% endif %}
+    {% if attr['downUrl'] %}
+        <a href="{{attr['downUrl']}}" class="btn btn-sm btn-default edit_link">
+            <i class="glyphicon glyphicon-arrow-down"></i>
+        </a>
+    {% endif %}
+{%- endblock tree_choice_widget_collapsed %}
+
+{% block tree_choice_widget_options -%}
+
+    {% for group_label, choice in options %}
+        {%- if choice is iterable -%}
+            <optgroup label="{{ group_label|trans({}, translation_domain) }}">
+                {% set options = choice %}
+                {{- block('tree_choice_widget_options') -}}
+            </optgroup>
+        {%- else -%}
+            <option {% if choice.enabled is defined and choice.enabled == false %} disabled="disabled" {% endif %} value="{{ choice.value }}"{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice.label|raw }}</option>
+        {%- endif -%}
+    {% endfor %}
+{%- endblock tree_choice_widget_options %}
+
+{% block tree_widget_attributes -%}
+    id="{{ id }}" name="{{ full_name }}"
+    {%- if read_only %} readonly="readonly"{% endif -%}
+    {%- if disabled %} disabled="disabled"{% endif -%}
+    {%- if required %} required="required"{% endif -%}
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrvalue is sameas(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not sameas(false) -%}
+            {{- attrname }}="{{ attrvalue }}"
+        {%- endif -%}
+    {%- endfor -%}
+{%- endblock tree_widget_attributes %}
+
+{% block tree_widget_container_attributes -%}
+    {%- if id is not empty %}id="{{ id }}"{% endif -%}
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrvalue is sameas(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not sameas(false) -%}
+            {{- attrname }}="{{ attrvalue }}"
+        {%- endif -%}
+    {%- endfor -%}
+{%- endblock tree_widget_container_attributes %}

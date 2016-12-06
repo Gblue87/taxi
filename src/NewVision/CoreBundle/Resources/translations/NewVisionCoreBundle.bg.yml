@@ -1,0 +1,33 @@
+save: 'Запази'
+td_revision: 'Ревизия'
+td_timestamp: 'Дата'
+td_username: 'Администратор'
+td_action: 'Действия'
+label_view_revision: 'Виж ревизията'
+action_edit: 'Виж'
+action_history: 'Версии'
+
+label_revert_to_revision: 'Върни се до тази ревизия'
+not_found_revisions: 'Няма намерени ревизии'
+
+action_show: Направи видими
+action_hide: Скрий избраните
+
+title_untrash: 'Възтановяване'
+message_untrash_confirmation: 'Сигурни ли сте, че искате да възтановите този запис?'
+untrash_or: 'или'
+link_action_trash: 'Кошче'
+btn_untrash: 'Възтанови'
+action_restore: 'Възтанови'
+
+flash_untrash_successfull: 'Възтановяването е успешно'
+flash_untrash_error: 'Възтановяването е НЕ успешно'
+action:
+  list: 'Лист'
+  tree: 'Дърво'
+  trash: 'Кошче'
+
+action_delete: 'Изтрий'
+
+order_success: 'Последователността е запазена успешно!'
+order_error: 'Възникна грешка при запазването на последователността!'

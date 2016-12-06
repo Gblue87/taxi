@@ -1,0 +1,237 @@
+{% extends '::base.html.twig' %}
+
+{% macro renderChildren(children, routePath) %}
+    <ul class="dropdown">
+    {% for child in children %}
+        {% if child.publishWorkFlow.isActive == true %}
+            <li{% if child.children is defined and child.children|length %} class="hasDropdownSub"{% endif %}>
+                {% if routePath is not null %}
+                    <a href="{{ path(routePath, child.routeParams)}}" title="{{child.title}}">{{child.title}}</a>
+                {% else %}
+                    <a href="{{ path(child.route, child.routeParams)}}" title="{{child.title}}">{{child.title}}</a>
+                {% endif %}
+                {% if child.children is defined and child.children|length %}
+                    {{ _self.renderChildren(child.children) }}
+                {% endif %}
+            </li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% macro renderCategories(categories) %}
+    {% for category in categories %}
+        {% if category.publishWorkFlow.isActive == 1 %}
+            <li{% if category.children is defined and category.children is not null and category.children|length %} class="hasDropdownSub"{% endif %}>
+                <a href="{{ path('category', {'slug':category.slug}) }}">{{ category.title }}</a>
+                {% if category.children is defined and category.children is not null and category.children|length and category.lvl <= 1 %}
+                    <ul class="dropdownSub">
+                        {{ _self.renderCategories(category.children) }}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+{% import _self as method %}
+
+{% block main %}
+    {% include '::breadCrumbs.html.twig' with {'breadCrumbs':breadCrumbs} %}
+
+    <section id="main">
+        {% include '::headerImage.html.twig' with {'content':sitemapContent} %}
+
+        <div class="mainBody">
+            <div class="wrapper">
+                <div class="mainContent full">
+                    <h1 class="titleMain">{{ sitemapContent.title }}</h1>
+
+                    <article class="article">
+                        <ul>
+                            {% set newsContentPage         = null %}
+                            {% set contactContentPage      = null %}
+                            {% set sitemapContentPage      = null %}
+                            {% set careersContentPage      = null %}
+                            {% set distributorsContentPage = null %}
+                            {% set productsContentPage     = null %}
+                            {% set servicesContentPage     = null %}
+                            {% set galleriesContentPage    = null %}
+                            {% set partnersContentPage     = null %}
+                            {% set referentionsContentPage = null %}
+                            {% set brandsContentPage       = null %}
+
+                            <li>
+                                <a href="{{ path('homepage') }}">{{ 'homepage'|trans({}, "messages")}}</a>
+                            </li>
+                            {% for item in content %}
+                                {% if item.id == 2 %}{% set newsContentPage = item %}{% endif %}
+                                {% if item.id == 3 %}{% set sitemapContentPage = item %}{% endif %}
+                                {% if item.id == 4 %}{% set contactContentPage = item %}{% endif %}
+                                {% if item.id == 6 %}{% set careersContentPage = item %}{% endif %}
+                                {% if item.id == 7 %}{% set distributorsContentPage = item %}{% endif %}
+                                {% if item.id == 8 %}{% set productsContentPage = item %}{% endif %}
+                                {% if item.id == 9 %}{% set servicesContentPage = item %}{% endif %}
+                                {% if item.id == 15 %}{% set galleriesContentPage = item %}{% endif %}
+                                {% if item.id == 16 %}{% set partnersContentPage = item %}{% endif %}
+                                {% if item.id == 17 %}{% set referentionsContentPage = item %}{% endif %}
+                                {% if item.id == 21 %}{% set brandsContentPage = item %}{% endif %}
+                                {% if item.id != 1 and
+                                      item.id != 2 and
+                                      item.id != 3 and
+                                      item.id != 4 and
+                                      item.id != 5 and
+                                      item.id != 6 and
+                                      item.id != 7 and
+                                      item.id != 8 and
+                                      item.id != 9 and
+                                      item.id != 10 and
+                                      item.id != 15 and
+                                      item.id != 16 and
+                                      item.id != 17 and
+                                      item.id != 18 and
+                                      item.id != 19 and
+                                      item.id != 20 and
+                                      item.id != 21 and
+                                      item.parent == null %}
+                                    <li>
+                                        <a href="{{ path(item.route, item.routeParams) }}">
+                                            {{ item.title }}
+                                        </a>
+                                        {% if item.children is defined and item.children is not null and item.children|length %}
+                                            {{ method.renderChildren(item.children) }}
+                                        {% endif %}
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if 'NewVisionNewsBundle'|bundle_exists %}
+                                {% if newsContentPage is defined and newsContentPage is not null and newsContentPage|length and newsContentPage.title is defined and newsContentPage.title is not null and newsContentPage.title|length %}
+                                    <li>
+                                        <a href="{{ path('posts_list') }}">
+                                            {{ newsContentPage.title }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if 'NewVisionGalleriesBundle'|bundle_exists %}
+                                {% if galleriesContentPage is defined and galleriesContentPage is not null and galleriesContentPage|length and galleriesContentPage.title is defined and galleriesContentPage.title is not null and galleriesContentPage.title|length %}
+                                    <li>
+                                        <a href="{{ path('galleries') }}">
+                                            {{ galleriesContentPage.title }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if 'NewVisionReferentionsBundle'|bundle_exists %}
+                                {% if referentionsContentPage is defined and referentionsContentPage is not null and referentionsContentPage|length and referentionsContentPage.title is defined and referentionsContentPage.title is not null and referentionsContentPage.title|length %}
+                                    <li>
+                                        <a href="{{ path('referentions') }}">
+                                            {{ referentionsContentPage.title }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if 'NewVisionPartnersBundle'|bundle_exists %}
+                                {% if partnersContentPage is defined and partnersContentPage is not null and partnersContentPage|length and partnersContentPage.title is defined and partnersContentPage.title is not null and partnersContentPage.title|length %}
+                                    <li>
+                                        <a href="{{ path('partners') }}">
+                                            {{ partnersContentPage.title }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if 'NewVisionServicesBundle'|bundle_exists %}
+                                {% if servicesContentPage is defined and servicesContentPage is not null and servicesContentPage|length and servicesContentPage.title is defined and servicesContentPage.title is not null and servicesContentPage.title|length %}
+                                    <li>
+                                        <a href="{{ path('services_list') }}">
+                                            {{ servicesContentPage.title }}
+                                        </a>
+
+                                        {% if services is defined and services is not null and services|length %}
+                                            {{ method.renderChildren(services, 'service_without_category') }}
+                                        {% endif %}
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if 'NewVisionProductsBundle'|bundle_exists %}
+                                {% if productsContentPage is defined and productsContentPage is not null and productsContentPage|length and productsContentPage.title is defined and productsContentPage.title is not null and productsContentPage.title|length %}
+                                    <li>
+                                        <a href="{{ path('products_list') }}">
+                                            {{ productsContentPage.title }}
+                                        </a>
+
+                                        {% if products is defined and products is not null and products|length %}
+                                            {{ method.renderChildren(products, 'product_without_category') }}
+                                        {% endif %}
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if 'NewVisionBrandsBundle'|bundle_exists %}
+                                {% if brandsContentPage is defined and brandsContentPage is not null and brandsContentPage|length and brandsContentPage.title is defined and brandsContentPage.title is not null and brandsContentPage.title|length %}
+                                    <li>
+                                        <a href="{{ path('brands_list') }}">
+                                            {{ brandsContentPage.title }}
+                                        </a>
+
+                                        {% if brands is defined and brands is not null and brands|length %}
+                                            {{ method.renderChildren(brands) }}
+                                        {% endif %}
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if 'NewVisionDistributors'|bundle_exists %}
+                                {% if distributorsContentPage is defined and distributorsContentPage is not null and distributorsContentPage|length and distributorsContentPage.title is defined and distributorsContentPage.title is not null and distributorsContentPage.title|length %}
+                                    <li>
+                                        <a href="{{ path('distributors') }}">
+                                            {{ distributorsContentPage.title }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if 'NewVisionCareersBundle'|bundle_exists %}
+                                {% if careersContentPage is defined and careersContentPage is not null and careersContentPage|length and careersContentPage.title is defined and careersContentPage.title is not null and careersContentPage.title|length %}
+                                    <li>
+                                        <a href="{{ path('careers') }}">
+                                            {{ careersContentPage.title }}
+                                        </a>
+
+                                        {% if careers is defined and careers is not null and careers|length %}
+                                            {{ method.renderChildren(careers) }}
+                                        {% endif %}
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if 'NewVisionContentBundle'|bundle_exists %}
+                                {% if contactContentPage is defined and contactContentPage is not null and contactContentPage|length and contactContentPage.title is defined and contactContentPage.title is not null and contactContentPage.title|length %}
+                                    <li>
+                                        <a href="{{ path('contacts') }}">
+                                            {{ contactContentPage.title }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if sitemapContentPage is defined and sitemapContentPage is not null and sitemapContentPage|length and  sitemapContentPage.title is defined and sitemapContentPage.title is not null and sitemapContentPage.title|length %}
+                                <li>
+                                    <a href="{{ path('sitemap') }}">
+                                        {{ sitemapContentPage.title }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </article>
+                </div><!-- /.mainContent -->
+            </div><!-- /.wrapper -->
+        </div><!-- /.mainBody -->
+    </section>
+{% endblock %}

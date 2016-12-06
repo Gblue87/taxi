@@ -1,0 +1,65 @@
+{% macro pager(paginator, route, class = '', slug = '') %}
+    {% set currentPage = app.request.get('page') %}
+
+    {% set maxPage = (paginator.count / paginator.query.maxResults)|round(0, 'ceil')  %}
+    {% set startFrom = 1 %}
+    {% set end = currentPage + 2 %}
+
+    {% if maxPage > 5 %}
+        {# case of current page bigger than 3 #}
+        {% if currentPage - 2 > 1  %}
+            {% set startFrom = currentPage - 2 %}
+        {% endif %}
+
+        {# In the begining #}
+        {% if currentPage < 3 %}
+            {% set end = 5 %}
+        {% endif %}
+
+        {# Going near the end #}
+        {% if currentPage + 3 > maxPage %}
+            {% set startFrom = maxPage - 4 %}
+            {% set end = maxPage %}
+        {% endif %}
+    {% else %}
+        {% set end = maxPage %}
+    {% endif %}
+
+{% if end > 1 or currentPage != 1 %}
+    <nav class="paging {{class}}">
+        <ul>
+            <li class="prev" style="{% if currentPage == 1 %}display:none{% endif %}">
+                <a href="{{path(route, {'page' : currentPage - 1, 'categorySlug':app.request.attributes.get('categorySlug')}) }}"></a>
+            </li>
+
+            {% if end > 5 %}
+                <li>
+                    <a href="{{path(route, {'page' : 1, 'categorySlug':app.request.attributes.get('categorySlug')})}}">1</a>
+                </li>
+                <li>
+                    <span>...</span>
+                </li>
+            {% endif %}
+
+            {% for i in startFrom..end %}
+                <li{% if i == currentPage %} class="selected"{% endif %}>
+                    <a href="{{path(route, {'page' : i, 'categorySlug':app.request.attributes.get('categorySlug')})}}">{{i}}</a>
+                </li>
+            {% endfor %}
+
+            {% if currentPage + 2 < maxPage and maxPage > 5 %}
+                <li>
+                    <span>...</span>
+                </li>
+                <li>
+                    <a href="{{path(route, {'page' : maxPage, 'categorySlug':app.request.attributes.get('categorySlug')})}}">{{maxPage}}</a>
+                </li>
+            {% endif %}
+
+            <li class="next" style="{% if currentPage == maxPage %}display:none{% endif %}">
+                <a href="{{path(route, {'page' : currentPage + 1, 'categorySlug':app.request.attributes.get('categorySlug')})}}"></a>
+            </li>
+        </ul>
+    </nav>
+{% endif %}
+{% endmacro %}

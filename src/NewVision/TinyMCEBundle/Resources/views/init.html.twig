@@ -1,0 +1,35 @@
+<script type="text/javascript" src="{{ asset('/bundles/newvisiontinymce/js/tinymce/tinymce.min.js') }}"></script>
+
+<script type="text/javascript">
+//<![CDATA[
+	var tinymce_config = {{ tinymce_config|raw }};
+    $(function(){
+		tinyMCE.init(tinymce_config);
+	})
+    function ajaxfilemanager(field_name, url, type, win) {
+	    var ajaxfilemanagerurl = '{{ asset('/bundles/newvisiontinymce/js/tinymce/plugins/ajaxfilemanager/ajaxfilemanager.php?editor=tinymce4&config=tinymce4&language=cs') }}';
+	    switch (type) {
+	        case "image":
+	            ajaxfilemanagerurl += "&type=img";
+	            break;
+	        case "media":
+	            ajaxfilemanagerurl += "&type=media";
+	            break;
+	        case "file":
+	            ajaxfilemanagerurl += "&type=files";
+	            break;
+	        default:
+	            return false;
+	    }
+	    tinymce.activeEditor.windowManager.open(
+	        {url : ajaxfilemanagerurl,
+	         title : 'Ajax File Manager',
+	         width : 782,
+	         height : 440 },
+	        {window : win,
+	         input : field_name}
+	    );
+	    return false;
+	}
+//]]>
+</script>

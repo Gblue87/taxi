@@ -1,0 +1,5 @@
+services:
+  newvision.settings_manager:
+    class: NewVision\SettingsBundle\Manager\SettingsManager
+    arguments:
+        entityManager: "@doctrine.orm.entity_manager"

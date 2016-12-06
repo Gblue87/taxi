@@ -1,0 +1,44 @@
+'Content List': Content page List
+'Content Delete': Content page Delete
+'Publish Workflow': Publish Workflow
+Meta Data: 'Meta data'
+td_revision: Revision
+td_timestamp: Date
+td_username: Administrator
+td_action: Actions
+label_view_revision: View revision
+action_edit: View
+action_history: Versions
+label_revert_to_revision: Revert to revision
+newvision_content: Content pages
+not_found_revisions: Revisions not found
+actions: Actions
+table.label_actions: Actions
+newvision_landing: Landing page
+newvision_info_box: Telephone box
+list:
+    title: Title
+    path: Path
+    is_hidden: Hidden
+    createdAt: Created at
+    actions: Actions
+form:
+    parent: Main object
+    slug: Slug
+    translations: Translations
+    title: Title
+    description: Description
+    meta_title: Meta title
+    meta_description: Meta Description
+    meta_keywords: Meta keywords
+    is_hidden: Hidden
+    general: Main
+    is_seo_visible: Visible only from url
+    createdAt: Created at
+    lft: Parent
+    image: Image
+    isActive: 'Active?'
+    showSocialIcons: 'Show Social Icons'
+    headerImage: 'Header image'
+select:
+    parent: '-- Please choose --'

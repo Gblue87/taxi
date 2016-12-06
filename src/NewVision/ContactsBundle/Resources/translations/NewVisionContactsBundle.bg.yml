@@ -1,0 +1,23 @@
+Contact List: 'Запитвания'
+Contact Delete: 'Изтрий'
+
+newvision_contacts: 'Запитвания'
+menu.item: 'Основни'
+form:
+  id: 'Уникален номер'
+  created_at: 'Дата на създаване'
+  general: 'Основни'
+  more: 'Допълнителни'
+  name: 'Име'
+  family: 'Фамилия'
+  phone: 'Телефон'
+  email: 'E-mail'
+  message: 'Съобщение'
+  contactFor: 'Запитване за'
+  commingFrom: 'Идва от'
+
+tab:
+  general: 'Основни'
+  more: 'Допълнителни'
+
+table.label_actions: 'Действия'

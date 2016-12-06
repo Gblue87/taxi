@@ -1,0 +1,27 @@
+{
+    "name": "newvision/contacts-bundle",
+    "description": "This Symfony bundle provide easy way to create Contacts",
+    "keywords": ["Symfony", "Contacts", "Bundle"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hristo Hristoff",
+            "email": "hristo.hristov@newvision.bg"
+        }
+    ],
+    "require": {
+        "newvision/core-bundle": "dev-master",
+        "newvision/publish-workflow-bundle": "dev-master"
+    },
+    "repositories":[
+        {
+            "type": "vcs",
+            "url": "git@dev.newvisiongroup.com:symfony-bundles/newvision-core-bundle.git"
+        }
+    ],
+    "autoload": {
+        "psr-0": { "NewVision\\ContactsBundle": "" }
+    },
+    "target-dir": "NewVision/ContactsBundle"
+}

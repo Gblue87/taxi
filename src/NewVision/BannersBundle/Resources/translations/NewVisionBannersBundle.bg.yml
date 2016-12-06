@@ -1,0 +1,32 @@
+Аccent List: 'Банери'
+Аccent Delete: 'Изтрий'
+
+newvision_banners: 'Банери'
+menu.item: 'Основни'
+form:
+  created_at: 'Дата на създаване'
+  description: 'Описание'
+  id: 'Уникален номер'
+  image: 'Изображение'
+  is_hidden: 'Скрит'
+  general: 'Основни'
+  label_image: 'Изображение'
+  more: 'Допълнителни'
+  type: 'Тип'
+  title: 'Заглавие'
+  translations: 'Преводи'
+  target: 'Отвори'
+  url: 'Линк'
+  isActive: 'Активен'
+  button_title: 'Бутон'
+  subTitle: 'Под заглавие'
+  labelTitle: 'Лейбъл текст'
+  labelType: 'Тип лейбъл'
+
+tab:
+  general: 'Основни'
+  more: 'Допълнителни'
+
+table.label_actions: 'Действия'
+
+Publish Workflow: 'Видимост в сайта'

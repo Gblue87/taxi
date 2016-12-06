@@ -1,0 +1,19 @@
+{
+    "name": "newvision/tinymce-bundle",
+    "description": "This Symfony bundle provide easy way to use TinyMCE Editor",
+    "keywords": ["Symfony", "Content", "Bundle"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hristo Hristoff",
+            "email": "hristo.hristov@newvision.bg"
+        }
+    ],
+    "require": {
+    },
+    "autoload": {
+        "psr-0": { "NewVision\\TinyMCEBundle": "" }
+    },
+    "target-dir": "NewVision/TinyMCEBundle"
+}

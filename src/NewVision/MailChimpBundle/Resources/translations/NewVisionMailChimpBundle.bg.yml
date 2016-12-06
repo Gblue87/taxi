@@ -1,0 +1,25 @@
+Аccent List: 'Mail Chimp'
+Аccent Delete: 'Изтрий'
+
+newvision_mail_chimp: 'Mail Chimp'
+menu.item: 'Основни'
+form:
+  id: 'Уникален номер'
+  created_at: 'Дата на създаване'
+  doubleOptin: 'Double Opt-in'
+  general: 'Основни'
+  label_image: 'Изображение'
+  more: 'Допълнителни'
+  title: 'Заглавие'
+  translations: 'Преводи'
+  isActive: 'Активен'
+  apiKey: 'API key'
+  listId: 'Списък за записване на потребителите'
+
+tab:
+  general: 'Основни'
+  more: 'Допълнителни'
+
+table.label_actions: 'Действия'
+
+Publish Workflow: 'Видимост в сайта'

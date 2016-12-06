@@ -1,0 +1,16 @@
+<html>
+<head>
+</head>
+<body>
+<form method="post" action="{{form.action}}" name="payform">
+	{% for key, item in form %}
+        <input type="hidden" name="{{key}}" value="{{item}}">
+	{% endfor %}
+</form>
+	<script>
+		window.onload = function() {
+		    document.payform.submit();
+		};
+	</script>
+</body>
+</html>

@@ -1,0 +1,682 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: doctrine_extensions.yml }
+    - { resource: "@NewVisionTranslationsBundle/Resources/config/admin.yml" }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: en
+    locales: %a2lix_translation_form.locales%
+    sonata.user.admin.user.class: Application\Sonata\UserBundle\Admin\UserAdmin
+    sonata.media.admin.gallery.class: Application\Sonata\MediaBundle\Admin\GalleryAdmin
+    sonata.media.admin.media.class: Application\Sonata\MediaBundle\Admin\MediaAdmin
+framework:
+    #esi:             ~
+    translator:      { fallback: "%locale%" }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    #serializer:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id:  ~
+    fragments:       ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    form:
+        resources:
+            - 'NewVisionCoreBundle:Form:tree_field.html.twig'
+            - 'SonataCoreBundle:Form:datepicker.html.twig'
+            - 'NewVisionFrontendBundle:Admin:media_widgets.html.twig'
+    # form_themes:
+            - 'ReCaptchaBundle::form_div_layout.html.twig'
+
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    node: /usr/bin/node
+    bundles:        [ ]
+    #java: /usr/bin/java
+    filters:
+        cssrewrite: ~
+        uglifyjs2:
+            bin: %kernel.root_dir%/Resources/node_modules/.bin/uglifyjs
+        uglifycss:
+            bin: %kernel.root_dir%/Resources/node_modules/.bin/uglifycss
+        #closure:
+        #    jar: "%kernel.root_dir%/Resources/java/compiler.jar"
+        #yui_css:
+        #    jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+        types:
+            json: Sonata\Doctrine\Types\JsonType
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #     path:     "%database_path%"
+
+    orm:
+        auto_generate_proxy_classes: %kernel.debug%
+        entity_managers:
+            default:
+                auto_mapping: true
+                mappings:
+                    translatable:
+                        type: annotation
+                        alias: Gedmo
+                        prefix: Gedmo\Translatable\Entity
+                        # make sure vendor library location is correct
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+                    loggable:
+                        type: annotation
+                        alias: Gedmo
+                        prefix: Gedmo\Loggable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                    tree:
+                        type: annotation
+                        alias: Gedmo
+                        prefix: Gedmo\Tree\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                filters:
+                    softdeleteable:
+                        class:   Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                        enabled: true
+                    softdeleteabletrash:
+                        class: NewVision\CoreBundle\Filter\SoftDeleteableTrashFilter
+                        enabled: false
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     { type: memory }
+
+sonata_admin:
+    title_logo: bundles/newvisioncore/images/logo.png
+
+    options:
+        html5_validate:                         true      # use html5 validation
+        confirm_exit:                           true      # enabled confirmation when quitting with unsaved changes
+        use_select2:                            true      # enable select2
+        use_icheck:                             true      # enable iCheck
+        dropdown_number_groups_per_colums:      2         # max items per column in dropdown menu (add button in top nav)
+        title_mode:           'single_image'              # 'both', 'single_text' or 'single_image'
+    templates:
+        # default global templates
+        layout:  ::baseadmin.html.twig
+        show:    ApplicationSonataUserBundle:Admin:custom_show.html.twig
+    security:
+        handler: sonata.admin.security.handler.role
+        information:
+            EDIT: EDIT
+            LIST: LIST
+            CREATE: CREATE
+            DELETE: DELETE
+            EXPORT: EXPORT
+            HISTORY: HISTORY
+            MASTER: MASTER
+    dashboard:
+        groups:
+            content:
+                label: label.site
+                label_catalogue: SonataAdminBundle
+                icon: '<i class="fa fa-th"></i>'
+                items:
+                    - newvision_menu.admin.menu
+                    - newvision.content.admin.content
+                    - newvision.custom_blocks.admin.custom_blocks
+                    - newvision.admin.order
+
+            services:
+                label: label.services
+                label_catalogue: SonataAdminBundle
+                icon: '<i class="fa fa-th"></i>'
+                items:
+                    - newvision.services.admin.services
+                    - newvision.airports.admin.airports
+            settings:
+                label: label.settings
+                label_catalogue: SonataAdminBundle
+                icon: '<i class="fa fa-th"></i>'
+                items:
+                    - sonata.admin.settings
+                    - newvision.translations.admin.translations
+            media:
+                label: label.media
+                label_catalogue: SonataAdminBundle
+                icon: '<i class="fa fa-th"></i>'
+                items:
+                    - sonata.media.admin.gallery
+                    - sonata.media.admin.media
+            users:
+                label: label.administration
+                label_catalogue: SonataAdminBundle
+                icon: '<i class="fa fa-th"></i>'
+                items:
+                    - sonata.user.admin.user
+                    - sonata.user.admin.group
+
+sonata_block:
+    default_contexts: [cms]
+    blocks:
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+
+        sonata.admin.block.search_result:
+            contexts:   [admin]
+
+        #sonata.admin_doctrine_orm.block.audit:
+        #    contexts:   [admin]
+
+        sonata.block.service.text:
+        sonata.block.service.rss:
+        newvision.block.service:
+        sonata.user.block.menu:    # used to display the menu in profile pages
+        sonata.user.block.account: # used to display menu option (login option)
+        # Your other blocks
+
+        # Some specific block from the SonataMediaBundle
+        #sonata.media.block.media:
+        #sonata.media.block.gallery:
+        #sonata.media.block.feature_media:
+
+sonata_media:
+    # if you don't use default namespace configuration
+    # class:
+    #    media: MyVendor\MediaBundle\Entity\Media
+    #    gallery: MyVendor\MediaBundle\Entity\Gallery
+    #    gallery_has_media: MyVendor\MediaBundle\Entity\GalleryHasMedia
+    default_context: default
+    db_driver: doctrine_orm # or doctrine_mongodb, doctrine_phpcr
+    contexts:
+        default:  # the default context is mandatory
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+                # - sonata.media.provider.dailymotion
+                - sonata.media.provider.youtube
+                - sonata.media.provider.image
+                - sonata.media.provider.file
+
+            formats:
+                small: { width: 100 , quality: 75}
+                big:   { width: 225, height: 169, quality: 75}
+        newvision_content:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 1001, height: 747, quality: 75 }
+
+        newvision_slider:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 2000, height: 500, quality: 75 }
+                admin:  { width: 150, height: 80, quality: 75 }
+
+        newvision_news_images:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 282, height: 211, quality: 75 }
+
+        newvision_news_gallery:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.image
+            formats:
+                gallery:  { width: 814, height: 457, quality: 75 }
+
+        newvision_news_categories_images:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 100, height: 100, quality: 75 }
+
+        newvision_accents:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 282, height: 332, quality: 75 }
+
+        newvision_products_image:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 282, height: 211, quality: 75 }
+
+        newvision_products_gallery:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 447, height: 335, quality: 75 }
+                thumb:  { width: 142, height: 107, quality: 75 }
+
+        inline_gallery:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.image
+            formats:
+                thumb:  { width: 282, height: 211, quality: 75 }
+
+        newvision_product_category_image:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 282, height: 211, quality: 75 }
+
+        newvision_dealers_images:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 465, height: 348, quality: 75 }
+
+        newvision_content_header_image:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 1200, height: 250, quality: 75 }
+
+        newvision_partners:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 282, height: 211, quality: 75 }
+
+        newvision_referentions:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 282, height: 211, quality: 75 }
+
+
+        newvision_services_image:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 185, height: 185, quality: 75 }
+
+        newvision_service_category_image:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 282, height: 211, quality: 75 }
+
+        newvision_galleries_main_image:
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 282, height: 211, quality: 75 }
+
+        newvision_galleries_gallery_images:
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 282, height: 211, quality: 75 }
+
+        newvision_careers_image:
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 1200, height: 250, quality: 75 }
+
+        newvision_brands:
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 282, height: 211, quality: 75 }
+
+        newvision_referentions_document:
+            providers:
+                - sonata.media.provider.file
+            formats:
+                index:  { width: 100, height: 100, quality: 75 }
+
+        newvision_banners:
+            providers:
+                - sonata.media.provider.file
+            formats:
+                index:  { width: 100, height: 100, quality: 75 }
+
+        newvision_logo_image:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.image
+            formats:
+                index:  { width: 306, height: 32, quality: 75 }
+
+    cdn:
+        server:
+            path: /uploads/media # http://media.sonata-project.org/
+
+    filesystem:
+        local:
+            directory:  %kernel.root_dir%/../web/uploads/media
+            create:     true
+    providers:
+        image:
+            resizer: sonata.media.resizer.custom
+            allowed_extensions: ['gif', 'jpg', 'png', 'jpeg']
+            allowed_mime_types: ['image/gif', 'image/png', 'image/jpg', 'image/jpeg']
+        file:
+            service:    sonata.media.provider.file
+            resizer:    false
+            filesystem: sonata.media.filesystem.local
+            cdn:        sonata.media.cdn.server
+            generator:  sonata.media.generator.default
+            thumbnail:  sonata.media.thumbnail.format
+            allowed_extensions: ['pdf', 'zip', 'doc', 'docx', 'odt', 'csv', 'rar']
+            allowed_mime_types: ['application/pdf', 'application/x-pdf',application/x-rar-compressed, application/x-rar, application/octet-stream, application/zip, application/octet-stream, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.oasis.opendocument.text, application/csv, inode/x-empty, text/plain]
+# Twig Configuration
+
+
+fos_user:
+    db_driver:      orm # can be orm or odm
+    firewall_name:  test
+    user_class:     \Application\Sonata\UserBundle\Entity\User
+
+
+    group:
+        group_class:   Application\Sonata\UserBundle\Entity\Group
+        group_manager: sonata.user.orm.group_manager                    # If you're using doctrine orm (use sonata.user.mongodb.user_manager for mongodb)
+
+    service:
+        user_manager: sonata.user.orm.user_manager                       # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)
+    # resetting:
+    #     email:
+    #         template: ApplicationSonataUserBundle:Email:resetting.email.twig
+    #         from_email:
+    #             address:        resetting@kontrax.com
+    #             sender_name:    Kontrax
+
+knp_menu:
+    twig:  # use "twig: false" to disable the Twig extension and the TwigRenderer
+        template: NewVisionFrontendBundle:Menu:main_menu.html.twig
+    templating: false # if true, enables the helper for PHP templates
+    default_renderer: twig # The renderer to use, list is also available by default
+sensio_framework_extra:
+    request:
+        converters: true
+
+new_vision_translations:
+    fallback_locale: en      # (required) default locale to use
+    managed_locales: [en]    # (required) locales that the bundle have to manage
+
+a2lix_translation_form:
+    locales: [en]       # [1]
+    required_locales: [en]      # [2]
+    manager_registry: doctrine      # [3]
+    templating: "A2lixTranslationFormBundle::default.html.twig"      # [4]
+
+services:
+    newvision.twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: 'twig.extension' }
+
+re_captcha:
+    public_key: 6Lcg5wkUAAAAAFGjyJmygmYdVYfX78rRT5HQEWuU
+    private_key: 6Lcg5wkUAAAAABhstWbZJNmqYERqY9HPLiJOwFxg
+    locale: "%locale%"
+
+sonata_seo:
+    page:
+        title: 'taxi'
+        metas:
+            property:
+                # Open Graph information
+                # see http://developers.facebook.com/docs/opengraphprotocol/#types or http://ogp.me/
+                'og:title':     taxi
+                'og:site_name':       taxi
+                'og:description':     taxi описание
+                'og:image':     http://taxichester.uk/images/logo.png
+                'og:url':     http://taxichester.uk
+                'og:type':     website
+    sitemap:
+        doctrine_orm:
+            #DELETE THIS IF NEWS CATEGORIES
+            news:
+                connection: doctrine.dbal.default_connection
+                route: post_without_category
+                parameters:
+                    slug: null
+                    _locale: bg
+                query: "SELECT ni18n.locale as `_locale`, ni18n.slug as `slug`, n.`updated_at` AS `lastmod`, 'weekly' AS `changefreq`, '0.8' AS `priority` FROM `news` AS n LEFT JOIN `news_i18n` as ni18n on n.id = ni18n.object_id LEFT JOIN publish_workflow as `pw` on n.publishWorkflow_id = pw.id WHERE pw.is_active = 1 AND ((pw.from_date IS NULL AND pw.to_date IS NULL) OR (pw.from_date <= NOW() AND pw.to_date >= NOW())  OR (pw.from_date IS NOT NULL AND pw.from_date <= NOW()) OR (pw.to_date IS NOT NULL AND pw.to_date >= NOW()))"
+            #--------------------------------------
+            news_category:
+                connection: doctrine.dbal.default_connection
+                route: posts_categories_category_view
+                parameters:
+                    categorySlug: null
+                    _locale: bg
+                query: "SELECT ni18n.locale as `_locale`, ni18n.slug as `categorySlug`, n.`updated_at` AS `lastmod`, 'weekly' AS `changefreq`, '0.8' AS `priority` FROM `news_categories` AS n LEFT JOIN `news_categories_i18n` as ni18n on n.id = ni18n.object_id LEFT JOIN publish_workflow as `pw` on n.publishWorkflow_id = pw.id WHERE pw.is_active = 1 AND ((pw.from_date IS NULL AND pw.to_date IS NULL) OR (pw.from_date <= NOW() AND pw.to_date >= NOW())  OR (pw.from_date IS NOT NULL AND pw.from_date <= NOW()) OR (pw.to_date IS NOT NULL AND pw.to_date >= NOW()))"
+
+            news_listing:
+                connection: doctrine.dbal.default_connection
+                route: posts_list
+                parameters:
+                    _locale: bg
+                query: "SELECT updated_at as lastmod, 'weekly' as changefreq, '0.5' as priority FROM news LIMIT 1"
+            #DELETE THIS IF NO NEWS CATEGORIES
+            news_view_with_category:
+                connection: doctrine.dbal.default_connection
+                route: posts_category_post_view
+                parameters:
+                    categorySlug: null
+                    slug: null
+                    _locale: bg
+                query: "SELECT categorySlug, slug, `_locale`, lastmod AS `lastmod`, 'weekly' AS `changefreq`, '0.8' AS `priority`  FROM (SELECT ni18n.locale as `_locale`, ni18n.slug as `slug`,c.newscategory_id as `categoryId`, pc.id as `pcid`, pci18n.slug as `categorySlug`, n.`updated_at` AS `lastmod`, 'weekly' AS `changefreq`, '0.8' AS `priority`FROM news AS n LEFT JOIN news_i18n as ni18n ON n.id = ni18n.object_id LEFT JOIN publish_workflow as pw on n.publishWorkflow_id = pw.id LEFT JOIN news_categories_m2m as c ON n.id = c.news_id LEFT JOIN news_categories as pc ON pc.id = c.newscategory_id LEFT JOIN news_categories_i18n as pci18n ON pc.id = pci18n.object_id LEFT JOIN publish_workflow as pwCat on pc.publishWorkflow_id = pwCat.id WHERE (pwCat.is_active = 1 AND ((pwCat.from_date IS NULL AND pwCat.to_date IS NULL) OR (pwCat.from_date <= NOW() AND pwCat.to_date >= NOW())) OR (pwCat.from_date IS NOT NULL AND pwCat.from_date <= NOW()) OR (pwCat.to_date IS NOT NULL AND pwCat.to_date >= NOW())) AND (pw.is_active = 1 AND ((pw.from_date IS NULL AND pw.to_date IS NULL) OR (pw.from_date <= NOW() AND pw.to_date >= NOW()) OR (pw.from_date IS NOT NULL AND pw.from_date <= NOW()) OR (pw.to_date IS NOT NULL AND pw.to_date >= NOW())))) as catinfo WHERE catinfo.pcid = catinfo.categoryId"
+                #--------------------------------------
+            #DELETE THIS IF NO PRODUCTS BUNDLE
+            products_listing:
+                connection: doctrine.dbal.default_connection
+                route: products_list
+                parameters:
+                    categorySlug: null
+                    _locale: bg
+                query: "SELECT updated_at as lastmod, 'weekly' as changefreq, '0.5' as priority FROM products LIMIT 1"
+
+            product_category:
+                connection: doctrine.dbal.default_connection
+                route: products_categories_category_view
+                parameters:
+                    slug: null
+                    _locale: bg
+                query: "SELECT ni18n.locale as `_locale`, ni18n.slug as `slug`, n.`updated_at` AS `lastmod`, 'weekly' AS `changefreq`, '0.8' AS `priority` FROM `product_categories` AS n LEFT JOIN `product_categories_i18n` as ni18n on n.id = ni18n.object_id LEFT JOIN publish_workflow as `pw` on n.publishWorkflow_id = pw.id WHERE pw.is_active = 1 AND ((pw.from_date IS NULL AND pw.to_date IS NULL) OR (pw.from_date <= NOW() AND pw.to_date >= NOW())  OR (pw.from_date IS NOT NULL AND pw.from_date <= NOW()) OR (pw.to_date IS NOT NULL AND pw.to_date >= NOW()))"
+
+            product_view:
+                connection: doctrine.dbal.default_connection
+                route: products_category_product_view
+                parameters:
+                    categorySlug: null
+                    slug: null
+                    _locale: bg
+                query: "SELECT categorySlug, slug, `_locale`, lastmod AS `lastmod`, 'weekly' AS `changefreq`, '0.8' AS `priority`  FROM (SELECT ni18n.locale as `_locale`, ni18n.slug as `slug`,c.productcategory_id as `categoryId`, pc.id as `pcid`, pci18n.slug as `categorySlug`, n.`updated_at` AS `lastmod`, 'weekly' AS `changefreq`, '0.8' AS `priority`FROM products AS n LEFT JOIN products_i18n as ni18n ON n.id = ni18n.object_id LEFT JOIN publish_workflow as pw on n.publishWorkflow_id = pw.id LEFT JOIN products_categories as c ON n.id = c.product_id LEFT JOIN product_categories as pc ON pc.id = c.productcategory_id LEFT JOIN product_categories_i18n as pci18n ON pc.id = pci18n.object_id LEFT JOIN publish_workflow as pwCat on pc.publishWorkflow_id = pwCat.id WHERE (pwCat.is_active = 1 AND ((pwCat.from_date IS NULL AND pwCat.to_date IS NULL) OR (pwCat.from_date <= NOW() AND pwCat.to_date >= NOW())) OR (pwCat.from_date IS NOT NULL AND pwCat.from_date <= NOW()) OR (pwCat.to_date IS NOT NULL AND pwCat.to_date >= NOW())) AND (pw.is_active = 1 AND ((pw.from_date IS NULL AND pw.to_date IS NULL) OR (pw.from_date <= NOW() AND pw.to_date >= NOW()) OR (pw.from_date IS NOT NULL AND pw.from_date <= NOW()) OR (pw.to_date IS NOT NULL AND pw.to_date >= NOW())))) as catinfo WHERE catinfo.pcid = catinfo.categoryId"
+            #--------------------------------------
+            #DELETE THIS IF NO SERVICES BUNDLE
+            service_listing:
+                connection: doctrine.dbal.default_connection
+                route: services_list
+                parameters:
+                    _locale: bg
+                query: "SELECT updated_at as lastmod, 'weekly' as changefreq, '0.5' as priority FROM services LIMIT 1"
+
+            service_category:
+                connection: doctrine.dbal.default_connection
+                route: service_without_category
+                parameters:
+                    slug: null
+                    _locale: bg
+                query: "SELECT ni18n.locale as `_locale`, ni18n.slug as `slug`, n.`updated_at` AS `lastmod`, 'weekly' AS `changefreq`, '0.8' AS `priority` FROM `service_categories` AS n LEFT JOIN `service_categories_i18n` as ni18n on n.id = ni18n.object_id LEFT JOIN publish_workflow as `pw` on n.publishWorkflow_id = pw.id WHERE pw.is_active = 1 AND ((pw.from_date IS NULL AND pw.to_date IS NULL) OR (pw.from_date <= NOW() AND pw.to_date >= NOW()) OR (pw.from_date IS NOT NULL AND pw.from_date <= NOW()) OR (pw.to_date IS NOT NULL AND pw.to_date >= NOW()))"
+
+            service_view:
+                connection: doctrine.dbal.default_connection
+                route: services_category_service_view
+                parameters:
+                    categorySlug: null
+                    slug: null
+                    _locale: bg
+                query: "SELECT categorySlug, slug, `_locale`, lastmod AS `lastmod`, 'weekly' AS `changefreq`, '0.8' AS `priority`  FROM (SELECT ni18n.locale as `_locale`, ni18n.slug as `slug`,c.servicecategory_id as `categoryId`, pc.id as `pcid`, pci18n.slug as `categorySlug`, n.`updated_at` AS `lastmod`, 'weekly' AS `changefreq`, '0.8' AS `priority`FROM services AS n LEFT JOIN services_i18n as ni18n ON n.id = ni18n.object_id LEFT JOIN publish_workflow as pw on n.publishWorkflow_id = pw.id LEFT JOIN services_categories as c ON n.id = c.service_id LEFT JOIN service_categories as pc ON pc.id = c.servicecategory_id LEFT JOIN service_categories_i18n as pci18n ON pc.id = pci18n.object_id LEFT JOIN publish_workflow as pwCat on pc.publishWorkflow_id = pwCat.id WHERE (pwCat.is_active = 1 AND ((pwCat.from_date IS NULL AND pwCat.to_date IS NULL) OR (pwCat.from_date <= NOW() AND pwCat.to_date >= NOW())) OR (pwCat.from_date IS NOT NULL AND pwCat.from_date <= NOW()) OR (pwCat.to_date IS NOT NULL AND pwCat.to_date >= NOW())) AND (pw.is_active = 1 AND ((pw.from_date IS NULL AND pw.to_date IS NULL) OR (pw.from_date <= NOW() AND pw.to_date >= NOW()) OR (pw.from_date IS NOT NULL AND pw.from_date <= NOW()) OR (pw.to_date IS NOT NULL AND pw.to_date >= NOW())))) as catinfo WHERE catinfo.pcid = catinfo.categoryId"
+            #--------------------------------------
+            #DELETE THIS IF NO GALLERIES BUNDLE
+            gallery:
+                connection: doctrine.dbal.default_connection
+                route: gallery_view
+                parameters:
+                    slug: null
+                    _locale: bg
+                query: "SELECT ni18n.locale as `_locale`, ni18n.slug as `slug`, n.`updated_at` AS `lastmod`, 'weekly' AS `changefreq`, '0.8' AS `priority` FROM `galleries` AS n LEFT JOIN `galleries_i18n` as ni18n on n.id = ni18n.object_id LEFT JOIN publish_workflow as `pw` on n.publishWorkflow_id = pw.id WHERE pw.is_active = 1 AND ((pw.from_date IS NULL AND pw.to_date IS NULL) OR (pw.from_date <= NOW() AND pw.to_date >= NOW())  OR (pw.from_date IS NOT NULL AND pw.from_date <= NOW()) OR (pw.to_date IS NOT NULL AND pw.to_date >= NOW()))"
+            #--------------------------------------
+            galleries_listing:
+                connection: doctrine.dbal.default_connection
+                route: galleries
+                parameters:
+                    slug: null
+                    _locale: bg
+                query: "SELECT updated_at as lastmod, 'weekly' as changefreq, '0.5' as priority FROM galleries LIMIT 1"
+            #DELETE THIS IF NO DISTRIBUTORS BUNDLE
+            distributors:
+                connection: doctrine.dbal.default_connection
+                route: distributors
+                parameters:
+                    _locale: bg
+                query: "SELECT updated_at as lastmod, 'weekly' as changefreq, '0.5' as priority FROM dealer LIMIT 1"
+            #--------------------------------------
+            #DELETE THIS IF NO CAREERS BUNDLE
+            careers:
+                connection: doctrine.dbal.default_connection
+                route: careers
+                parameters:
+                    _locale: bg
+                query: "SELECT updatedAt as lastmod, 'weekly' as changefreq, '0.5' as priority FROM careers LIMIT 1"
+
+            career_view:
+                connection: doctrine.dbal.default_connection
+                route: career_view
+                parameters:
+                    slug: null
+                    _locale: bg
+                query: "SELECT ni18n.locale as `_locale`, ni18n.slug as `slug`, n.`updatedAt` AS `lastmod`, 'weekly' AS `changefreq`, '0.8' AS `priority` FROM `careers` AS n LEFT JOIN `careers_i18n` as ni18n on n.id = ni18n.object_id LEFT JOIN publish_workflow as `pw` on n.publishWorkflow_id = pw.id WHERE pw.is_active = 1 AND ((pw.from_date IS NULL AND pw.to_date IS NULL) OR (pw.from_date <= NOW() AND pw.to_date >= NOW())  OR (pw.from_date IS NOT NULL AND pw.from_date <= NOW()) OR (pw.to_date IS NOT NULL AND pw.to_date >= NOW()))"
+            #--------------------------------------
+            contacts:
+                connection: doctrine.dbal.default_connection
+                route: contacts
+                parameters:
+                    _locale: bg
+                query: "SELECT updated_at as lastmod, 'weekly' as changefreq, '0.5' as priority FROM content LIMIT 1"
+
+            #DELETE THIS IF NO REFERENTIONS BUNDLE
+            referentions:
+                connection: doctrine.dbal.default_connection
+                route: referentions
+                parameters:
+                    _locale: bg
+                query: "SELECT updated_at as lastmod, 'weekly' as changefreq, '0.5' as priority FROM referentions LIMIT 1"
+            #--------------------------------------
+            #DELETE THIS IF NO BRANDS BUNDLE
+            brands_list:
+                connection: doctrine.dbal.default_connection
+                route: brands_list
+                parameters:
+                    _locale: bg
+                query: "SELECT updated_at as lastmod, 'weekly' as changefreq, '0.5' as priority FROM brands LIMIT 1"
+            brands_brand_view:
+                connection: doctrine.dbal.default_connection
+                route: brands_brand_view
+                parameters:
+                    slug: null
+                    _locale: bg
+                query: "SELECT ni18n.locale as `_locale`, ni18n.slug as `slug`, n.`updatedAt` AS `lastmod`, 'weekly' AS `changefreq`, '0.8' AS `priority` FROM `brands` AS n LEFT JOIN `brands_i18n` as ni18n on n.id = ni18n.object_id LEFT JOIN publish_workflow as `pw` on n.publishWorkflow_id = pw.id WHERE pw.is_active = 1 AND ((pw.from_date IS NULL AND pw.to_date IS NULL) OR (pw.from_date <= NOW() AND pw.to_date >= NOW())  OR (pw.from_date IS NOT NULL AND pw.from_date <= NOW()) OR (pw.to_date IS NOT NULL AND pw.to_date >= NOW()))"
+            #--------------------------------------
+            images:
+                types: [image]
+                route: sonata_media_view
+                connection: doctrine.dbal.default_connection
+                parameters:
+                    id: null
+                query: "SELECT id, updated_at as lastmod, 'weekly' as changefreq, '0.5' as priority FROM media__media"
+
+new_vision_tiny_mce:
+    table_class_list: [ {title: 'Таблица с основни стилове', value: 'tableMain'} ]
+    link_class_list: [ {title: 'Бутон със стилове', value: 'btnBlue'} ]

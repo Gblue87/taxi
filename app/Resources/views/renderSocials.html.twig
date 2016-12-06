@@ -1,0 +1,25 @@
+{% macro renderSocials() %}
+    <a class="socialsItem facebook" target="_blank" onclick="window.open(this.href, 'Popup', 'location=1,status=1,scrollbars=1, resizable=1, directories=1, toolbar=1, titlebar=1, width=600, height=600'); return false;" href="https://www.facebook.com/sharer/sharer.php?u={{app.request.uri}}">
+    	<svg aria-hidden="true" class="iconSVG">
+    	    <use xlink:href="/assets/images/svgSprite.svg#facebook"></use>
+    	</svg>
+    </a>
+
+    <a class="socialsItem twitter" target="_blank" onclick="window.open(this.href, 'Popup', 'location=1,status=1,scrollbars=1, resizable=1, directories=1, toolbar=1, titlebar=1, width=600, height=600'); return false;" href="https://twitter.com/intent/tweet?text={{app.request.uri}}">
+    	<svg aria-hidden="true" class="iconSVG">
+    	    <use xlink:href="/assets/images/svgSprite.svg#twitter"></use>
+    	</svg>
+    </a>
+
+    <a class="socialsItem google" target="_blank" onclick="window.open(this.href, 'Popup', 'location=1,status=1,scrollbars=1, resizable=1, directories=1, toolbar=1, titlebar=1, width=600, height=600'); return false;" href="https://plus.google.com/share?url={{app.request.uri}}">
+    	<svg aria-hidden="true" class="iconSVG">
+    	    <use xlink:href="/assets/images/svgSprite.svg#google"></use>
+    	</svg>
+    </a>
+
+    <a class="socialsItem pinterest" target="_blank" onclick="window.open(this.href, 'Popup', 'location=1,status=1,scrollbars=1, resizable=1, directories=1, toolbar=1, titlebar=1, width=600, height=600'); return false;" href="http://pinterest.com/pin/create/button/?url={{app.request.uri}}">
+    	<svg aria-hidden="true" class="iconSVG">
+    	    <use xlink:href="/assets/images/svgSprite.svg#pinterest"></use>
+    	</svg>
+    </a>
+{% endmacro %}

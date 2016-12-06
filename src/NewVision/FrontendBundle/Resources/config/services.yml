@@ -1,0 +1,8 @@
+services:
+    newvision.admin.order:
+        class: NewVision\FrontendBundle\Admin\OrdersAdmin
+        arguments: [~, NewVision\FrontendBundle\Entity\Order, NewVisionCoreBundle:HistoryCRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: "newvision_site", label: "newvision_orders"}
+        calls:
+            - [ setTranslationDomain, [NewVisionFrontendBundle]]

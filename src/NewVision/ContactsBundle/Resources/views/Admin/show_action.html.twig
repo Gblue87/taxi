@@ -1,0 +1,105 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends base_template %}
+
+{% block actions %}
+    <li>{% include 'SonataAdminBundle:Button:edit_button.html.twig' %}</li>
+    <li>{% include 'SonataAdminBundle:Button:history_button.html.twig' %}</li>
+    <li>{% include 'SonataAdminBundle:Button:list_button.html.twig' %}</li>
+    <li>{% include 'SonataAdminBundle:Button:create_button.html.twig' %}</li>
+{% endblock %}
+
+{% block tab_menu %}{{ knp_menu_render(admin.sidemenu(action), {'currentClass' : 'active', 'template': admin_pool.getTemplate('tab_menu_template')}, 'twig') }}{% endblock %}
+
+{% block show %}
+    {% set path = '/uploads/career-applyment/' %}
+    <div class="sonata-ba-view">
+
+        {{ sonata_block_render_event('sonata.admin.show.top', { 'admin': admin, 'object': object }) }}
+
+        {% for name, view_group in admin.showgroups %}
+            <table class="table table-bordered">
+                {% if name %}
+                    <thead>
+                        {% block show_title %}
+                            <tr class="sonata-ba-view-title">
+                                <th colspan="4">
+                                    {{ admin.trans(name) }}
+                                </th>
+                            </tr>
+                        {% endblock %}
+                    </thead>
+                {% endif %}
+
+                <tbody>
+                    {% block show_field %}
+                        {% if object.contactFor is defined and object.contactFor is not null and object.contactFor|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    {{'form.contactFor'|trans({}, 'NewVisionContactsBundle')}}
+                                </td>
+                                <td>
+                                    <a href="{{ app.request.getSchemeAndHttpHost() }}{{ object.url }}" target="_blank">
+                                        {{ object.contactFor }}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        <tr class="sonata-ba-view-container">
+                            <td>
+                                {{'form.name'|trans({}, 'NewVisionContactsBundle')}}
+                            </td>
+                            <td>
+                                {{ object.name }}
+                            </td>
+                        </tr>
+                        <tr class="sonata-ba-view-container">
+                            <td>
+                                {{'form.family'|trans({}, 'NewVisionContactsBundle')}}
+                            </td>
+                            <td>
+                                {{ object.family }}
+                            </td>
+                        </tr>
+                        <tr class="sonata-ba-view-container">
+                            <td>
+                                {{'form.phone'|trans({}, 'NewVisionContactsBundle')}}
+                            </td>
+                            <td>
+                                {{ object.phone }}
+                            </td>
+                        </tr>
+                        <tr class="sonata-ba-view-container">
+                            <td>
+                                {{'form.email'|trans({}, 'NewVisionContactsBundle')}}
+                            </td>
+                            <td>
+                                {{ object.email }}
+                            </td>
+                        </tr>
+                        <tr class="sonata-ba-view-container">
+                            <td>
+                                {{'form.message'|trans({}, 'NewVisionContactsBundle')}}
+                            </td>
+                            <td>
+                                {{ object.message }}
+                            </td>
+                        </tr>
+                    {% endblock %}
+                </tbody>
+            </table>
+        {% endfor %}
+
+        {{ sonata_block_render_event('sonata.admin.show.bottom', { 'admin': admin, 'object': object }) }}
+
+    </div>
+{% endblock %}

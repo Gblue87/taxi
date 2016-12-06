@@ -1,0 +1,18 @@
+newvision_custom_blocks: 'Blocks'
+menu.item: 'General'
+form:
+    general: 'General'
+    id: 'ID'
+    title: 'Title'
+    description: 'Description'
+    translations: 'Translations'
+    createdАt: 'Created at'
+    isActive: 'Is Active?'
+
+tab:
+  general: 'General'
+  more: 'More'
+
+table.label_actions: 'Actions'
+
+Publish Workflow: 'Publish Workflow'

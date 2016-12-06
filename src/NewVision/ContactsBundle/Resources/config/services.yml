@@ -1,0 +1,9 @@
+services:
+    newvision.contacts.form.type:
+        class: NewVision\ContactsBundle\Form\Type\ContactsType
+        tags:
+            - { name: form.type, alias: contacts }
+    newvision.order.form.type:
+        class: NewVision\FrontendBundle\Form\Type\OrderFormType
+        tags:
+            - { name: form.type, alias: order }

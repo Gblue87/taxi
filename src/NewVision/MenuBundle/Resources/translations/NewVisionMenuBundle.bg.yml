@@ -1,0 +1,46 @@
+Menu List: 'Меню'
+Menu Delete: 'Изтрий'
+
+
+Publish Workflow: 'Видимост в сайта'
+list:
+  title: 'Заглавие'
+  path: 'Подреждане'
+  is_hidden: 'Скрит'
+  created_at: 'Дата на създаване'
+  actions: 'Действия'
+
+form:
+  parent: 'Главно меню'
+  slug: 'Слъг'
+  translations: 'Преводи'
+  title: 'Заглавие'
+  is_hidden: 'Скрит'
+  url: 'URL'
+  target: 'Отвори в'
+  general: 'Основни'
+  more: 'Допълнителни'
+  path: 'Път'
+  created_at: 'Дата на създаване'
+  icon: 'Икона'
+  class: 'CSS Клас'
+  sub_title: 'Подзаглавие'
+  label_actions: 'Действия'
+  label_image: 'Изображение'
+
+menu:
+  item: 'Основни'
+  list: 'Списък'
+  tree: 'Дърво'
+
+action:
+  list: 'Лист'
+  tree: 'Дърво'
+  trash: 'Кошче'
+
+select.parent: 'Изберете главен запис'
+
+self: 'Настоящия прозорец'
+blank: 'Нов прозорец'
+newvision_menu: 'Меню'
+Actions: 'Действия'

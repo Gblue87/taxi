@@ -1,0 +1,18 @@
+
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{% import _self as list %}
+{% macro show_parent(object) %}
+    {% if object.parent %}
+		{{ _self.show_parent(object.parent) }} » 
+	{% endif %}
+	{{ object.title }}
+{% endmacro %}
+
+{% block field %}
+
+	{% if object.parent %}
+		{{ list.show_parent(object.parent) }}		
+	{% endif %}
+
+{% endblock %}

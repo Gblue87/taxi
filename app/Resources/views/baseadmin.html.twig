@@ -1,0 +1,31 @@
+{% extends 'SonataAdminBundle::standard_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="/misc/css/loginFix.css">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+        <script type="text/javascript" src="/misc/js/Admin.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCtm2xZxd09GKAPHypwLhKwjFiVKxDZIW4"></script>
+        <script type="text/javascript">
+        $(function(){
+
+			var opts = { componentRestrictions: { country: "uk"}};
+			var fromValue = $('input[id$="from"]');
+			var toValue = $('input[id$="to"]');
+			google.maps.event.addDomListener(window, 'load', function () {
+				userPoint = new google.maps.places.Autocomplete(fromValue[0], opts);
+				userPoint2 = new google.maps.places.Autocomplete(toValue[0], opts);
+				directionsDisplay = new google.maps.DirectionsRenderer({ draggable: false});
+			});
+        })
+		</script>
+    	{% set params = [] %}
+    	{% set params = params|merge({'paste_auto_cleanup_on_paste': true, 'paste_convert_headers_to_strong': true, 'paste_remove_styles': true, 'paste_text_linebreaktype': true, 'paste_strip_class_attributes': 'all', 'paste_retain_style_properties': 'all'}) %}
+		{{ tinymce_init(params) }}
+{% endblock %}
+{% block side_bar_after_nav %}
+    <p class="text-center small" style="padding-top: 10px"><a href="http://www.newvisiongroup.com/bg/contacts/request" rel="noreferrer" style="color: #FA6F76" target="_blank">{{'send_request'|trans({}, 'SonataAdminBundle')}}</a></p>
+{% endblock %}

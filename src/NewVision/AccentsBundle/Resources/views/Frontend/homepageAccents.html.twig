@@ -1,0 +1,42 @@
+{% if accents is defined and accents is not null and accents|length %}
+    <div class="accent accentFeatured">
+        <div class="wrapper">
+            <p class="accentTitle">{{ 'accents_title'|trans({}, 'messages')}}</p>
+
+            <div class="boxes boxesAccent">
+                {% for accent in accents %}
+                    {% set haveUrl = false %}
+                    {% if accent.url is defined and accent.url is not null and accent.url|length %}
+                        {% set haveUrl = true %}
+                    {% endif %}
+                    <div class="boxAccent">
+                        {% if accent.translations[app.request.locale].image is defined and accent.translations[app.request.locale].image is not null and accent.translations[app.request.locale].image|length %}
+
+                            <a {% if haveUrl %}href="{{ accent.url }}" target="{{ accent.target }}"{% else %}href="javascript:;"{% endif %} class="photo" style="background-image: url({% path accent.translations[app.request.locale].image, 'index' %});"></a>
+                        {% endif %}
+
+                        <div class="content">
+                            <p class="title">
+                                <a {% if haveUrl %}href="{{ accent.url }}" target="{{ accent.target }}"{% else %}href="javascript:;"{% endif %}>
+                                    {{ accent.title }}
+                                </a>
+                            </p>
+
+                            {% if accent.description is defined and accent.description is not null and accent.description|length %}
+                                <div class="text">
+                                    {{ accent.description|raw }}
+                                </div>
+                            {% endif %}
+
+                            {% if haveUrl %}
+                                <div class="more">
+                                    <a href="{{ accent.url }}" target="{{ accent.target }}">{% if accent.buttonTitle is defined and accent.buttonTitle is not null and accent.buttonTitle|length %}{{ accent.buttonTitle }}{% else %}{{ 'learn_more'|trans({}, 'messages')}}{% endif %}</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div><!-- /.boxAccent -->
+                {% endfor %}
+            </div><!-- /.boxes -->
+        </div><!-- /.wrapper -->
+    </div><!-- /.accent -->
+{% endif %}

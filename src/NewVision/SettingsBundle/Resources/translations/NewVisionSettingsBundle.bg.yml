@@ -1,0 +1,11 @@
+Setting List: 'Настройки'
+Setting Delete: 'Изтрий'
+
+newvision_settings: Настройки
+
+settings:
+  label: Име
+  name: Ключ
+  value: Стойност
+  visible: Видима
+  actions: Действия

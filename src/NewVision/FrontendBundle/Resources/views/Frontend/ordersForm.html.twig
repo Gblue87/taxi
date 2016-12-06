@@ -1,0 +1,978 @@
+{% if (airport is not defined or airport is null) and (hotel is not defined or hotel is null) %}
+    <div class="warning hasicon" style="margin-bottom:0">
+        {{content.description|raw}}
+    </div>
+{% else %}
+    <div class="warning hasicon" style="margin-bottom:0">
+        {% if ariport is defined and ariport is not null and ariport|length %}
+            {{airport.simpleDescription}}
+        {% endif %}
+        {% if hitel is defined and hitel is not null and hitel|length %}
+            {{hotel.simpleDescription}}
+        {% endif %}
+    </div>
+{% endif %}
+<div id="popUp" class="popUp">
+    <div id="generror">
+        <div class="bodyerror">
+            <div class="icon"></div>
+            <div><h6>Attention</h6><p class="errorMsg"></p><a href="#" class="close colorbox">x</a>
+            </div>
+        </div>
+    </div>
+</div>
+<form id="step1" class="checkout">
+    <div class="left column">
+        <div class="img-wrap">
+            {% if (airport is defined and airport is not null and airport|length) or (hotel is defined and hotel is not null and hotel|length) %}
+                {% if airport is defined and airport is not null and airport|length %}
+                    {% set item = airport %}
+                {% endif %}
+                {% if hotel is defined and hotel is not null and hotel|length %}
+                    {% set item = hotel %}
+                {% endif %}
+                    {% thumbnail item.translations[app.request.locale].image, 'index' with { 'width': 'value', 'height': 'value', 'alt': item.translations[app.request.locale].image.title } %}
+            {% else %}
+                <img src="/images/noimage.jpg" alt="No image">
+            {% endif %}
+        </div>
+    </div>
+    <div class="right column">
+        <div class="options-top">
+            <div class="left">
+                <div class="ffield">
+                    <label>{{ 'from'|trans({}, "NewVisionFrontendBundle")}}</label>
+                    <input id="from" type="text" name="from" placeholder="Enter location" {{ from is defined and from is sameas(true) ? 'readonly' : ''}} value="{{ from is defined and from is sameas(true) ? item.to : ''}}" title="{{ from is defined and from is sameas(true) ? item.to : 'Offer from'}}">
+                </div>
+                <div class="ffield">
+                    <label>{{ 'to'|trans({}, "NewVisionFrontendBundle")}}</label>
+                    <input id="to" type="text" name="to" placeholder="Enter location" {{ to is defined and to is sameas(true) ? 'readonly' : ''}} value="{{ to is defined and to is sameas(true) ? item.to : ''}}" title="{{ to is defined and to is sameas(true) ? item.to : 'Offer to'}}">
+                </div>
+                <a href="#" id="flip" class="switchval"></a>
+            </div>
+            <div class="left passengers">
+                <label>{{ 'select_passangers'|trans({}, "NewVisionFrontendBundle")}}</label>
+                <div class="toprow">
+                    <label><input class="passengersHomepage" type="radio" value="1" name="pssngrs"><span>1</span></label>
+                    <label><input class="passengersHomepage" type="radio" value="2" name="pssngrs" checked><span>2</span></label>
+                    <label><input class="passengersHomepage" type="radio" value="3" name="pssngrs"><span>3</span></label>
+                    <label><input class="passengersHomepage" type="radio" value="4" name="pssngrs"><span>4</span></label>
+                </div>
+                <div class="bottrow">
+                    <label><input class="passengersHomepage" type="radio" value="5" name="pssngrs"><span>5</span></label>
+                    <label><input class="passengersHomepage" type="radio" value="6" name="pssngrs"><span>6</span></label>
+                    <label><input class="passengersHomepage" type="radio" value="7" name="pssngrs"><span>7</span></label>
+                    <label><input class="passengersHomepage" type="radio" value="8" name="pssngrs"><span>8</span></label>
+                </div>
+                <div id="ppp" class="ppp {% if hotel is not defined and airport is not defined %}hidden{% endif %}">
+                    <i></i>
+                    £<span id="price_1" class="price">0.00</span>
+                    <span class="average">~ £<span id="average">0</span>/per person</span>
+                </div>
+                {% if hotel is not defined and airport is not defined %}
+                    <div class="ppp">
+                        <span class="mustcalculate">Press "Calculate"<br> to see prices</span></span>
+                    </div>
+                {% endif %}
+
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="options-bottom">
+            <div class="frow">
+                <div class="ffield datetime">
+                    <label>{{ 'date_time'|trans({}, "NewVisionFrontendBundle")}}</label>
+                    <span class="picker-wrapper">
+                        <input id="date" type="text" name="date" placeholder="Date">
+                    </span>
+                    <span class="picker-wrapper relative">
+                        <input id="time" type="text" name="time" placeholder="Time">
+                    </span>
+                </div>
+                <div class="ffield">
+                    <label>{{ 'return_journey'|trans({}, "NewVisionFrontendBundle")}}</label>
+                    <input id="rj" type="checkbox" class="disabling">
+                    <div class="ffield datetime">
+                        <span class="picker-wrapper">
+                            <input id="date2" type="text" name="date2" placeholder="Date" disabled>
+                        </span>
+                        <span class="picker-wrapper relative">
+                            <input id="time2" type="text" name="time2" placeholder="Time" disabled>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="frow">
+                {% if (airport is not defined or airport is null) and (hotel is not defined or hotel is null) %}
+                    <div class="ffield">
+                        <label for="vias">Add Via(s)</label>
+                        <input id="vias" type="checkbox" class="disabling" >
+                        <div class="ffield datetime">
+                            <input id="vias_location" type="text" name="vias_location" value="" placeholder="Enter location" disabled="">
+                        </div>
+                    </div>
+                {% endif %}
+                <button id="calculate" type="submit" class="mbtn mbtn-orange mbtn-big right">{% if (airport is not defined or airport is null) and (hotel is not defined or hotel is null) %}{{ 'calculate'|trans({}, "NewVisionFrontendBundle")}}{% else %}{{ 'continue'|trans({}, "NewVisionFrontendBundle")}}{% endif %}</button>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="clear"></div>
+</form>
+<form class="checkout" action="{{ airport is defined ? path('airport_view', {slug: airport.slug}) : hotel is defined ? path('hotel_view', {'slug': hotel.slug}) : path('order')}}" method="post">
+    <div id="step2" class="step2 hidden">
+        <input type="hidden" name="order[from]">
+        <input type="hidden" name="order[to]">
+        <input type="hidden" name="order[passengers]">
+        <input type="hidden" name="order[start_time]">
+        <input type="hidden" name="order[return_time]">
+        <input type="hidden" name="order[via]">
+
+        <input type="hidden" name="order[offer]" value="{{item is defined ? item.id : ''}}">
+        <input type="hidden" name="order[offer_point]">
+
+        <input type="hidden" name="order[distance]">
+        <input type="hidden" name="order[duration]">
+
+        <input type="hidden" name="order[from_lat]">
+        <input type="hidden" name="order[from_lng]">
+        <input type="hidden" name="order[to_lat]">
+        <input type="hidden" name="order[to_lng]">
+        <input type="hidden" name="order[via_lat]">
+        <input type="hidden" name="order[via_lng]">
+        <input type="hidden" name="order[date]">
+        <input type="hidden" name="order[return_date]">
+
+        <input type="hidden" name="order[amount]">
+
+        <div class="left column">
+            <div class="step-wrap">
+                <h4 class="steptitle">Order Details</h4>
+                <strong>Booking allocated for you at this price:
+                    <span id="price" class="price">£<span>0.00</span></span>
+                </strong>
+                <div>
+                    <hr>
+                    <span class="sidelabel">Distance</span>
+                    <span class="sidevalue distance"></span>
+                    <hr>
+                    <span class="sidelabel">From</span>
+                    <span class="sidevalue from"></span>
+                    <hr>
+                    <span class="sidelabel">To</span>
+                    <span class="sidevalue to"></span>
+                    <hr>
+                    <span class="sidelabel">Date & Time</span>
+                    <span class="sidevalue time"></span>
+                    <hr>
+                    <span class="sidelabel">Passengers</span>
+                    <span class="sidevalue passengers"></span>
+
+                    <hr>
+                    <span class="sidelabel">Return Date</span>
+                    <span class="sidevalue rj"></span>
+                    {% if offer is not defined %}
+                        <hr>
+                        <span class="sidelabel">Via</span>
+                        <span class="sidevalue via"></span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="right column">
+            <div class="step-wrap map-step">
+                <h4 class="steptitle">Route Map</h4>
+                <div id="checkmap" style="height: 270px;"></div>
+
+                <p>* This map is for illustration purposes only. Your exact route may differ.</p>
+            </div>
+            <div class="step-wrap customer-step">
+                <h4 class="steptitle">Customer Details</h4>
+                <div class="frow">
+                    <div class="ffield">
+                        {{form_row(form.name)}}
+                    </div>
+                    <div class="ffield">
+                        {{form_row(form.family)}}
+                    </div>
+                </div>
+                <div class="frow">
+                    <div class="ffield">
+                        {{form_row(form.email)}}
+                    </div>
+                    <div class="ffield">
+                        {{form_row(form.phone)}}
+                    </div>
+                </div>
+                <div class="frow">
+                    <div class="ffield">
+                        {{form_row(form.baggageDetails)}}
+                    </div>
+                    <div class="ffield">
+                        <label class="nbsp">&nbsp;</label>
+                        <div class="example">
+                            Example: 4 large suitcases, 6 small bags...
+                        </div>
+                    </div>
+                </div>
+                <div class="frow">
+                    <div class="ffield fw">
+                        {{form_row(form.info)}}
+                    </div>
+                </div>
+            </div>
+            <div class="step-wrap payment-step">
+                <h4 class="steptitle">Payment Method</h4>
+                <div>
+                    <label>
+                        <strong>Cash</strong>
+                        <input type="radio" name="order[paymentType]" value="cash">
+                        <img src="/images/pay_cash.jpg" alt="pay_cash">
+                    </label>
+                    <label>
+                        <strong>PayPal</strong>
+                        <input type="radio" name="order[paymentType]" value="paypal">
+                        <img src="/images/pay_paypal.jpg" alt="">
+                    </label>
+                    <label>
+                        <strong>Credit or Debit Card</strong>
+                        <input type="radio" name="order[paymentType]" value="worldpay">
+                        <img src="/images/pay_cards.jpg" alt="">
+                    </label>
+                    <div class="clear"></div>
+                </div>
+                <p class="text-right">* Payments by card or PayPal incurs a 5% surcharge!</p>
+            </div>
+            <div class="g-recaptcha ffield" data-sitekey="{$smarty.const.RECAPTCHA_KEY}"></div>
+            <p class="terms ffield">By completing the booking, you agree to our <a href="{'7'|page_link}" target="_blank">Terms and Conditions.</a></p>
+            <div class="clear"></div>
+            <article class="hasicon">
+                <p>Please make sure that the given information is correct. (Street, house name or number, contact details, etc.)</p>
+                {*<p>Any booking more than 2.5 miles radius from or to Chester City Centre will be charged from the nearest car.</p>*}
+            </article>
+            <input type="submit" class="mbtn mbtn-orange mbtn-big" value="Book now">
+        </div>
+        <div class="clear"></div>
+    </div>
+    {{ form_widget(form._token) }}
+</form>
+{% block footerJS %}
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCtm2xZxd09GKAPHypwLhKwjFiVKxDZIW4"></script>
+    <script type="text/javascript">
+        var offerType = '{{airport is defined and airport is not null and airport|length ? 'airport' : 'hotel'}}';
+        {% if item is not defined %}
+            function showErrorInline(s) {
+                var div = $('#step1error');
+                if (!div.length) {
+                    div = $('<div class="error" id="step1error"></div>').html(s);
+                    $('#step1').before(div);
+                }
+            }
+            var offerPoint;
+            var userPoint,
+            amount4 = 0,
+            amount8 = 0;
+            $(function() {
+                var fromBox, toBox, viaBox,
+                    amount4 = 0.0,
+                    amount8 = 0.0,
+                    fill = {{ fill is defined and fill is not null ? fill|raw : null}},
+                    gebid = function(id) { return document.getElementById(id)},
+                    directionsDisplay = new google.maps.DirectionsRenderer({ draggable: false});
+
+                $('.checkout input:checkbox, .checkout input:radio').transForm();
+                var opts = { componentRestrictions: { country: "UK"}};
+                // {* LOCATION AUTOCOMPLETES *}
+                google.maps.event.addDomListener(window, 'load', function() {
+                    fromBox = new google.maps.places.Autocomplete(gebid('from'), opts);
+                    toBox = new google.maps.places.Autocomplete(gebid('to'), opts);
+                    viaBox = new google.maps.places.Autocomplete(gebid('vias_location'));
+                });
+
+                var getRoute = function() {
+
+                    // {* SHOW MAP - DEFAULT: CHESTER CENTER *}
+                    directionsDisplay.setMap(new google.maps.Map(gebid('checkmap'), {
+                        zoom: 7,
+                        center: new google.maps.LatLng(53.1925134, -2.9053913)
+                    }));
+
+                    var origins, destinations, waypoint,
+                        waypoints = [],
+                        origin = $('#from').val(),
+                        destination = $('#to').val();
+
+                    // {* VIA IS SELECTED *}
+                    if ($('#vias:checked').length &&
+                        $.trim($('#vias_location').val()).length
+                    ) {
+                        waypoint = $.trim($('#vias_location').val());
+                        waypoints.push({ location: waypoint });
+                    }
+
+                    // {* SHOW ROUTE *}
+                    new google.maps.DirectionsService().route({
+                        origin: origin,
+                        destination: destination,
+                        waypoints: waypoints,
+                        travelMode: google.maps.TravelMode.DRIVING
+                    }, function (response, status) {
+
+                        if (status == google.maps.DirectionsStatus.OK)
+                            directionsDisplay.setDirections(response);
+
+                        try {
+
+                            var toLng, toLat, viaLng, viaLat,
+                                legs = response.routes[0].legs,
+                                wpp = legs[0],
+                                fromLng = wpp.start_location.lng(),
+                                fromLat = wpp.start_location.lat();
+
+                            if (legs.length == 1) {
+                                toLng = wpp.end_location.lng();
+                                toLat = wpp.end_location.lat();
+
+                            } else if (legs.length == 2) {
+
+                                viaLng = wpp.end_location.lng();
+                                viaLat = wpp.end_location.lat();
+                                wpp = legs[1];
+                                toLng = wpp.end_location.lng();
+                                toLat = wpp.end_location.lat();
+
+                                $('#step2 [name="order[via_lng]"]').val(viaLng);
+                                $('#step2 [name="order[via_lat]"]').val(viaLat);
+
+                            } else {
+                                clearData();
+                                showError("Unable to find the distance via road.");
+                                return;
+                            }
+
+                            $('#step2 [name="order[to_lng]"]').val(toLng);
+                            $('#step2 [name="order[to_lat]"]').val(toLat);
+                            $('#step2 [name="order[from_lng]"]').val(fromLng);
+                            $('#step2 [name="order[from_lat]"]').val(fromLat);
+
+                        } catch (e) {
+                            clearData();
+                            showError("Unable to find the distance via road.");
+                        }
+                    });
+
+                    // {* VIA IS SELECTED *}
+                    if (waypoints.length) {
+                        origins = [origin, waypoint];
+                        destinations = [waypoint, destination];
+
+                    // {* NO VIA *}
+                    } else {
+                        origins = [origin];
+                        destinations =[destination];
+                    }
+
+                    // {* CALCULATE DISTANCE & DURATION *}
+                    new google.maps.DistanceMatrixService().getDistanceMatrix({
+                        origins: origins,
+                        destinations: destinations,
+                        travelMode: google.maps.TravelMode.DRIVING,
+                        unitSystem: google.maps.UnitSystem.METRIC,
+                        avoidHighways: false,
+                        avoidTolls: false
+
+                    }, function (response, status) {
+                        if (status == google.maps.DistanceMatrixStatus.OK) {
+                            var row, i,
+                                distance = 0,
+                                duration = 0;
+
+                            for (i in response.rows) {
+                                row = response.rows[i].elements[i];
+
+                                // {* NO DATA *}
+                                if ((row.status == "ZERO_RESULTS") ||
+                                    (row.status == "NOT_FOUND")
+                                ) {
+                                    clearData();
+                                    showError("Unable to find the distance via road.");
+                                    return;
+                                }
+
+                                distance += row.distance.value;
+                                duration += row.duration.value;
+                            }
+
+                            // {* METERS TO MILES *}
+                            distance = distance * 0.000621371;
+
+                            // {* MINIMUM 5 MILES *}
+                            if (distance < 5) {
+                                clearData();
+                                showError("We are sorry. The minimum distance is 5 miles.");
+                                return;
+                            }
+
+                            distance = distance.toFixed(2);
+
+                            // {* SAVE TO HIDDEN FIELDS *}
+                            $('#step2 [name="order[distance]"]').val(distance);
+                            $('#step2 [name="order[duration]"]').val(duration);
+
+                            $('#step2 .distance').text(distance + " miles");
+
+                            var data = {
+                                distance: distance,
+                                passengers: $('#step2 [name="order[passengers]"]').val(),
+                                date: $('#step2 [name="order[start_time]"]').val().substr(0, 10),
+                                returnDate: $('#step2 [name="order[return_time]"]').val().substr(0, 10)
+                            };
+
+                            $.ajax({
+                                url: '{{path('distance_amount')}}',
+                                type: 'post',
+                                data: data,
+                                success: function(resp) {
+                                    $('#calculate').text('Recalculate');
+                                    $('#ppp').removeClass('hidden').next().remove();
+                                    amount4 = parseFloat(resp.amount4);
+                                    amount8 = parseFloat(resp.amount8);
+                                    $('#step2 [name="order[amount]"]').val(resp.amount);
+                                    $('#price span, #price_1').text(resp.amount);
+                                    $('#average').text((resp.amount / data.passengers).toFixed(2));
+                                },
+                                finish: function(data) {
+                                    if ((typeof data != "undefined") &&
+                                        (typeof data.error != "undefined")
+                                    ) {
+                                        clearData();
+                                    }
+                                },
+                                error: function() {
+                                    showError('System error! Please contact administrator!')
+                                    clearData();
+                                }
+                            });
+
+                        // {* ERROR *}
+                        } else {
+                            clearData();
+                            showError("Unable to find the distance via road.");
+                        }
+                    });
+                },
+
+                clearData = function() {
+                    $('#step2').addClass('hidden').find('[type="hidden"]').val('');
+                    $('#step2 .sidevalue').html('');
+                    $('#price span').html("0.00");
+                },
+
+                transferData = function() {
+                    var from = $.trim($('#from').val()),
+                        to = $.trim($('#to').val()),
+                        passengers = $('[name="pssngrs"]:checked').val(),
+                        time = $.trim($('#date').parent().find('[name="date_submit"]').val() + " "
+                             + $('#time').parent().find('[name="time_submit"]').val()),
+                        rj = $('#rj:checked').length
+                            ? $.trim($('#date2').parent().find('[name="date2_submit"]').val() + " " +
+                                $('#time2').parent().find('[name="time2_submit"]').val())
+                            : "",
+                        via = $('#vias:checked').length
+                            ? $.trim($('#vias_location').val())
+                            : "";
+                        date = $('#date').val();
+                        returnDate = $('#date').val();
+
+                    // {* HIDDEN FORM FIELDS *}
+                    $('#step2 [name="order[from]"]').val(from);
+                    $('#step2 [name="order[to]"]').val(to);
+                    $('#step2 [name="order[passengers]"]').val(passengers);
+                    $('#step2 [name="order[start_time]"]').val(time);
+                    $('#step2 [name="order[return_time]"]').val(rj);
+                    $('#step2 [name="order[via]"]').val(via);
+                    $('#step2 [name="order[date]"]').val(date);
+                    $('#step2 [name="order[return_date]"]').val(returnDate);
+
+                    // {* SUMMARY BLOCK *}
+                    $('#step2 .from').text(from);
+                    $('#step2 .to').text(to);
+                    $('#step2 .passengers').text(passengers);
+                    $('#step2 .via').text(via ? via : "No Via");
+
+                    // {* HUMAN DATE TIME *}
+                    $('#step2 .time').text(moment(time).format('LLLL'));
+                    $('#step2 .rj').text(rj
+                        ? moment(rj).format('LLLL')
+                        : "No Return Journey"
+                    );
+                },
+
+                validateStep1 = function() {
+
+                    var errors = [];
+
+                    if (!$.trim($('#from').val()) ||
+                        !$.trim($('#to').val())
+                    )
+                        errors.push("Please choose start and end points.");
+
+                    var date = $('#step1 [name="date_submit"]').val(),
+                        time = $('#step1 [name="time_submit"]').val();
+
+                    if (!date.length || !time.length)
+                        errors.push("Please choose a date and time.");
+
+                    if ($('#rj:checked').length) {
+                        var date2 = $('#step1 [name="date2_submit"]').val(),
+                            time2 = $('#step1 [name="time2_submit"]').val(),
+                            datetime = date + time,
+                            datetime2 = date2 + time2;
+
+                        if (!date2.length || !time2.length)
+                            errors.push("Please choose a date and time for return journey.");
+
+                        else if (datetime > datetime2)
+                            errors.push("Please choose a date and time for return journey after the journey's date and time.");
+                    }
+
+                    if ($('#vias:checked').length &&
+                        !$.trim($('#vias_location').val()).length
+                    )
+                        errors.push("Please choose a via location.");
+
+                    if (errors.length) {
+                        var message = '<ul><li>' + errors.join('</li><li>') + '</li></ul>';
+                        showErrorInline(message);
+                        return false;
+                    }
+
+                    return true;
+                };
+
+                $('#step1').submit(function() {
+                    $('#step1error').remove();
+                    if (!validateStep1())
+                        return false;
+                    clearData();
+                    transferData();
+                    $('#step2').removeClass('hidden');
+                    getRoute();
+                    return false;
+                });
+
+                $('.passengers input').change(function() {
+                    var passengers = this.value,
+                        amount = (passengers > 4)
+                            ? amount8 : amount4;
+
+                    $('#price_1').text(amount.toFixed(2));
+                    $('#average').text((amount / passengers).toFixed(2));
+
+                    if ($(this).parents('.bottrow').length)
+                        $('#ppp').addClass('_isbot');
+                    else
+                        $('#ppp').removeClass('_isbot');
+                });
+
+                $('.switchval').on('click',function(e) {
+                    e.preventDefault();
+                    var tmp = $('#from').val();
+                    $('#from').val($('#to').val());
+                    $('#to').val(tmp);
+                });
+
+                if (fill) {
+                    var v, i, field,
+                        fields = "from|to|vias_location".split('|');
+
+                    for (i in fields) {
+                        field = fields[i];
+                        if (typeof fill[field] == "string")
+                            $('#' + field).val(fill[field]);
+                    }
+
+                    if (typeof fill.vias_location == "string")
+                        $('#vias').trigger('click');
+
+                    if (typeof fill.passengers == "string")
+                        $('.passengers :radio[value="' + fill.passengers + '"]').trigger('click');
+
+                    fields = ['date_submit', 'date2_submit'];
+
+                    for (i in fields) {
+                        field = fields[i];
+                        if (typeof fill[field] != "string")
+                            break;
+
+                        i = field.split('_')[0];
+
+                        $('#' + i).pickadate('picker').set('select', fill[field], { format: 'yyyy-mm-dd'});
+                    }
+
+                    fields = ['time_submit', 'time2_submit'];
+                    for (i in fields) {
+                        field = fields[i];
+                        if (typeof fill[field] != "string")
+                            break;
+                        i = field.split('_')[0];
+                        v = fill[field].split(':');
+                        $('#' + i).pickatime('picker').set('select', [v[0], v[1]]);
+                    }
+
+                    if ((typeof fill.date2_submit == "string") ||
+                        (typeof fill.time2_submit == "string")
+                    )
+                        $('#rj').trigger('click');
+
+                    setTimeout(function() {
+                        $('#step1').trigger('submit');
+                    }, 1);
+                }
+            });
+        {% else %}
+            (function() {
+                var offerPoint;
+                var userPoint,
+                amount4 = {{item.price}},
+                amount8 = {{item.doublePrice}},
+                offer = {{offer|raw}},
+                offerPoint = '{{offerPoint}}';
+
+                $('.checkout input:checkbox, .checkout input:radio').transForm();
+
+                var directionsDisplay,
+                    gebid = function(id) { return document.getElementById(id) };
+                var opts = { componentRestrictions: { country: "UK"}};
+                // {* LOCATION AUTOCOMPLETES *}
+                google.maps.event.addDomListener(window, 'load', function () {
+                    userPoint = new google.maps.places.Autocomplete(gebid('{{ offerPoint is defined or offerPoint == "to" ? "from" : "to"}}'), opts);
+                    directionsDisplay = new google.maps.DirectionsRenderer({ draggable: false});
+                });
+
+                var getRoute = function() {
+
+                    // {* SHOW MAP - DEFAULT: CHESTER CENTER *}
+                    directionsDisplay.setMap(new google.maps.Map(gebid('checkmap'), {
+                        zoom: 7,
+                        center: new google.maps.LatLng(53.1925134, -2.9053913)
+                    }));
+
+                    var origin = $('#from').val(),
+                        destination = $('#to').val();
+
+                    // {* SHOW ROUTE *}
+                    new google.maps.DirectionsService().route({
+                        origin: origin,
+                        destination: destination,
+                        travelMode: google.maps.TravelMode.DRIVING
+
+                    }, function (response, status) {
+
+                        if (status == google.maps.DirectionsStatus.OK) {
+                            directionsDisplay.setDirections(response);
+
+                            try {
+                                var wpp = response.routes[0].legs[0],
+                                    fromLng = wpp.start_location.lng(),
+                                    fromLat = wpp.start_location.lat(),
+                                    toLng = wpp.end_location.lng(),
+                                    toLat = wpp.end_location.lat();
+
+                                $('#step2 [name="order[to_lng]"]').val(toLng);
+                                $('#step2 [name="order[to_lat]"]').val(toLat);
+                                $('#step2 [name="order[from_lng]"]').val(fromLng);
+                                $('#step2 [name="order[from_lat]"]').val(fromLat);
+
+                            } catch (e) {
+                                clearData();
+                                showError("Unable to find the distance via road.");
+                            }
+                        }
+
+                    });
+
+                    // {* CALCULATE DISTANCE & DURATION *}
+                    new google.maps.DistanceMatrixService().getDistanceMatrix({
+                        origins: [origin],
+                        destinations: [destination],
+                        travelMode: google.maps.TravelMode.DRIVING,
+                        unitSystem: google.maps.UnitSystem.METRIC,
+                        avoidHighways: false,
+                        avoidTolls: false
+
+                    }, function (response, status) {
+
+                        if (status == google.maps.DistanceMatrixStatus.OK) {
+                            var row, i,
+                                distance = 0,
+                                duration = 0;
+
+                            for (i in response.rows) {
+                                row = response.rows[i].elements[i];
+
+                                // {* NO DATA *}
+                                if ((row.status == "ZERO_RESULTS") ||
+                                    (row.status == "NOT_FOUND")
+                                ) {
+                                    clearData();
+                                    showError("Unable to find the distance via road.");
+                                    return;
+                                }
+
+                                distance += row.distance.value;
+                                duration += row.duration.value;
+                            }
+
+                            // {* METERS TO MILES *}
+                            distance = (distance * 0.000621371).toFixed(2);
+
+                            // {* SAVE TO HIDDEN FIELDS *}
+                            $('#step2 [name="order[distance]"]').val(distance);
+                            $('#step2 [name="order[duration]"]').val(duration);
+                            $('#step2 .distance').text(distance + " miles");
+
+                        // {* ERROR *}
+                        } else {
+                            clearData();
+                            showError("Unable to find the distance via road.");
+                        }
+                    });
+                },
+
+                clearData = function() {
+                    $('#step2').addClass('hidden').find('[type="hidden"]').val('');
+                    $('#step2 .sidevalue').html('');
+                    $('#price span').html("0.00");
+                },
+
+                transferData = function() {
+                    var from = $.trim($('#from').val()),
+                        to = $.trim($('#to').val()),
+                        passengers = $('[name="pssngrs"]:checked').val(),
+                        time = $.trim($('#date').parent().find('[name="date_submit"]').val() + " "
+                             + $('#time').parent().find('[name="time_submit"]').val()),
+                        return_time = $('#rj')[0].checked
+                            ? ($.trim($('#date2').parent().find('[name="date2_submit"]').val() + " " + $('#time2').parent().find('[name="time2_submit"]').val()))
+                            : "";
+                        date = $('#date').val();
+                        returnDate = $('#date2').val();
+
+                    // {* HIDDEN FORM FIELDS *}
+                    $('#step2 [name="order[from]"]').val(from);
+                    $('#step2 [name="order[to]"]').val(to);
+                    $('#step2 [name="order[passengers]"]').val(passengers);
+                    $('#step2 [name="order[start_time]"]').val(time);
+                    $('#step2 [name="order[return_time]"]').val(return_time);
+                    $('#step2 [name="order[offer]"]').val(offer.id);
+                    $('#step2 [name="order[offer_point]"]').val(offerPoint);
+                    $('#step2 [name="order[date]"]').val(date);
+                    $('#step2 [name="order[returnDate]"]').val(returnDate);
+
+                    // {* PRICE *}
+                    var data = {
+                        offer: offer.id,
+                        date: time.substr(0, 10),
+                        passengers: passengers,
+                        returnDate: return_time ? return_time.split(' ')[0] : '',
+                        offerType: offerType
+                    };
+                    $.ajax({
+                        url: '{{path('offer_amount')}}',
+                        type: 'post',
+                        data: data,
+                        success: function(resp) {
+                            amount4 = resp.amount4;
+                            amount8 = resp.amount8;
+                            var amount = (passengers > 4) ? amount8 : amount4;
+
+                            $('#step2 [name="order[amount]"]').val(amount);
+                            $('#price_1').text(amount);
+                            $('#average').text((amount / passengers).toFixed(2));
+                            $('#price span').text(amount);
+                        },
+                        finish: function(data) {
+                            if ((typeof data != "undefined") &&
+                                (typeof data.error != "undefined")
+                            )
+                                clearData();
+                        },
+                        error: function() {
+                            showError('System error!');
+                            clearData();
+                        }
+                    });
+
+                    // {* SUMMARY BLOCK *}
+                    $('#step2 .from').text(from);
+                    $('#step2 .to').text(to);
+                    $('#step2 .passengers').text(passengers);
+                    $('#step2 .time').text(moment(time).format('LLLL'));
+                    $('#step2 .rj').text(return_time
+                        ? moment(return_time).format('LLLL')
+                        : "No Return Journey");
+                },
+
+                validateStep1 = function() {
+
+                    if (!$.trim($('#from').val()) ||
+                        !$.trim($('#to').val())
+                    ) {
+                        showError("Please choose start and end points.");
+                        return false;
+                    }
+
+                    var date = $('#step1 [name="date_submit"]').val(),
+                        time = $('#step1 [name="time_submit"]').val();
+
+                    if (!date.length || !time.length) {
+                        showError("Please choose a date and time.");
+                        return false;
+                    }
+
+                    if ($('#rj:checked').length) {
+
+                        var date2 = $('#step1 [name="date2_submit"]').val(),
+                            time2 = $('#step1 [name="time2_submit"]').val(),
+                            datetime = date + time,
+                            datetime2 = date2 + time2;
+
+                        if (!date2.length || !time2.length) {
+                            showError("Please choose a date and time for return journey.");
+                            return false;
+                        }
+
+                        if (datetime > datetime2) {
+                            showError("Please choose a date and time for return journey after the journey's date and time.");
+                            return false;
+                        }
+
+                    }
+
+                    return true;
+                };
+
+                // {* STEP 1 SUBMIT *}
+                $('#step1').submit(function(e) {
+                    e.preventDefault();
+                    if (!validateStep1())
+                        return false;
+                    clearData();
+                    transferData();
+                    $('#step2').removeClass('hidden');
+                    getRoute();
+                });
+
+                // {* PASSENGERS CHANGE *}
+                $('.passengers input').change(function() {
+                    var price = (this.value > 4) ? amount8 : amount4;
+
+                    $('#price_1').text(price);
+                    var average = price / this.value;
+                    $('#average').text(average.toFixed(2));
+                    if($(this).parents('.bottrow').length)
+                        $('#ppp').addClass('_isbot');
+                    else
+                        $('#ppp').removeClass('_isbot');
+                });
+
+                $('.passengers :radio:checked').trigger('change');
+
+                // {* SWAP LOCATIONS *}
+                $('.switchval').click(function() {
+
+                    var swapPoints = function(p1, p2) {
+
+                        var mapsPoint, pc1, pc2,
+                            par1 = p1.parent(),
+                            par2 = p2.parent(),
+                            title = p1.prop('title'),
+                            value = p1.val();
+
+                        p1.attr({
+                            title: "",
+                            value: p2.val(),
+                            readonly: false
+                        });
+
+                        p2.attr({
+                            title: title,
+                            value: value,
+                            readonly: true
+                        });
+
+                        mapsPoint = p1.prop('name');
+                        offerPoint = p2.prop('name');
+
+                        pc1 = $('<div>').append(p1.clone()).html();
+                        pc2 = $('<div>').append(p2.clone()).html();
+
+                        p1.remove();
+                        p2.remove();
+
+                        par1.append(pc1);
+                        par2.append(pc2);
+                        var opts = { componentRestrictions: { country: "UK"}};
+                        userPoint = new google.maps.places.Autocomplete(gebid(mapsPoint), opts);
+                    };
+
+                    if ($('#to').prop('readonly'))
+                        swapPoints($('#to'), $('#from'));
+                    else
+                        swapPoints($('#from'), $('#to'));
+
+                    return false;
+                });
+
+                // {* AMOUNT CHANGE *}
+                var $date = $('#date'),
+
+                    amountChange = function() {
+                        if (!$date.val().length)
+                            return;
+
+                        var passengers = $('.passengers :radio:checked').val(),
+                            data = {
+                                offer: offer.id,
+                                date: $date.parent().find('[name="date_submit"]').val(),
+                                passengers: passengers,
+                                returnDate: $('#rj')[0].checked
+                                    ? $('#date2').parent().find('[name="date2_submit"]').val()
+                                    : '',
+                                offerType: offerType
+                            };
+
+                        $.ajax({
+                            url: '{{path('offer_amount')}}',
+                            type: 'post',
+                            data: data,
+                            success: function(resp) {
+                                if (resp.success) {
+                                    amount4 = resp.amount4;
+                                    amount8 = resp.amount8;
+                                    var amount = (passengers > 4) ? amount8 : amount4;
+                                    $('#price_1').text(amount);
+                                    $('#average').text((amount / passengers).toFixed(2));
+                                }else{
+                                    showError('System error! Please contact administrators.')
+                                }
+                            }
+                        });
+                    };
+
+                // {* DATE CHANGE - AMOUNT CHANGE *}
+                $(function() {
+                    $date.pickadate('picker').on({ set: amountChange });
+                    $('#date2').pickadate('picker').on({ set: amountChange });
+                });
+
+                // {* RETURN JOURNEY CHECKBOX CLICK - AMOUNT CHANGE *}
+                $('#rj').click(amountChange);
+
+            })();
+        {% endif %}
+    </script>
+{% endblock %}

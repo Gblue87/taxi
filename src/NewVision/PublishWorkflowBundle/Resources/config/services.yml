@@ -1,0 +1,5 @@
+services:
+    newvision_publish_workflow.type:
+        class: NewVision\PublishWorkflowBundle\Form\Type\PublishWorkflowType
+        tags:
+            - { name: form.type, alias: newvision_publish_workflow }

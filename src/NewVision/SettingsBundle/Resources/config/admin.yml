@@ -1,0 +1,12 @@
+# NewVision/SettingsBundle/Resources/config/admin.yml
+services:
+    sonata.admin.settings:
+        class: NewVision\SettingsBundle\Admin\SettingAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "newvision_settings", label: "newvision_settings" }
+        arguments:
+            - ~
+            - NewVision\SettingsBundle\Entity\Setting
+            - ~
+        calls:
+            - [ setTranslationDomain, [NewVisionSettingsBundle]]

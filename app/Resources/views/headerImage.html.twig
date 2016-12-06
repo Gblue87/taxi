@@ -1,0 +1,7 @@
+{% if content.translations[app.request.locale].headerImage is defined and content.translations[app.request.locale].headerImage is not null and content.translations[app.request.locale].headerImage|length %}
+    <div class="mainHead">
+        <div class="wrapper">
+            <div class="bannerMain" style="background-image: url({% path content.translations[app.request.locale].headerImage, 'reference' %});"></div>
+        </div><!-- /.wrapper -->
+    </div><!-- /.mainHead -->
+{% endif %}

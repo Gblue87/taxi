@@ -1,0 +1,15 @@
+<div id="btnMenu" class="btn"><span></span></div>
+
+<div class="form" id="formSearch">
+    <form id="searchForm" method="GET" action="{{ path('search') }}">
+        <div class="field">
+            <input placeholder="{{ 'search_placeholder'|trans({}, "messages")}}" type="search" name="q" id="search" />
+        </div>
+
+        <button type="submit" class="btnSearch">
+        	<svg aria-hidden="true" class="iconSVG iconSearch">
+        		<use xlink:href="/assets/images/svgSprite.svg#iconSearch"></use>
+        	</svg>
+        </button>
+    </form>
+</div><!-- /.form -->

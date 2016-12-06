@@ -1,0 +1,43 @@
+parameters:
+    newvision.airports.admin.airports.translation: NewVisionAirportsBundle
+
+services:
+    newvision.airports.admin.airports:
+        class: NewVision\AirportsBundle\Admin\AirportsAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "newvision_site_airports", label: "newvision_airports" }
+        arguments:
+            - ~
+            - NewVision\AirportsBundle\Entity\Airport
+            - NewVisionCoreBundle:SortableCRUD
+        calls:
+            - [ setTranslationDomain, [%newvision.airports.admin.airports.translation%]]
+            - [ setTemplates, [outer_list_rows_mosaic: NewVisionCoreBundle:Admin:list_outer_rows_mosaic.html.twig]]
+
+    newvision.airport_categories.admin.airport_category:
+        class: NewVision\AirportsBundle\Admin\AirportCategoryAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "newvision_site_airports", label: "newvision_airport_categories", audit: true }
+        arguments:
+            - ~
+            - NewVision\AirportsBundle\Entity\AirportCategory
+            - NewVisionCoreBundle:TreeCRUD
+        calls:
+            - [ setTranslationDomain, [%newvision.airports.admin.airports.translation%]]
+            - [ setTemplates, [outer_list_rows_mosaic: NewVisionCoreBundle:Admin:list_outer_rows_mosaic.html.twig]]
+
+    newvision.airports.admin.airports_translations:
+        class: NewVision\AirportsBundle\Admin\AirportsTranslationsAdmin
+        arguments: [~, NewVision\AirportsBundle\Entity\AirportTranslation, ~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, show_in_dashboard: false}
+        calls:
+            - [ setTranslationDomain, [%newvision.airports.admin.airports.translation%]]
+
+    newvision.airports.admin.airport_category_translations:
+        class: NewVision\AirportsBundle\Admin\AirportCategoryTranslationsAdmin
+        arguments: [~, NewVision\AirportsBundle\Entity\AirportCategoryTranslation, ~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, show_in_dashboard: false}
+        calls:
+            - [ setTranslationDomain, [%newvision.airports.admin.airports.translation%]]

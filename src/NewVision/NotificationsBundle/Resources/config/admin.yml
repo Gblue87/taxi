@@ -1,0 +1,18 @@
+parameters:
+    newvision.notifications.admin.notifications.class: NewVision\NotificationsBundle\Admin\NotificationsAdmin
+    newvision.notifications.admin.notifications.controller: NewVisionCoreBundle:BatchCRUD
+    newvision.notifications.admin.notifications.translation: NewVisionNotificationsBundle
+
+
+services:
+    newvision.notifications.admin.notifications:
+        class: %newvision.notifications.admin.notifications.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "newvision_site", label: "newvision_notifications" }
+        arguments:
+            - ~
+            - %newvision.notifications.admin.notifications.entity%
+            - %newvision.notifications.admin.notifications.controller%
+        calls:
+            - [ setTranslationDomain, [%newvision.notifications.admin.notifications.translation%]]
+            - [ setTemplates, [outer_list_rows_mosaic: NewVisionCoreBundle:Admin:list_outer_rows_mosaic.html.twig]]

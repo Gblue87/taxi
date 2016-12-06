@@ -1,0 +1,47 @@
+Menu List: 'Menu List'
+Menu Delete: 'Menu Delete'
+
+
+Publish Workflow: 'Publish Workflow'
+
+list:
+  title: 'Title'
+  path: 'Path'
+  is_hidden: 'Hidden?'
+  created_at: 'Created at'
+  actions: 'Actions'
+
+form:
+  parent: 'Parent'
+  slug: 'Slug'
+  translations: 'Translations'
+  title: 'Title'
+  is_hidden: 'Hidden?'
+  url: 'URL'
+  target: 'Open in'
+  general: 'General'
+  more: 'More'
+  path: 'Path'
+  created_at: 'Created at'
+  icon: 'Icon'
+  class: 'CSS class'
+  sub_title: 'Sub title'
+  label_actions: 'Actions'
+  label_image: 'Image'
+
+menu:
+  item: 'Основни'
+  list: 'List'
+  tree: 'Tree'
+
+action:
+  list: 'List'
+  tree: 'Tree'
+  trash: 'Trash'
+
+select.parent: 'Select parent item'
+
+self: 'This window'
+blank: 'New window'
+newvision_menu: 'Menu'
+Actions: 'Actions'

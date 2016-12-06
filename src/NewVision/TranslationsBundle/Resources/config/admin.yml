@@ -1,0 +1,30 @@
+# NewVision/TranslationsBundle/Resources/config/admin.yml
+
+parameters:
+    newvision.translations.admin.translations.class: NewVision\TranslationsBundle\Admin\TranslationsAdmin
+    newvision.translations.admin.translations.unit.class: NewVision\TranslationsBundle\Admin\TransUnitAdmin
+    newvision.translations.admin.translations.controller: NewVisionTranslationsBundle:Admin
+    newvision.translations.admin.translations.translation: NewVisionTranslationsBundle
+
+services:
+    newvision.translations.admin.translations:
+        class: %newvision.translations.admin.translations.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "newvision_settings", label: "newvision_translations" }
+        arguments:
+            - ~
+            - NewVision\TranslationsBundle\Entity\Translation
+            - %newvision.translations.admin.translations.controller%
+        calls:
+            - [ setTranslationDomain, [%newvision.translations.admin.translations.translation%]]
+
+    newvision.translations.admin.translations.unit:
+        class: %newvision.translations.admin.translations.unit.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, show_in_dashboard: false }
+        arguments:
+            - ~
+            - NewVision\TranslationsBundle\Entity\TransUnit
+            - ~
+        calls:
+            - [ setTranslationDomain, [%newvision.translations.admin.translations.translation%]]

@@ -1,0 +1,46 @@
+newvision_airports: 'Airport Transfers'
+newvision_airport_categories: 'Airport categories'
+
+Publish Workflow: Publish Workflow
+Meta Data: 'Meta data'
+
+form:
+    translations: 'Translations'
+    slug: 'Slug'
+    title: 'Title'
+    image: 'Listing Image'
+    gallery: 'Gallery'
+    airport: 'Airports'
+    categories: 'Airport categories'
+    description: 'Description'
+    simpleDescription: 'Simple Description'
+    youTubeVideo: "YouTube Video"
+    parent: 'Parent'
+    referenceNo: 'Reference number'
+    price: 'Price'
+    tabDescription: 'Tab Description'
+    tabTech: 'Tab Technical Specification'
+    tabVideo: 'Tab Video'
+    showSocialIcons: 'Show social icons'
+    button_title: 'Enquiry button name'
+    button_title: 'Enquiry button name'
+    doublePrice: 'Price 5-8'
+    from: 'From'
+    destination: 'Destination'
+    isHomepage: 'On homepage ?'
+
+tab:
+    general: 'General'
+    seo: 'SEO'
+    publish_workflow: 'Publish Workflow'
+    tabs: 'Tabs'
+
+list:
+    title: 'Title'
+    tab: 'Tab'
+    isActive: 'Is Active?'
+    category: 'Airport category'
+
+actions: 'Actions'
+select:
+  parent: '-- Please choose --'

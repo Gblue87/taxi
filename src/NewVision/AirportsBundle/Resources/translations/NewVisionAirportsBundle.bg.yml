@@ -1,0 +1,44 @@
+newvision_airports: 'Трансфер литища'
+newvision_airport_categories: 'Услуги категории'
+
+Publish Workflow: 'Видимост в сайта'
+Meta Data: 'Мета данни'
+
+form:
+    translations: 'Преводи'
+    slug: 'Слъг'
+    title: 'Заглавие'
+    image: 'Изображение в листинга'
+    gallery: 'Галерия'
+    airport: 'Продукти'
+    categories: 'Категории услуги'
+    description: 'Описание'
+    simpleDescription: 'Кратко описание'
+    youTubeVideo: "YouTube Видео"
+    parent: 'Родител'
+    referenceNo: 'Референтен номер'
+    price: 'Цена'
+    tabDescription: 'Таб Описание'
+    tabTech: 'Таб Технически характеристики'
+    tabVideo: 'Таб Видео'
+    showSocialIcons: 'Покажи социалните икони'
+    button_title: 'Име на бутон за запитване'
+    from: 'Oт'
+    to: 'До'
+    doublePrice: 'Двойна цена'
+
+tab:
+    general: 'Основни'
+    seo: 'SEO'
+    publish_workflow: 'Видимост в сайта'
+    tabs: 'Табове'
+
+list:
+    title: 'Заглавие'
+    tab: 'Таб'
+    isActive: 'Активен?'
+    category: 'Продуктова категория'
+
+actions: 'Действия'
+select:
+  parent: '-- Моля изберете --'

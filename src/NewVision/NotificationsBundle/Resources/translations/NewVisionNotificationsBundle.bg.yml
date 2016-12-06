@@ -1,0 +1,29 @@
+Аccent List: 'Нотификации'
+Аccent Delete: 'Изтрий'
+
+newvision_notifications: 'Нотификации'
+menu.item: 'Основни'
+form:
+  created_at: 'Дата на създаване'
+  description: 'Описание'
+  id: 'Уникален номер'
+  general: 'Основни'
+  label_image: 'Изображение'
+  more: 'Допълнителни'
+  type: 'Тип'
+  title: 'Заглавие'
+  translations: 'Преводи'
+  target: 'Отвори'
+  url: 'Линк'
+  isActive: 'Активен'
+  subTitle: 'Второ заглавие'
+  buttonTitle: 'Бутон'
+  time: 'Време (в милисекунди)'
+
+tab:
+  general: 'Основни'
+  more: 'Допълнителни'
+
+table.label_actions: 'Действия'
+
+Publish Workflow: 'Видимост в сайта'

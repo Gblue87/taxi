@@ -1,0 +1,5 @@
+form:
+    fromDate: От дата
+    toDate: До дата
+    isActive: Активен?
+    isHidden: Скрит в сайта?

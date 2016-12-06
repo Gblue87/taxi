@@ -1,0 +1,11 @@
+services:
+    newvision.admin.newsletter:
+        class: NewVision\NewsletterBundle\Admin\NewsletterAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "newvision_site", label: "newvision_newsletter" }
+        arguments:
+            - ~
+            - NewVision\NewsletterBundle\Entity\Newsletter
+            - NewVisionNewsletterBundle:NewsletterCRUD
+        calls:
+            - [ setTranslationDomain, [NewVisionNewsletterBundle]]

@@ -1,0 +1,18 @@
+newvision_custom_blocks: 'Блокове'
+menu.item: 'Основни'
+form:
+    general: 'Основни'
+    id: 'Уникален номер'
+    title: 'Заглавие'
+    description: 'Описание'
+    translations: 'Преводи'
+    createdАt: 'Дата на създаване'
+    isActive: 'Активен'
+
+tab:
+  general: 'Основни'
+  more: 'Допълнителни'
+
+table.label_actions: 'Действия'
+
+Publish Workflow: 'Видимост в сайта'

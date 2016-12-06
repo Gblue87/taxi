@@ -1,0 +1,25 @@
+parameters:
+    newvision_seo.form.type.meta_data.class: NewVision\SEOBundle\Form\Type\MetaDataType
+    newvision_seo.form.type.meta_data_value.class: NewVision\SEOBundle\Form\Type\MetaDataValueType
+    newvision_seo.event.listener.seo.class: NewVision\SEOBundle\EventListener\SeoListener
+
+
+services:
+    newvision_seo.event.listener.seo:
+        class: %newvision_seo.event.listener.seo.class%
+        tags:
+            - { name: kernel.event_listener, event: newvision.seo, method: onLoadSeo }
+        arguments:
+            - @sonata.seo.page
+            - @request_stack
+            - @translator
+
+    newvision_seo.form.type.meta_data:
+        class: %newvision_seo.form.type.meta_data.class%
+        tags:
+            - { name: form.type, alias: meta_data }
+
+    newvision_seo.form.type.meta_data_value:
+        class: %newvision_seo.form.type.meta_data_value.class%
+        tags:
+            - { name: form.type, alias: meta_data_value }

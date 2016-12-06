@@ -1,0 +1,38 @@
+{% if popUp is defined and popUp is not null and popUp|length %}
+    <div class="popup popupSurvey">
+        <p class="title">{{ popUp.title }}</p>
+
+        {% if popUp.subTitle is defined and popUp.subTitle is not null and popUp.subTitle|length %}
+            <p class="titleSub">{{ popUp.subTitle }}</p>
+        {% endif %}
+
+        <div class="btns">
+            <a href="{{ popUp.url }}" target="{{ popUp.target }}" class="btnSecondary">{{ popUp.buttonTitle }}</a>
+        </div>
+
+        <a href="javascript:;" class="btnClose" id="jsPopupClose"></a>
+    </div><!-- /.popup -->
+
+    <script>
+    $(document).on('ready', function() {
+        var $popupSurvey = $('.popupSurvey');
+        var $btnClose = $('#jsPopupClose');
+
+        $('.popupSurvey .btnWhite').on('click', function(e){
+            e.preventDefault();
+            $popupSurvey.removeClass('is-open');
+            var anchor = $(this);
+            var href = anchor.attr('href');
+            if (anchor.attr('target') == '_blank') {
+                window.open(href);
+            } else {
+                window.location = href;
+            }
+        });
+
+        $btnClose.on('click', function() {
+            $popupSurvey.removeClass('is-open');
+        });
+    });
+    </script>
+{% endif %}

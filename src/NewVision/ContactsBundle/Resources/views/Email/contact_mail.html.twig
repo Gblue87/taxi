@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Contact Form</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<style>
+		strong, a { color: #2d8aca; }
+		a:hover { text-decoration: none; }
+	</style>
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif; background: #ededed; text-align: center; color: #444; font-size: 15px;">
+	<table cellpadding="20" style="background: #fff; width:600px; text-align: left; margin: 20px auto; border: 1px solid #e6e6e6; border-bottom: 2px solid #e1e1e1; border-collapse: collapse;">
+		<tr>
+			<th colspan="2" style="text-align: center; border-bottom: 1px solid #ededed;">
+				<img src="{{ app.request.getSchemeAndHttpHost() }}/images/logo.png" alt="Logo">
+			</th>
+		</tr>
+		<tr>
+			<td style="width: 25%; border-right: 1px solid #e6e6e6; border-bottom: 1px solid #e6e6e6;"><strong>{{ 'contact.name'|trans({}, "NewVisionFrontendBundle")}}</strong></td>
+			<td style="border-bottom: 1px solid #e6e6e6;">{{data.name}}</td>
+		</tr>
+		<tr>
+			<td style="width: 25%; border-right: 1px solid #e6e6e6; border-bottom: 1px solid #e6e6e6;"><strong>{{ 'contact.family'|trans({}, "NewVisionFrontendBundle")}}</strong></td>
+			<td style="border-bottom: 1px solid #e6e6e6;">{{data.family}}</td>
+		</tr>
+		{% if data.phone is defined and data.phone is not null and data.phone|length %}
+			<tr>
+				<td style="width: 25%; border-right: 1px solid #e6e6e6; border-bottom: 1px solid #e6e6e6;"><strong>{{ 'contact.phone'|trans({}, "NewVisionFrontendBundle")}}</strong></td>
+				<td style="border-bottom: 1px solid #e6e6e6;">{{data.phone}}</td>
+			</tr>
+		{% endif %}
+		<tr>
+			<td style="width: 25%; border-right: 1px solid #e6e6e6; border-bottom: 1px solid #e6e6e6;"><strong>{{ 'contact.email'|trans({}, "NewVisionFrontendBundle")}}</strong></td>
+			<td style="border-bottom: 1px solid #e6e6e6;">{{data.email}}</td>
+		</tr>
+		<tr>
+			<td style="width: 25%; border-right: 1px solid #e6e6e6; border-bottom: 1px solid #e6e6e6;"><strong>{{ 'contact.subject'|trans({}, "NewVisionFrontendBundle")}}</strong></td>
+			<td style="border-bottom: 1px solid #e6e6e6;">{{data.subject}}</td>
+		</tr>
+		<tr>
+			<td style="width: 25%; border-right: 1px solid #e6e6e6; border-bottom: 1px solid #e6e6e6;"><strong>{{ 'contact.message'|trans({}, "NewVisionFrontendBundle")}}</strong></td>
+			<td style="border-bottom: 1px solid #e6e6e6;">{{data.message}}</td>
+		</tr>
+	</table>
+</body>
+</html>

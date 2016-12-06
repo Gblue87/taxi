@@ -1,0 +1,32 @@
+td_revision: 'Revision'
+td_timestamp: 'Date'
+td_username: 'Administrator'
+td_action: 'Actions'
+label_view_revision: 'View revision'
+action_edit: 'View'
+action_history: 'History'
+
+label_revert_to_revision: 'Back to this revision'
+not_found_revisions: 'Not found revisions'
+
+action_show: Active selected item
+action_hide: Hide selected items
+
+title_untrash: 'Restore'
+message_untrash_confirmation: 'Are you sure you want to restore this record?'
+untrash_or: 'or'
+link_action_trash: 'Trash'
+btn_untrash: 'Restore'
+action_restore: 'Restore'
+
+flash_untrash_successfull: 'The item is restored successful'
+flash_untrash_error: 'The item is not restored'
+action:
+  list: 'List'
+  tree: 'Tree'
+  trash: 'Trash'
+
+action_delete: 'Delete'
+
+order_success: 'Order was saved successfuly!'
+order_error: 'An error occured during saving of your order!'

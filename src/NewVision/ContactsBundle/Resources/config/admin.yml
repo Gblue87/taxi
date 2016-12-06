@@ -1,0 +1,18 @@
+parameters:
+    newvision.contacts.admin.contacts.class: NewVision\ContactsBundle\Admin\ContactsAdmin
+    newvision.contacts.admin.contacts.controller: NewVisionCoreBundle:BatchCRUD
+    newvision.contacts.admin.contacts.translation: NewVisionContactsBundle
+
+
+services:
+    newvision.contacts.admin.contacts:
+        class: %newvision.contacts.admin.contacts.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "newvision_site", label: "newvision_contacts" }
+        arguments:
+            - ~
+            - NewVision\ContactsBundle\Entity\Contact
+            - %newvision.contacts.admin.contacts.controller%
+        calls:
+            - [ setTranslationDomain, [%newvision.contacts.admin.contacts.translation%]]
+            - [ setTemplates, [outer_list_rows_mosaic: NewVisionCoreBundle:Admin:list_outer_rows_mosaic.html.twig]]

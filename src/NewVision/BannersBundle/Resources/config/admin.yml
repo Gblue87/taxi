@@ -1,0 +1,24 @@
+parameters:
+    newvision.banners.admin.banners.class: NewVision\BannersBundle\Admin\BannersAdmin
+    newvision.banners.admin.banners.controller: NewVisionCoreBundle:SortableCRUD
+    newvision.banners.admin.banners.translation: NewVisionBannersBundle
+
+
+services:
+    newvision.banners.admin.banners:
+        class: %newvision.banners.admin.banners.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "newvision_site", label: "newvision_banners" }
+        arguments:
+            - ~
+            - %newvision.banners.admin.banners.entity%
+            - %newvision.banners.admin.banners.controller%
+        calls:
+            - [ setTranslationDomain, [%newvision.banners.admin.banners.translation%]]
+            - [ setTemplates, [outer_list_rows_mosaic: NewVisionCoreBundle:Admin:list_outer_rows_mosaic.html.twig]]
+
+    newvision.banners.admin.banners_translation:
+        class: NewVision\BannersBundle\Admin\BannerTranslationsAdmin
+        arguments: [~, NewVision\BannersBundle\Entity\BannerTranslation, ~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, show_in_dashboard: false}

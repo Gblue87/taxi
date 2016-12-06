@@ -1,0 +1,27 @@
+Аccent List: 'Notifications List'
+Аccent Delete: 'Notifications Delete'
+
+newvision_notifications: 'Notifications'
+form:
+  created_at: 'Created at'
+  description: 'Description'
+  id: 'ID'
+  general: 'General'
+  label_image: 'Image'
+  more: 'More'
+  type: 'Type'
+  title: 'Title'
+  translations: 'Translations'
+  target: 'Target'
+  url: 'URL address'
+  subTitle: 'Sub Title'
+  buttonTitle: 'Button title'
+  time: 'Time (in ms)'
+
+tab:
+  general: 'General'
+  more: 'More'
+
+table.label_actions: 'Actions'
+
+Publish Workflow: 'Publish Workflow'

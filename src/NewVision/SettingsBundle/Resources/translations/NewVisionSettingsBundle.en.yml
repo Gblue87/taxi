@@ -1,0 +1,8 @@
+Setting List: 'Settings List'
+Setting Delete: 'Settings Delete'
+newvision_settings: Settings
+settings:
+  label: Label
+  name: Name
+  value: Value
+  visible: Visible

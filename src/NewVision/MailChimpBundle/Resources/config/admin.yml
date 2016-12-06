@@ -1,0 +1,18 @@
+parameters:
+    newvision.mailchimp.admin.mailchimp.class: NewVision\MailChimpBundle\Admin\MailChimpAdmin
+    newvision.mailchimp.admin.mailchimp.controller: NewVisionCoreBundle:HistoryCRUD
+    newvision.mailchimp.admin.mailchimp.translation: NewVisionMailChimpBundle
+
+
+services:
+    newvision.mailchimp.admin.mailchimp:
+        class: %newvision.mailchimp.admin.mailchimp.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "newvision_site", label: "newvision_mail_chimp" }
+        arguments:
+            - ~
+            - %newvision.mailchimp.admin.mailchimp.entity%
+            - %newvision.mailchimp.admin.mailchimp.controller%
+        calls:
+            - [ setTranslationDomain, [%newvision.mailchimp.admin.mailchimp.translation%]]
+            - [ setTemplates, [outer_list_rows_mosaic: NewVisionCoreBundle:Admin:list_outer_rows_mosaic.html.twig]]

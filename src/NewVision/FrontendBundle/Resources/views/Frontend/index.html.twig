@@ -1,0 +1,142 @@
+{% extends '::base.html.twig' %}
+
+{% block main %}
+    <section class="index-top">
+        {% if sliderBlock is defined and sliderBlock is not null and sliderBlock|length %}
+            <div class="center article">
+                {{sliderBlock.description|raw}}
+            </div>
+        {% endif %}
+        <div class="taxiChester">
+            <div class="car incoming">
+                <img src="/images/taxichester.png" alt="taxichester" />
+                <div class="wheel cf"></div>
+                <div class="wheel cb"></div>
+                <div class="lights cf"></div>
+                <div class="lights cb"></div>
+            </div>
+        </div>
+        <div class="center">
+            <form action="{{path('new_order')}}" method="post">
+                <div class="frow">
+                    <div class="ffield">
+                        <label for="from">{{ 'from'|trans({}, "NewVisionFrontendBundle")}}</label>
+                        <input id="from" type="text" name="from" value="" placeholder="Enter location">
+                    </div>
+                    <div class="ffield">
+                        <label for="to">{{ 'to'|trans({}, "NewVisionFrontendBundle")}}</label>
+                        <input id="to" type="text" name="to" value="" placeholder="Enter location">
+                    </div>
+                    <div class="ffield datetime">
+                        <label for="date">{{ 'date_time'|trans({}, "NewVisionFrontendBundle")}}</label>
+                        <span class="picker-wrapper"><input  id="date" type="text" name="date" value="" placeholder="Date"></span>
+                        <span class="picker-wrapper relative"><input id="time" type="text" name="time" value="" placeholder="Time"></span>
+                    </div>
+                    <div class="ffield">
+                        <label for="passengers">{{ 'passangers'|trans({}, "NewVisionFrontendBundle")}}</label>
+                        <input id="passengers" name="passengers" type="text" value="2">
+                    </div>
+                </div>
+                <div class="frow">
+                    <div class="ffield">
+                        <label for="rj">{{ 'return_journey'|trans({}, "NewVisionFrontendBundle")}}</label>
+                        <input id="rj" type="checkbox" name="" class="disabling">
+                        <div class="ffield datetime">
+                            <span class="picker-wrapper"><input id="date2" type="text" name="date2" value="" placeholder="Date" disabled=""></span>
+                            <span class="picker-wrapper relative"><input id="time2" type="text" name="time2" value="" placeholder="Time" disabled=""></span>
+                        </div>
+                    </div>
+                    <div class="ffield">
+                        <label for="vias">{{ 'add_via'|trans({}, "NewVisionFrontendBundle")}}</label>
+                        <input id="vias" type="checkbox" class="disabling" >
+                        <div class="ffield datetime">
+                            <input id="vias_location" type="text" name="vias_location" value="" placeholder="Enter location" disabled="">
+                        </div>
+                    </div>
+                </div>
+                <div class="frow">
+                    <a href="#go"  class="mbtn mbtn-orange mbtn-big">{{ 'book_now'|trans({}, "NewVisionFrontendBundle")}}</a>
+<!--                         <input id="" type="submit" name="submit" value="Book now" class="mbtn mbtn-orange mbtn-big"> -->
+                </div>
+            </form>
+        </div>
+    </section>
+    {% if airports is defined and airports is not null and airports|length %}
+        <section class="wbgr">
+            <div class="center">
+                <h1 class="title">{{ 'airport_transfers'|trans({}, "NewVisionFrontendBundle")}}</h1>
+                <div class="slider-wrapper">
+                    <div id="airport_slider" class="slider">
+                        {% for item in airports %}
+                            <div class="slide">
+                                <div class="img-wrap">
+                                    {% thumbnail item.translations[app.request.locale].image, 'index' with { 'alt': item.translations[app.request.locale].image.title } %}
+                                    <div class="hover">
+                                        <a href="{{ path("airport_view", {'slug': item.slug }) }}?point=from"><span class="orient">{{ 'from'|trans({}, "NewVisionFrontendBundle")}} <i></i></span></a>
+                                        <a href="{{ path("airport_view", {'slug': item.slug }) }}?point=to"><span class="orient"><i></i>{{ 'to'|trans({}, "NewVisionFrontendBundle")}}</span></a></div></div>
+                                <span class="title">{{item.title}}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    {% if hotels is defined and hotels is not null and hotels|length %}
+        <section class="gbgr">
+            <div class="center">
+                <h1 class="title">{{ 'hotel_transfers'|trans({}, "NewVisionFrontendBundle")}}</h1>
+                <div class="slider-wrapper">
+                    <div id="airport_slider" class="slider">
+                        {% for item in hotels %}
+                            <div class="slide">
+                                <div class="img-wrap">
+                                    {% thumbnail item.translations[app.request.locale].image, 'index' with { 'alt': item.translations[app.request.locale].image.title } %}
+                                    <div class="hover">
+                                        <a href="{{ path("hotel_view", {'slug': item.slug}) }}?point=from"><span class="orient">{{ 'from'|trans({}, "NewVisionFrontendBundle")}} <i></i></span></a>
+                                        <a href="{{ path("hotel_view", {'slug': item.slug}) }}?point=to"><span class="orient"><i></i>{{ 'to'|trans({}, "NewVisionFrontendBundle")}}</span></a></div></div>
+                                <span class="title">{{item.title}}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    {% if aboutUsBlock is defined and aboutUsBlock is not null and aboutUsBlock|length %}
+        <section class="wbgr">
+            <div class="car2">
+                <div class="center">
+                    <h1 class="title">{{aboutUs.title}}</h1>
+                    <div class="w50">
+                        <article >
+                            {{aboutUsBlock.description|raw}}
+                        </article>
+                        <a href="{{ path("content", {'slug': aboutUs.slug}) }}" class="readmore mbtn mbtn-orange">read more</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}
+
+
+{% block footerJS %}
+    {{ parent() }}
+
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCtm2xZxd09GKAPHypwLhKwjFiVKxDZIW4"></script>
+    <script>
+        $(function(){
+            var gebid = function(id) { return document.getElementById(id) };
+            var opts = { componentRestrictions: { country: "uk"}};
+            var fromValue = $('input[id$="from"]');
+            var toValue = $('input[id$="to"]');
+            google.maps.event.addDomListener(window, 'load', function () {
+                userPoint = new google.maps.places.Autocomplete(fromValue[0], opts);
+                userPoint2 = new google.maps.places.Autocomplete(toValue[0], opts);
+                vias =  new google.maps.places.Autocomplete(gebid('vias_location'), opts);
+                directionsDisplay = new google.maps.DirectionsRenderer({ draggable: false});
+            });
+        })
+    </script>
+{% endblock %}

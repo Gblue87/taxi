@@ -1,0 +1,20 @@
+{
+    "name": "newvision/publish-workflow-bundle",
+    "description": "This Symfony bundle provide easy way to create news pages",
+    "keywords": ["Symfony", "news", "Bundle"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hristo Hristoff",
+            "email": "hristo.hristov@newvision.bg"
+        }
+    ],
+    "require": {
+        "newvision/core-bundle": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "NewVision\\PublishWorkflowBundle": "" }
+    },
+    "target-dir": "NewVision/PublishWorkflowBundle"
+}

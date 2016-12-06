@@ -1,0 +1,21 @@
+{% extends '::base.html.twig' %}
+
+{% block main %}
+    {% include '::breadCrumbs.html.twig' with {'breadCrumbs':breadCrumbs} %}
+
+    <section id="main">
+        {% include '::headerImage.html.twig' with {'content':content} %}
+
+        <div class="mainBody">
+            <div class="wrapper">
+                <div class="mainContent full">
+                    {% if content.description is defined and content.description is not null and content.description|length %}
+                        <article class="article">
+                            {{ content.description|raw }}
+                        </article><!-- /.article -->
+                    {% endif %}
+                </div><!-- /.mainContent -->
+            </div><!-- /.wrapper -->
+        </div><!-- /.mainBody -->
+    </section>
+{% endblock %}

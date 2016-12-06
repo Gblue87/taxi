@@ -1,0 +1,42 @@
+{% if banners is defined and banners is not null and banners|length %}
+    <div class="accent accentBanners">
+        <div class="wrapper">
+            <div class="bannersAccent">
+                {% for banner in banners %}
+                    {% set haveUrl = false %}
+                    {% if banner.url is defined and banner.url is not null and banner.url|length %}
+                        {% set haveUrl = true %}
+                    {% endif %}
+                    
+                    {% if banner.translations[app.request.locale].image is defined and banner.translations[app.request.locale].image is not null and banner.translations[app.request.locale].image|length %}
+                        <div class="bannersAccentItem {{ banner.type }}">
+                            <a {% if haveUrl %}href="{{ banner.url }}" class="photo" target="_self"{% else %}href="javascript:;"{% endif %}>
+                                {% thumbnail banner.translations[app.request.locale].image, 'reference' with { 'alt': banner.title } %}
+                                
+                                {% if banner.labelTitle is defined and banner.labelTitle is not null and banner.labelTitle|length %}
+                                    <p class="label {{banner.labelType}}">{{banner.labelTitle}}</p>
+                                {% endif %}
+                            </a>
+
+                            <div class="content">
+                                <p class="title">{{banner.title}}</p>
+                                
+                                {% if banner.subTitle is defined and banner.subTitle is not null and banner.subTitle|length %}
+                                    <div class="text">
+                                        <p>{{banner.subTitle}}</p>
+                                    </div><!-- /.text -->
+                                {% endif %}
+
+                                {% if banner.buttonTitle is defined and banner.buttonTitle is not null and banner.buttonTitle|length %}
+                                    <div class="more">
+                                        <a {% if haveUrl %}href="{{ banner.url }}" target="_self"{% else %}href="javascript:;"{% endif %}>{{banner.buttonTitle}}</a>
+                                    </div><!-- /.more -->
+                                {% endif %}
+                            </div><!-- /.content -->
+                        </div><!-- /.bannersAccentItem -->
+                    {% endif %}
+                {% endfor %}
+            </div><!-- /.bannersAccent -->
+        </div><!-- /.wrapper -->
+    </div><!-- /.accent -->
+{% endif %}

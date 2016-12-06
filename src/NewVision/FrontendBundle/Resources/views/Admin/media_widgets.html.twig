@@ -1,0 +1,35 @@
+{% block sonata_media_type_widget %}
+    <div class="row">
+        <div class="col-md-4 pull-left">
+            {% if value is not empty and value.providerReference and value.id is not empty %}
+                {% if 'file' not in value.providerName %}
+                    <div class="pull-left" style="margin-right: 5px">
+                        {% thumbnail value, 'admin' with {'class': 'img-polaroid media-object' , 'width': 120, 'height': 120} %}
+                    </div>
+                {% endif %}
+
+                {% if sonata_admin_enabled is defined and sonata_admin_enabled %}
+                    <a href="{{ url('admin_sonata_media_media_edit', {id: value.id}) }}"><strong>{{ value.name }}</strong></a>
+                    {% if 'file' not in value.providerName %}
+                        <p>{{value.width}} X {{value.height}} px</p>
+                        <p>{{(value.size / 1048576)|number_format(2)}} MB</p>
+                        <p>{{value.contentType}}</p>
+                    {% endif %}
+                {% else %}
+                    <strong>{{ value.name }}</strong>
+                {% endif %}
+                 <br />
+                <span type="label">{{ value.providerName|trans({}, 'SonataMediaBundle') }}</span>
+            {% else %}
+                <div class="pull-left" style="margin-right: 5px">
+                    <img src="{{ asset('bundles/sonatamedia/grey.png') }}" class="img-polaroid media-object" style="width: 120px; height: 120px"/>
+                </div>
+                <span type="label">{{ form.vars['provider']|trans({}, 'SonataMediaBundle') }}</span>
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            {{ block('form_widget') }}
+        </div>
+    </div>
+    <hr>
+{% endblock sonata_media_type_widget %}

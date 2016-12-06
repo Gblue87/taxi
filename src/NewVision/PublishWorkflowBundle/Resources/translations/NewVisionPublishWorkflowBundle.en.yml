@@ -1,0 +1,5 @@
+form:
+    fromDate: From date
+    toDate: To date
+    isActive: Is Active?
+    isHidden: Is Hidden?

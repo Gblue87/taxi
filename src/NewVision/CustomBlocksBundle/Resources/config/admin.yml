@@ -1,0 +1,18 @@
+parameters:
+    newvision.custom_blocks.admin.custom_blocks.class: NewVision\CustomBlocksBundle\Admin\CustomBlocksAdmin
+    newvision.custom_blocks.admin.custom_blocks.controller: NewVisionCoreBundle:SortableCRUD
+    newvision.custom_blocks.admin.custom_blocks.translation: NewVisionCustomBlocksBundle
+
+
+services:
+    newvision.custom_blocks.admin.custom_blocks:
+        class: %newvision.custom_blocks.admin.custom_blocks.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "newvision_site", label: "newvision_custom_blocks" }
+        arguments:
+            - ~
+            - %newvision.custom_blocks.admin.custom_blocks.entity%
+            - %newvision.custom_blocks.admin.custom_blocks.controller%
+        calls:
+            - [ setTranslationDomain, [%newvision.custom_blocks.admin.custom_blocks.translation%]]
+            - [ setTemplates, [outer_list_rows_mosaic: NewVisionCoreBundle:Admin:list_outer_rows_mosaic.html.twig]]

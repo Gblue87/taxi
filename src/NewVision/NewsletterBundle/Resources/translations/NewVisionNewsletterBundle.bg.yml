@@ -1,0 +1,6 @@
+newvision_newsletter: 'Newsletter'
+form:
+  email: 'Имейл'
+  createdAt: 'Създаден на'
+  mailChimpStatus: 'Статус в MailChimp'
+actions: 'Действия'

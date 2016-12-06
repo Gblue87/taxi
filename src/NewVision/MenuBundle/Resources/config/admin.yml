@@ -1,0 +1,13 @@
+parameters:
+    newvision_menu.admin.menu.admin.class: NewVision\MenuBundle\Admin\MenuAdmin
+    newvision_menu.admin.menu.controller.class: NewVisionCoreBundle:TreeCRUD
+    newvision_menu.admin.menu.translation.domain: NewVisionMenuBundle
+
+services:
+    newvision_menu.admin.menu:
+        class: %newvision_menu.admin.menu.admin.class%
+        arguments: [~, NewVision\MenuBundle\Entity\Menu, %newvision_menu.admin.menu.controller.class%]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: newvision_settings, label: newvision_menu }
+        calls:
+            - [ setTranslationDomain, [%newvision_menu.admin.menu.translation.domain%]]

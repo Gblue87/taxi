@@ -1,0 +1,22 @@
+{% extends '::base.html.twig' %}
+
+{% import '::renderSocials.html.twig' as renderSocials %}
+
+{% block main %}
+    {# {% include '::breadCrumbs.html.twig' with {'breadCrumbs':breadCrumbs} %} #}
+        {# {% include '::headerImage.html.twig' with {'content':content} %} #}
+         <div class="inner-page">
+            <div class="page-header">
+                <div class="center">
+                    <h1 class="title">{{content.title}}</h1>
+                </div>
+            </div>
+            <div class="center">
+                {% if content.description is defined and content.description is not null and content.description|length %}
+                    <article class="article">
+                        {{ content.description|graw }}
+                    </article>
+                {% endif %}
+            </div>
+        </div>
+{% endblock %}

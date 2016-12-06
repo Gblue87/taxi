@@ -1,0 +1,81 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends base_template %}
+
+{% block actions %}
+    <li>{% include 'SonataAdminBundle:Button:edit_button.html.twig' %}</li>
+    <li>{% include 'SonataAdminBundle:Button:acl_button.html.twig' %}</li>
+    <li>{% include 'SonataAdminBundle:Button:show_button.html.twig' %}</li>
+    <li>{% include 'SonataAdminBundle:Button:list_button.html.twig' %}</li>
+{% endblock %}
+
+{% block tab_menu %}{{ knp_menu_render(admin.sidemenu(action), {'currentClass' : 'active'}, 'list') }}{% endblock %}
+
+{% block content %}
+
+    <div class="col-md-5">
+        {% if revisions|length == 0 %}
+            <p>{{ "not_found_revisions"|trans({}, 'NewVisionCoreBundle') }}</p>
+        {% else %}
+            <table class="table" id="revisions">
+                <thead>
+                    <tr>
+                        <th>{{ "td_revision"|trans({}, 'NewVisionCoreBundle') }}</th>
+                        <th>{{ "td_timestamp"|trans({}, 'NewVisionCoreBundle') }}</th>
+                        <th>{{ "td_username"|trans({}, 'NewVisionCoreBundle') }}</th>
+                        <th>{{ "td_action"|trans({}, 'NewVisionCoreBundle') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for revision in revisions %}
+                        <tr>
+                            <td>{{ revision.version}}</td>
+                            <td>{{ revision.loggedAt | date }}</td>
+                            <td>{{ revision.username}}</td>
+                            <td>
+                                <a href="{{ admin.generateObjectUrl('history_view_revision', object, {'revision': revision.version, 'locale' : locale }) }}" class="revision-link" rel="{{ revision.version }}">{{ "label_view_revision"|trans({}, 'NewVisionCoreBundle') }}</a>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+    <div id="revision-detail" class="col-md-7 revision-detail">
+
+    </div>
+
+    <script>
+        jQuery(document).ready(function() {
+
+            jQuery('a.revision-link').bind('click', function(event) {
+                event.stopPropagation();
+                event.preventDefault();
+
+                jQuery('#revision-detail').html('');
+                jQuery('table#revisions tbody tr').removeClass('current');
+                jQuery(this).parent('').removeClass('current');
+
+                jQuery.ajax({
+                    url: jQuery(this).attr('href'),
+                    dataType: 'html',
+                    success: function(data) {
+                        jQuery('#revision-detail').html(data);
+                    }
+                });
+
+                return false;
+            })
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,49 @@
+
+{% extends 'SonataAdminBundle:CRUD:base_list.html.twig' %}
+
+
+{% block table_body %}
+    {% if admin.list %}
+        <tbody>
+            {% for object in admin.datagrid.results %}
+                <tr id="item_{{object.id}}">
+                    {% include admin.getTemplate('inner_list_row') %}
+                </tr>
+            {% endfor %}
+
+        </tbody>
+        {% set filter =  app.request.get('filter') %}
+        <script type="text/javascript">
+            $(function() {
+                $( "table tbody" ).sortable({
+                    items: 'tr',
+                    placeholder: "ui-state-highlight",
+                    'start': function (event, ui) {
+                        ui.placeholder.attr('height', '60px')
+                    },
+                    'update': function(event,ui){
+                        var info = $(event.target).sortable('serialize');
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{admin.generateUrl('order')}}',
+                            data: info + '&page='+{{filter['_page'] is defined ? filter['_page'] : '1' }}+'&perPage='+{{filter['_per_page'] is defined ? filter['_per_page'] : '32'}},
+                         }).done(function(data){
+                            if (data.success) {
+                                $('.content').prepend($('<div id="removeAlert" class="alert alert-success alert-dismissable">'+
+                                    '<button class="close" data-dismiss="alert" type="button">×</button>'+
+                                    data.html+'</div>'));
+                            };
+                        }).fail(function(){
+                            ('.content').prepend($('<div id="removeAlert" class="alert alert-warning alert-dismissable">'+
+                                '<button class="close" data-dismiss="alert" type="button">×</button>'+
+                                data.html+'</div>'));
+                        });
+                     }
+                });
+                $( "table tbody" ).disableSelection();
+            });
+        </script>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

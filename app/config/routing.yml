@@ -1,0 +1,144 @@
+airports_bundle:
+    resource: "@NewVisionAirportsBundle/Controller"
+    type:     annotation
+    prefix:   /{_locale}
+    requirements:
+        _locale: "[a-z]{2}"
+# NewVisionAccentsBundle routes
+accents_bundle:
+    resource: "@NewVisionAccentsBundle/Controller"
+    type:     annotation
+    prefix:   /{_locale}
+    requirements:
+        _locale: "[a-z]{2}"
+
+# NewVisionCustomBlocksBundle routes
+custom_blocks:
+    resource: "@NewVisionCustomBlocksBundle/Controller"
+    type:     annotation
+    prefix:   /{_locale}
+    requirements:
+        _locale: "[a-z]{2}"
+
+# NewVisionServicesBundle routes
+services_bundle:
+    resource: "@NewVisionServicesBundle/Controller"
+    type:     annotation
+    prefix:   /{_locale}
+    requirements:
+        _locale: "[a-z]{2}"
+
+# NewVisionMailChimpBundle routes
+mail_chimp:
+    resource: "@NewVisionMailChimpBundle/Controller"
+    type:     annotation
+    prefix:   /{_locale}
+    requirements:
+        _locale: "[a-z]{2}"
+
+# NewVisionFrontendBundle routes
+frontend_bundle:
+    resource: "@NewVisionFrontendBundle/Controller"
+    type:     annotation
+    prefix:   /{_locale}
+    requirements:
+        _locale: "[a-z]{2}"
+
+# NewVisionBannersBundle routes
+banners_bundle:
+    resource: "@NewVisionBannersBundle/Controller"
+    type:     annotation
+    prefix:   /{_locale}
+    requirements:
+        _locale: "[a-z]{2}"
+
+# NewVisionNewsletterBundle routes
+newsletter_bundle:
+    resource: "@NewVisionNewsletterBundle/Controller"
+    type:     annotation
+    prefix:   /{_locale}
+    requirements:
+        _locale: "[a-z]{2}"
+
+# NewVisionContactsBundle routes
+contacts_bundle:
+    resource: "@NewVisionContactsBundle/Controller"
+    type:     annotation
+    prefix:   /{_locale}
+    requirements:
+        _locale: "[a-z]{2}"
+
+# NewVisionSearchBundle routes
+search_bundle:
+    resource: "@NewVisionSearchBundle/Controller"
+    type:     annotation
+    prefix:   /{_locale}
+    requirements:
+        _locale: "[a-z]{2}"
+
+# NewVisionNotificationsBundle routes
+notifications_bundle:
+    resource: "@NewVisionNotificationsBundle/Controller"
+    type:     annotation
+    prefix:   /{_locale}
+    requirements:
+        _locale: "[a-z]{2}"
+
+admin:
+    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
+    prefix: /admin
+
+_sonata_admin:
+    resource: .
+    type: sonata_admin
+    prefix: /admin
+
+gallery:
+    resource: '@SonataMediaBundle/Resources/config/routing/gallery.xml'
+    prefix: /media/gallery
+
+media:
+    resource: '@SonataMediaBundle/Resources/config/routing/media.xml'
+    prefix: /media
+
+sonata_user:
+    resource: '@SonataUserBundle/Resources/config/routing/admin_security.xml'
+    prefix: /admin
+
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+    prefix: /{_locale}/
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting
+
+fos_user_profile_show:
+    pattern: /{_locale}/profile
+    defaults: { _controller: ApplicationSonataUserBundle:FrontendProfile:edit }
+
+fos_user_register:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix: /{_locale}/register
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /{_locale}/profile
+
+newvision_content:
+    resource: "@NewVisionContentBundle/Controller/"
+    type:     annotation
+    prefix:   /{_locale}
+    requirements:
+        _locale: "[a-z]{2}"
+
+newvision_tiny_mce:
+    resource: "@NewVisionTinyMCEBundle/Controller/"
+    type:     annotation
+
+no_culture:
+    pattern:   /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: homepage
+        permanent: true # this is for 301

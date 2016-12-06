@@ -1,0 +1,49 @@
+{% macro pager(item, slug ,paginator) %}
+    {% set currentPage = app.request.get('page') %}
+    {% set maxPage = (paginator.count / paginator.query.maxResults)|round(0, 'ceil')  %}
+    {% set startFrom = 1 %}
+    {% set end = maxPage %}
+
+    {% if maxPage > 5 %}
+        {# case of current page bigger than 3 #}
+        {% if currentPage - 2 > 1  %}
+            {% set startFrom = currentPage - 2 %}
+        {% endif %}
+
+        {# In the begining #}
+        {% if currentPage < 3 %}
+            {% set end = 5 %}
+        {% endif %}
+
+        {# Going near the end #}
+        {% if currentPage + 3 > maxPage %}
+            {% set startFrom = maxPage - 4 %}
+            {% set end = maxPage %}
+        {% endif %}
+    {% else %}
+        {% set end = maxPage %}
+    {% endif %}
+
+    {% if end > 1 or currentPage != 1 %}
+    <nav class="paging">
+        <ul>
+            <li class="prev" style="{% if currentPage == 1 %}display:none{% endif %}"> <a href="{{ path(item, {'page' : currentPage - 1, 'slug': slug}) }}"></a></li>
+            {% if end > 5 %}
+                <li><a href="{{ path(item, {'page' : 1, 'slug': slug}) }}">1</a></li>
+                <li class="dots">...</li>
+            {% endif %}
+
+            {% for i in startFrom..end %}
+                <li class="{% if i == currentPage %}active{% endif %}"><a href="{{ path(item, {'page' : i, 'slug': slug}) }}">{{i}}</a></li>
+            {% endfor %}
+
+            {% if currentPage + 2 < maxPage and maxPage > 5 %}
+                <li class="dots">...</li>
+                <a href="{{ path(item, {'page' : maxPage, 'slug': slug}) }}">{{maxPage}}</a>
+            {% endif %}
+
+            <li class="next" style="{% if currentPage == maxPage %}display:none{% endif %}"><a href="{{ path(item, {'page' : currentPage + 1, 'slug': slug}) }}"></a></li>
+        </ul>
+     </nav>
+    {% endif %}
+{% endmacro %}
