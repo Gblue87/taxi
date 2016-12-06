@@ -15,7 +15,7 @@ class OrderFormType extends AbstractType
         $builder
             ->setMethod('POST')
             ->add('name', 'text', array(
-                'label' => 'career.form.name',
+                'label' => 'order.form.name',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => true,
                 'constraints' => new NotBlank(array('message' => 'required_field')),
@@ -24,7 +24,7 @@ class OrderFormType extends AbstractType
                 )
             ))
             ->add('family', 'text', array(
-                'label' => 'career.form.family',
+                'label' => 'order.form.family',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => true,
                 'constraints' => new NotBlank(array('message' => 'required_field')),
@@ -33,7 +33,7 @@ class OrderFormType extends AbstractType
                 )
             ))
             ->add('phone', 'text', array(
-                'label' => 'career.form.phone',
+                'label' => 'order.form.phone',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false,
                 'attr' => array(
@@ -41,7 +41,7 @@ class OrderFormType extends AbstractType
                 )
             ))
             ->add('email', 'email', array(
-                'label' => 'career.form.email',
+                'label' => 'order.form.email',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => true,
                 'constraints' => new NotBlank(array('message' => 'required_field')),
@@ -50,127 +50,127 @@ class OrderFormType extends AbstractType
                 )
             ))
             ->add('baggageDetails', 'text', array(
-                'label' => 'career.baggageDetails',
+                'label' => 'order.baggageDetails',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('no', 'text', array(
-                'label' => 'career.no',
+                'label' => 'order.no',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('info', 'textarea', array(
-                'label' => 'career.info',
+                'label' => 'order.info',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('distance', 'text', array(
-                'label' => 'career.distance',
+                'label' => 'order.distance',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('from', 'text', array(
-                'label' => 'career.from',
+                'label' => 'order.from',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('to', 'text', array(
-                'label' => 'career.to',
+                'label' => 'order.to',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('amount', 'text', array(
-                'label' => 'career.amount',
+                'label' => 'order.amount',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('start_time', 'text', array(
-                'label' => 'career.start_time',
+                'label' => 'order.start_time',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('return_time', 'text', array(
-                'label' => 'career.return_time',
+                'label' => 'order.return_time',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('via', 'text', array(
-                'label' => 'career.via',
+                'label' => 'order.via',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('duration', 'text', array(
-                'label' => 'career.duration',
+                'label' => 'order.duration',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('offer', 'text', array(
-                'label' => 'career.offer',
+                'label' => 'order.offer',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('from_lat', 'text', array(
-                'label' => 'career.from_lat',
+                'label' => 'order.from_lat',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('from_lng', 'text', array(
-                'label' => 'career.from_lng',
+                'label' => 'order.from_lng',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('to_lat', 'text', array(
-                'label' => 'career.to_lat',
+                'label' => 'order.to_lat',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('to_lng', 'text', array(
-                'label' => 'career.to_lng',
+                'label' => 'order.to_lng',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('via_lat', 'text', array(
-                'label' => 'career.via_lat',
+                'label' => 'order.via_lat',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('via_lng', 'text', array(
-                'label' => 'career.via_lng',
+                'label' => 'order.via_lng',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('date', 'text', array(
-                'label' => 'career.date',
+                'label' => 'order.date',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('return_date', 'text', array(
-                'label' => 'career.returnDate',
+                'label' => 'order.returnDate',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('offer_point', 'text', array(
-                'label' => 'career.offer_point',
+                'label' => 'order.offer_point',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('passengers', 'text', array(
-                'label' => 'career.passangers',
+                'label' => 'order.passangers',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('type', 'text', array(
-                'label' => 'career.type',
+                'label' => 'order.type',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('paymentTransaction', 'text', array(
-                'label' => 'career.paymentTransaction',
+                'label' => 'order.paymentTransaction',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('paymentType', 'text', array(
-                'label' => 'career.paymentType',
+                'label' => 'order.paymentType',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
