@@ -50,127 +50,127 @@ class OrderFormType extends AbstractType
                 )
             ))
             ->add('baggageDetails', 'text', array(
-                'label' => 'order.baggageDetails',
+                'label' => 'order.form.baggageDetails',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('no', 'text', array(
-                'label' => 'order.no',
+                'label' => 'order.form.no',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('info', 'textarea', array(
-                'label' => 'order.info',
+                'label' => 'order.form.info',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('distance', 'text', array(
-                'label' => 'order.distance',
+                'label' => 'order.form.distance',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('from', 'text', array(
-                'label' => 'order.from',
+                'label' => 'order.form.from',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('to', 'text', array(
-                'label' => 'order.to',
+                'label' => 'order.form.to',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('amount', 'text', array(
-                'label' => 'order.amount',
+                'label' => 'order.form.amount',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('start_time', 'text', array(
-                'label' => 'order.start_time',
+                'label' => 'order.form.start_time',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('return_time', 'text', array(
-                'label' => 'order.return_time',
+                'label' => 'order.form.return_time',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('via', 'text', array(
-                'label' => 'order.via',
+                'label' => 'order.form.via',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('duration', 'text', array(
-                'label' => 'order.duration',
+                'label' => 'order.form.duration',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('offer', 'text', array(
-                'label' => 'order.offer',
+                'label' => 'order.form.offer',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('from_lat', 'text', array(
-                'label' => 'order.from_lat',
+                'label' => 'order.form.from_lat',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('from_lng', 'text', array(
-                'label' => 'order.from_lng',
+                'label' => 'order.form.from_lng',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('to_lat', 'text', array(
-                'label' => 'order.to_lat',
+                'label' => 'order.form.to_lat',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('to_lng', 'text', array(
-                'label' => 'order.to_lng',
+                'label' => 'order.form.to_lng',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('via_lat', 'text', array(
-                'label' => 'order.via_lat',
+                'label' => 'order.form.via_lat',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('via_lng', 'text', array(
-                'label' => 'order.via_lng',
+                'label' => 'order.form.via_lng',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('date', 'text', array(
-                'label' => 'order.date',
+                'label' => 'order.form.date',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('return_date', 'text', array(
-                'label' => 'order.returnDate',
+                'label' => 'order.form.returnDate',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('offer_point', 'text', array(
-                'label' => 'order.offer_point',
+                'label' => 'order.form.offer_point',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('passengers', 'text', array(
-                'label' => 'order.passangers',
+                'label' => 'order.form.passangers',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('type', 'text', array(
-                'label' => 'order.type',
+                'label' => 'order.form.type',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('paymentTransaction', 'text', array(
-                'label' => 'order.paymentTransaction',
+                'label' => 'order.form.paymentTransaction',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
             ->add('paymentType', 'text', array(
-                'label' => 'order.paymentType',
+                'label' => 'order.form.paymentType',
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))

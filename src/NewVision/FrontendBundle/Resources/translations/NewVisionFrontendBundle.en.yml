@@ -70,3 +70,4 @@ order:
         via: 'Via'
         viaLat: Via Latitude
         viaLng: Via Longitude
+        baggageDetails: Baggage Details (Optional)
