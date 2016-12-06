@@ -35,6 +35,12 @@ map_warn: '* This map is for illustration purposes only. Your exact route may di
 customer_details: 'Customer Details'
 route_map: 'Route Map'
 attention: 'Attention'
+newvision_orders: 'Orders'
+form:
+    name: Name
+    family: Last name
+    createdAt: Created at
+    actions: Actions
 contact:
     subject: 'Subject'
     title: 'Contact form'
