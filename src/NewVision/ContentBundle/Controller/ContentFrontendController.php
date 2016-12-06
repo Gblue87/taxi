@@ -75,14 +75,9 @@ class ContentFrontendController extends Controller
         $event = new \NewVision\SEOBundle\Event\SeoEvent($sitemapContent);
         $dispatcher->dispatch('newvision.seo', $event);
 
-        if ($image = $sitemapContent->getTranslations()->get($locale)->getHeaderImage()) {
-            $provider = $this->container->get($image->getProviderName());
-            $params = array(
-                'image_url' => $request->getSchemeAndHttpHost() . $provider->generatePublicUrl($image, 'reference')
-            );
-        } else {
-            $params = array();
-        }
+
+        $params = array();
+
 
         $this->get('newvision.og_tags')->loadOgTags($sitemapContent, $params);
 
@@ -182,14 +177,9 @@ class ContentFrontendController extends Controller
         $event = new \NewVision\SEOBundle\Event\SeoEvent($content);
         $dispatcher->dispatch('newvision.seo', $event);
 
-        if ($image = $content->getTranslations()->get($locale)->getHeaderImage()) {
-            $provider = $this->container->get($image->getProviderName());
-            $params = array(
-                'image_url' => $request->getSchemeAndHttpHost() . $provider->generatePublicUrl($image, 'reference')
-            );
-        } else {
-            $params = array();
-        }
+
+        $params = array();
+
 
         $this->get('newvision.og_tags')->loadOgTags($content, $params);
 
