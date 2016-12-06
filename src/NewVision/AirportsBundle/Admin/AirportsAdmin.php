@@ -122,7 +122,6 @@ class AirportsAdmin extends Admin
     {
         $list
             ->addIdentifier('title', null, array('label' => 'list.title'))
-            ->add('airportCategories', null, array('label' => 'form.categories'))
             ->add('publishWorkflow.isActive', null, array('label' => 'list.isActive', 'editable' => true))
             ->add('_action', 'actions', array(
                     'actions' => array(
