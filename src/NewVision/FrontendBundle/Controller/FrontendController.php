@@ -32,6 +32,10 @@ class FrontendController extends Controller
         }
         $sliderBlock = $em->getRepository('NewVisionCustomBlocksBundle:CustomBlock')->findOneByIdAndLocale(7, $locale);
         $aboutUsBlock = $em->getRepository('NewVisionCustomBlocksBundle:CustomBlock')->findOneByIdAndLocale(8, $locale);
+        $aboutUs = $em->getRepository('NewVisionContentBundle:Content')->findOneById(25);
+        if(!$aboutUs){
+            throw $this->createNotFoundException('About us page not found');
+        }
 
         $airports = $em->getRepository('NewVisionAirportsBundle:Airport')->findHomepageAirports($locale);
         $hotels = $em->getRepository('NewVisionServicesBundle:Service')->findHomepageHotels($locale);
@@ -44,6 +48,7 @@ class FrontendController extends Controller
 
         return array(
             'content' => $content,
+            'aboutUs' => $aboutUs,
             'hotels' => $hotels,
             'airports' => $airports,
             'sliderBlock' => $sliderBlock,
