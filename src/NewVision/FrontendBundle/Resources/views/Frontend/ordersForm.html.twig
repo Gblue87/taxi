@@ -41,7 +41,11 @@
                 {% if hotel is defined and hotel is not null and hotel|length %}
                     {% set item = hotel %}
                 {% endif %}
-                    {% thumbnail item.translations[app.request.locale].image, 'index' with { 'width': 'value', 'height': 'value', 'alt': item.translations[app.request.locale].image.title } %}
+                {% if item.translations[app.request.locale].image is defined and item.translations[app.request.locale].image is not null and item.translations[app.request.locale].image|length %}
+                    {% thumbnail item.translations[app.request.locale].image, 'index' with { 'alt': item.translations[app.request.locale].image.title } %}
+                {% else %}
+                    <img src="/images/no-img.jpg" alt="No image">
+                {% endif %}
             {% else %}
                 <img src="/images/no-img.jpg" alt="No image">
             {% endif %}
