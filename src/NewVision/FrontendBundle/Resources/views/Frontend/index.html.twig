@@ -70,7 +70,11 @@
                         {% for item in airports %}
                             <div class="slide">
                                 <div class="img-wrap">
-                                    {% thumbnail item.translations[app.request.locale].image, 'index' with { 'alt': item.translations[app.request.locale].image.title } %}
+                                    {% if item.translations[app.request.locale].image is defined and item.translations[app.request.locale].image is not null and item.translations[app.request.locale].image|length %}
+                                        {% thumbnail item.translations[app.request.locale].image, 'index' with { 'alt': item.translations[app.request.locale].image.title } %}
+                                    {% else %}
+                                        <img src="/images/no-img.jpg">
+                                    {% endif %}
                                     <div class="hover">
                                         <a href="{{ path("airport_view", {'slug': item.slug }) }}?point=from"><span class="orient">{{ 'from'|trans({}, "NewVisionFrontendBundle")}} <i></i></span></a>
                                         <a href="{{ path("airport_view", {'slug': item.slug }) }}?point=to"><span class="orient"><i></i>{{ 'to'|trans({}, "NewVisionFrontendBundle")}}</span></a></div></div>
@@ -91,7 +95,11 @@
                         {% for item in hotels %}
                             <div class="slide">
                                 <div class="img-wrap">
-                                    {% thumbnail item.translations[app.request.locale].image, 'index' with { 'alt': item.translations[app.request.locale].image.title } %}
+                                    {% if item.translations[app.request.locale].image is defined and item.translations[app.request.locale].image is not null and item.translations[app.request.locale].image|length %}
+                                        {% thumbnail item.translations[app.request.locale].image, 'index' with { 'alt': item.translations[app.request.locale].image.title } %}
+                                    {% else %}
+                                        <img src="/images/no-img.jpg">
+                                    {% endif %}
                                     <div class="hover">
                                         <a href="{{ path("hotel_view", {'slug': item.slug}) }}?point=from"><span class="orient">{{ 'from'|trans({}, "NewVisionFrontendBundle")}} <i></i></span></a>
                                         <a href="{{ path("hotel_view", {'slug': item.slug}) }}?point=to"><span class="orient"><i></i>{{ 'to'|trans({}, "NewVisionFrontendBundle")}}</span></a></div></div>

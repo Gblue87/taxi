@@ -3,14 +3,16 @@
         {{content.description|raw}}
     </div>
 {% else %}
-    <div class="warning hasicon" style="margin-bottom:0">
         {% if airport is defined and airport is not null and airport|length %}
-            {{airport.simpleDescription}}
+            <div class="warning hasicon" style="margin-bottom:0">
+                {{airport.simpleDescription}}
+            </div>
         {% endif %}
         {% if hotel is defined and hotel is not null and hotel|length %}
-            {{hotel.simpleDescription}}
+            <div class="warning hasicon" style="margin-bottom:0">
+                {{hotel.simpleDescription}}
+            </div>
         {% endif %}
-    </div>
     <div>
         {% if airport is defined and airport is not null and airport|length %}
             {{airport.description|raw}}
@@ -41,7 +43,7 @@
                 {% endif %}
                     {% thumbnail item.translations[app.request.locale].image, 'index' with { 'width': 'value', 'height': 'value', 'alt': item.translations[app.request.locale].image.title } %}
             {% else %}
-                <img src="/images/noimage.jpg" alt="No image">
+                <img src="/images/no-img.jpg" alt="No image">
             {% endif %}
         </div>
     </div>
