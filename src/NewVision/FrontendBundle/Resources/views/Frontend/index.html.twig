@@ -115,12 +115,12 @@
         <section class="wbgr">
             <div class="car2">
                 <div class="center">
-                    <h1 class="title">{{aboutUs.title}}</h1>
+                    <h1 class="title">{{aboutUsBlock.title}}</h1>
                     <div class="w50">
                         <article >
                             {{aboutUsBlock.description|raw}}
                         </article>
-                        <a href="{{ path("content", {'slug': aboutUs.slug}) }}" class="readmore mbtn mbtn-orange">read more</a>
+                        <a href="{{ path("content", {'slug': aboutUs.slug}) }}" class="readmore mbtn mbtn-orange">{{ 'read_more'|trans({}, "NewVisionFrontendBundle")}}</a>
                     </div>
                 </div>
             </div>
