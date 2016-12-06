@@ -348,7 +348,7 @@ class Order
 
     public function __toString()
     {
-        return $this->getNo() ?: 'n/a';
+        return (string)$this->getNo() ?: 'n/a';
     }
 
     /**
