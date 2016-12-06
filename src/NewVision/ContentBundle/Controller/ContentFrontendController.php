@@ -22,7 +22,7 @@ class ContentFrontendController extends Controller
     public function termsAndConditionsAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $content = $em->getRepository('NewVisionContentBundle:Content')->findOneById(5);
+        $content = $em->getRepository('NewVisionContentBundle:Content')->findOneById(24);
         if (!$content) {
             throw $this->createNotFoundException("Page not found");
         }
