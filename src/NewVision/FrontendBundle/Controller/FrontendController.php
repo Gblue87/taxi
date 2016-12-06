@@ -112,7 +112,8 @@ class FrontendController extends Controller
                 $fill[$field] = $requestData[$field];
 
         $content = $contentRepository->findOneById(5);
-        if(!$content){
+        $terms = $contentRepository->findOneById(24);
+        if(!$content || !$terms){
             throw $this->createNotFoundException();
         }
 
@@ -126,6 +127,7 @@ class FrontendController extends Controller
             'content' => $content,
             'fill' => json_encode($fill),
             'form' => $form->createView(),
+            'terms' => $terms,
         );
     }
 

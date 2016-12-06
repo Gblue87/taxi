@@ -26,7 +26,7 @@
     <div id="generror">
         <div class="bodyerror">
             <div class="icon"></div>
-            <div><h6>Attention</h6><p class="errorMsg"></p><a href="#" class="close colorbox">x</a>
+            <div><h6>{{ 'attention'|trans({}, "NewVisionFrontendBundle")}}</h6><p class="errorMsg"></p><a href="#" class="close colorbox">x</a>
             </div>
         </div>
     </div>
@@ -81,11 +81,11 @@
                 <div id="ppp" class="ppp {% if hotel is not defined and airport is not defined %}hidden{% endif %}">
                     <i></i>
                     £<span id="price_1" class="price">0.00</span>
-                    <span class="average">~ £<span id="average">0</span>/per person</span>
+                    <span class="average">~ £<span id="average">0</span>{{ 'per_person'|trans({}, "NewVisionFrontendBundle")}}</span>
                 </div>
                 {% if hotel is not defined and airport is not defined %}
                     <div class="ppp">
-                        <span class="mustcalculate">Press "Calculate"<br> to see prices</span></span>
+                        <span class="mustcalculate">{{ 'press_calculate'|trans({}, "NewVisionFrontendBundle")}}<br> {{ 'to_see_prices'|trans({}, "NewVisionFrontendBundle")}}</span></span>
                     </div>
                 {% endif %}
 
@@ -120,7 +120,7 @@
             <div class="frow">
                 {% if (airport is not defined or airport is null) and (hotel is not defined or hotel is null) %}
                     <div class="ffield">
-                        <label for="vias">Add Via(s)</label>
+                        <label for="vias">{{ 'add_via'|trans({}, "NewVisionFrontendBundle")}}</label>
                         <input id="vias" type="checkbox" class="disabling" >
                         <div class="ffield datetime">
                             <input id="vias_location" type="text" name="vias_location" value="" placeholder="Enter location" disabled="">
@@ -163,33 +163,33 @@
 
         <div class="left column">
             <div class="step-wrap">
-                <h4 class="steptitle">Order Details</h4>
-                <strong>Booking allocated for you at this price:
+                <h4 class="steptitle">{{ 'order_details'|trans({}, "NewVisionFrontendBundle")}}</h4>
+                <strong>{{ 'booking_price'|trans({}, "NewVisionFrontendBundle")}}
                     <span id="price" class="price">£<span>0.00</span></span>
                 </strong>
                 <div>
                     <hr>
-                    <span class="sidelabel">Distance</span>
+                    <span class="sidelabel">{{ 'distance'|trans({}, "NewVisionFrontendBundle")}}</span>
                     <span class="sidevalue distance"></span>
                     <hr>
-                    <span class="sidelabel">From</span>
+                    <span class="sidelabel">{{ 'from'|trans({}, "NewVisionFrontendBundle")}}</span>
                     <span class="sidevalue from"></span>
                     <hr>
-                    <span class="sidelabel">To</span>
+                    <span class="sidelabel">{{ 'to'|trans({}, "NewVisionFrontendBundle")}}</span>
                     <span class="sidevalue to"></span>
                     <hr>
-                    <span class="sidelabel">Date & Time</span>
+                    <span class="sidelabel">{{ 'date_time'|trans({}, "NewVisionFrontendBundle")}}</span>
                     <span class="sidevalue time"></span>
                     <hr>
-                    <span class="sidelabel">Passengers</span>
+                    <span class="sidelabel">{{ 'passangers'|trans({}, "NewVisionFrontendBundle")}}</span>
                     <span class="sidevalue passengers"></span>
 
                     <hr>
-                    <span class="sidelabel">Return Date</span>
+                    <span class="sidelabel">{{ 'return_date'|trans({}, "NewVisionFrontendBundle")}}</span>
                     <span class="sidevalue rj"></span>
                     {% if offer is not defined %}
                         <hr>
-                        <span class="sidelabel">Via</span>
+                        <span class="sidelabel">{{ 'via'|trans({}, "NewVisionFrontendBundle")}}</span>
                         <span class="sidevalue via"></span>
                     {% endif %}
                 </div>
@@ -198,13 +198,13 @@
 
         <div class="right column">
             <div class="step-wrap map-step">
-                <h4 class="steptitle">Route Map</h4>
+                <h4 class="steptitle">{{ 'route_map'|trans({}, "NewVisionFrontendBundle")}}</h4>
                 <div id="checkmap" style="height: 270px;"></div>
 
-                <p>* This map is for illustration purposes only. Your exact route may differ.</p>
+                <p>{{ 'map_warn'|trans({}, "NewVisionFrontendBundle")}}</p>
             </div>
             <div class="step-wrap customer-step">
-                <h4 class="steptitle">Customer Details</h4>
+                <h4 class="steptitle">{{ 'customer_details'|trans({}, "NewVisionFrontendBundle")}}</h4>
                 <div class="frow">
                     <div class="ffield">
                         {{form_row(form.name)}}
@@ -228,7 +228,7 @@
                     <div class="ffield">
                         <label class="nbsp">&nbsp;</label>
                         <div class="example">
-                            Example: 4 large suitcases, 6 small bags...
+                            {{ 'example'|trans({}, "NewVisionFrontendBundle")}}
                         </div>
                     </div>
                 </div>
@@ -239,35 +239,35 @@
                 </div>
             </div>
             <div class="step-wrap payment-step">
-                <h4 class="steptitle">Payment Method</h4>
+                <h4 class="steptitle">{{ 'payment_method'|trans({}, "NewVisionFrontendBundle")}}</h4>
                 <div>
                     <label>
-                        <strong>Cash</strong>
+                        <strong>{{ 'cash'|trans({}, "NewVisionFrontendBundle")}}</strong>
                         <input type="radio" name="order[paymentType]" value="cash">
                         <img src="/images/pay_cash.jpg" alt="pay_cash">
                     </label>
                     <label>
-                        <strong>PayPal</strong>
+                        <strong>{{ 'paypal'|trans({}, "NewVisionFrontendBundle")}}</strong>
                         <input type="radio" name="order[paymentType]" value="paypal">
                         <img src="/images/pay_paypal.jpg" alt="">
                     </label>
                     <label>
-                        <strong>Credit or Debit Card</strong>
+                        <strong>{{ 'credit_card'|trans({}, "NewVisionFrontendBundle")}}</strong>
                         <input type="radio" name="order[paymentType]" value="worldpay">
                         <img src="/images/pay_cards.jpg" alt="">
                     </label>
                     <div class="clear"></div>
                 </div>
-                <p class="text-right">* Payments by card or PayPal incurs a 5% surcharge!</p>
+                <p class="text-right">{{ 'surcharge'|trans({}, "NewVisionFrontendBundle")}}</p>
             </div>
             <div class="g-recaptcha ffield" data-sitekey="{$smarty.const.RECAPTCHA_KEY}"></div>
-            <p class="terms ffield">By completing the booking, you agree to our <a href="{'7'|page_link}" target="_blank">Terms and Conditions.</a></p>
+            <p class="terms ffield">{{ 'by_completing'|trans({}, "NewVisionFrontendBundle")}} <a href="{{path('content', {'slug': terms.slug})}}" target="_blank">{{terms.title}}</a></p>
             <div class="clear"></div>
             <article class="hasicon">
-                <p>Please make sure that the given information is correct. (Street, house name or number, contact details, etc.)</p>
-                {*<p>Any booking more than 2.5 miles radius from or to Chester City Centre will be charged from the nearest car.</p>*}
+                <p>{{ 'booking_warn'|trans({}, "NewVisionFrontendBundle")}}</p>
+                <p>{{ 'booking_warn2'|trans({}, "NewVisionFrontendBundle")}}</p>
             </article>
-            <input type="submit" class="mbtn mbtn-orange mbtn-big" value="Book now">
+            <input type="submit" class="mbtn mbtn-orange mbtn-big" value="{{ 'book_now'|trans({}, "NewVisionFrontendBundle")}}">
         </div>
         <div class="clear"></div>
     </div>

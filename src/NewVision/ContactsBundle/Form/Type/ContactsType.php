@@ -15,7 +15,7 @@ class ContactsType extends AbstractType
             ->setMethod('POST')
             ->add('name', 'text', array(
                 'label' => 'contact.name',
-                'translation_domain' => 'messages',
+                'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => true,
                 'constraints' => new NotBlank(array('message' => 'required_field')),
                 'attr' => array(
@@ -25,7 +25,7 @@ class ContactsType extends AbstractType
             ))
             ->add('phone', 'text', array(
                 'label' => 'contact.phone',
-                'translation_domain' => 'messages',
+                'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false,
                 'constraints' => array(
                     new Regex(array(
@@ -42,7 +42,7 @@ class ContactsType extends AbstractType
             ))
             ->add('email', 'text', array(
                 'label' => 'contact.email',
-                'translation_domain' => 'messages',
+                'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => true,
                 'constraints' => array(
                     new NotBlank(array('message' => 'required_field')),
@@ -55,7 +55,7 @@ class ContactsType extends AbstractType
             ))
             ->add('subject', 'text', array(
                 'label' => 'contact.subject',
-                'translation_domain' => 'messages',
+                'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => true,
                 'constraints' => new NotBlank(array('message' => 'required_field')),
                 'attr' => array(
@@ -65,7 +65,7 @@ class ContactsType extends AbstractType
             ))
             ->add('message', 'textarea', array(
                 'label' => 'contact.message',
-                'translation_domain' => 'messages',
+                'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => true,
                 'constraints' => new NotBlank(array('message' => 'required_field')),
                 'attr' => array(
