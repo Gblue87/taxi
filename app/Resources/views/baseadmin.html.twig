@@ -26,6 +26,3 @@
     	{% set params = params|merge({'paste_auto_cleanup_on_paste': true, 'paste_convert_headers_to_strong': true, 'paste_remove_styles': true, 'paste_text_linebreaktype': true, 'paste_strip_class_attributes': 'all', 'paste_retain_style_properties': 'all'}) %}
 		{{ tinymce_init(params) }}
 {% endblock %}
-{% block side_bar_after_nav %}
-    <p class="text-center small" style="padding-top: 10px"><a href="http://www.newvisiongroup.com/bg/contacts/request" rel="noreferrer" style="color: #FA6F76" target="_blank">{{'send_request'|trans({}, 'SonataAdminBundle')}}</a></p>
-{% endblock %}
