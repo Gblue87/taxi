@@ -11,6 +11,7 @@ use Knp\Menu\MenuFactory;
 use Knp\Menu\Renderer\ListRenderer;
 use Knp\Menu\Matcher\Matcher;
 use Knp\Menu\Matcher\Voter\UriVoter;
+use NewVision\FrontendBundle\Entity\Order;
 
 class ServicesFrontendController extends Controller
 {
