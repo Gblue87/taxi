@@ -60,7 +60,7 @@ class AirportsFrontendController extends Controller
         $em = $this->getDoctrine()->getManager();
         $locale = $request->getLocale();
         $servicesRepo = $em->getRepository($this->itemsRepo);
-        $contentRepository = $em->getRepository('NewVisionContentBundle');
+        $contentRepository = $em->getRepository('NewVisionContentBundle:Content');
         $point = $request->query->get('point');
         $airport = $servicesRepo->findOneBySlugAndLocale($slug, $locale);
         if ($point == 'from') {
