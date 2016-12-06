@@ -21,7 +21,6 @@ file that was distributed with this source code.
 {% block tab_menu %}{{ knp_menu_render(admin.sidemenu(action), {'currentClass' : 'active', 'template': admin_pool.getTemplate('tab_menu_template')}, 'twig') }}{% endblock %}
 
 {% block show %}
-    {% set path = '/uploads/career-applyment/' %}
     <div class="sonata-ba-view">
 
         {{ sonata_block_render_event('sonata.admin.show.top', { 'admin': admin, 'object': object }) }}
@@ -45,7 +44,7 @@ file that was distributed with this source code.
                         {% if object.name is defined and object.name is not null and object.name|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.name'|trans({}, 'messages')}}
+                                    {{'order.form.name'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.name }}
@@ -55,7 +54,7 @@ file that was distributed with this source code.
                         {% if object.family is defined and object.family is not null and object.family|length %}\
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.family'|trans({}, 'messages')}}
+                                    {{'order.form.family'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.family }}
@@ -65,7 +64,7 @@ file that was distributed with this source code.
                         {% if object.phone is defined and object.phone is not null and object.phone|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.phone'|trans({}, 'messages')}}
+                                    {{'order.form.phone'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.phone }}
@@ -75,7 +74,7 @@ file that was distributed with this source code.
                         {% if object.email is defined and object.email is not null and object.email|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.email'|trans({}, 'messages')}}
+                                    {{'order.form.email'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.email }}
@@ -85,7 +84,7 @@ file that was distributed with this source code.
                         {% if object.baggageDetails is defined and object.baggageDetails is not null and object.baggageDetails|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.email'|trans({}, 'messages')}}
+                                    {{'order.form.email'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.email }}
@@ -95,7 +94,7 @@ file that was distributed with this source code.
                         {% if object.info is defined and object.info is not null and object.info|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.info'|trans({}, 'messages')}}
+                                    {{'order.form.info'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.info }}
@@ -105,7 +104,7 @@ file that was distributed with this source code.
                         {% if object.from is defined and object.from is not null and object.from|length %}{% endif %}
                         <tr class="sonata-ba-view-container">
                             <td>
-                                {{'career.form.from'|trans({}, 'messages')}}
+                                {{'order.form.from'|trans({}, 'NewVisionFrontendBundle')}}
                             </td>
                             <td>
                                 {{ object.from }}
@@ -114,7 +113,7 @@ file that was distributed with this source code.
                         {% if object.to is defined and object.to is not null and object.to|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.to'|trans({}, 'messages')}}
+                                    {{'order.form.to'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.to }}
@@ -124,7 +123,7 @@ file that was distributed with this source code.
                         {% if object.via is defined and object.via is not null and object.via|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.via'|trans({}, 'messages')}}
+                                    {{'order.form.via'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.via }}
@@ -134,7 +133,7 @@ file that was distributed with this source code.
                         {% if object.fromLng is defined and object.fromLng is not null and object.fromLng|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.fromLng'|trans({}, 'messages')}}
+                                    {{'order.form.fromLng'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.fromLng }}
@@ -144,7 +143,7 @@ file that was distributed with this source code.
                         {% if object.fromLat is defined and object.fromLat is not null and object.fromLat|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.fromLat'|trans({}, 'messages')}}
+                                    {{'order.form.fromLat'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.fromLat }}
@@ -154,7 +153,7 @@ file that was distributed with this source code.
                         {% if object.toLng is defined and object.toLng is not null and object.toLng|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.toLng'|trans({}, 'messages')}}
+                                    {{'order.form.toLng'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.toLng }}
@@ -164,7 +163,7 @@ file that was distributed with this source code.
                         {% if object.toLat is defined and object.toLat is not null and object.toLat|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.toLat'|trans({}, 'messages')}}
+                                    {{'order.form.toLat'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.toLat }}
@@ -174,7 +173,7 @@ file that was distributed with this source code.
                         {% if object.viaLat is defined and object.viaLat is not null and object.viaLat|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.viaLat'|trans({}, 'messages')}}
+                                    {{'order.form.viaLat'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.viaLat }}
@@ -184,7 +183,7 @@ file that was distributed with this source code.
                         {% if object.viaLng is defined and object.viaLng is not null and object.viaLng|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.viaLng'|trans({}, 'messages')}}
+                                    {{'order.form.viaLng'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.viaLng }}
@@ -194,7 +193,7 @@ file that was distributed with this source code.
                         {% if object.date is defined and object.date is not null and object.date|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.date'|trans({}, 'messages')}}
+                                    {{'order.form.date'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.date }}
@@ -204,7 +203,7 @@ file that was distributed with this source code.
                         {% if object.startTime is defined and object.startTime is not null and object.startTime|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.start_time'|trans({}, 'messages')}}
+                                    {{'order.form.start_time'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.startTime }}
@@ -214,7 +213,7 @@ file that was distributed with this source code.
                         {% if object.amount is defined and object.amount is not null and object.amount|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.amount'|trans({}, 'messages')}}
+                                    {{'order.form.amount'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.amount }}
@@ -224,7 +223,7 @@ file that was distributed with this source code.
                         {% if object.distance is defined and object.distance is not null and object.distance|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.distance'|trans({}, 'messages')}}
+                                    {{'order.form.distance'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.distance }}
@@ -234,7 +233,7 @@ file that was distributed with this source code.
                         {% if object.duration is defined and object.duration is not null and object.duration|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.duration'|trans({}, 'messages')}}
+                                    {{'order.form.duration'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.duration }}
@@ -244,7 +243,7 @@ file that was distributed with this source code.
                         {% if object.type is defined and object.type is not null and object.type|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.type'|trans({}, 'messages')}}
+                                    {{'order.form.type'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.type }}
@@ -254,7 +253,7 @@ file that was distributed with this source code.
                         {% if object.paymentType is defined and object.paymentType is not null and object.paymentType|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    {{'career.form.paymentType'|trans({}, 'messages')}}
+                                    {{'order.form.paymentType'|trans({}, 'NewVisionFrontendBundle')}}
                                 </td>
                                 <td>
                                     {{ object.paymentType }}

@@ -47,9 +47,26 @@ contact:
     error: 'An error occured!'
     success: 'Enquiry sent successfuly!'
     user_message_subject: 'Enquiry sent to administrator'
-career:
+order:
     form:
         name: 'First Name'
         family: 'Last Name'
         phone: 'Telephone'
         email: 'E-mail'
+        info: Additional Info (Flight №)
+        from: From
+        to: To
+        fromLng: From Longitude
+        fromLat: From Latitude
+        toLng: To Longitude
+        toLat: To Latitude
+        date: Date & Time
+        start_time: Start time
+        amount: Amount
+        distance: Distance
+        duration: Duration
+        type: Type
+        paymentType: Payment type
+        via: 'Via'
+        viaLat: Via Latitude
+        viaLng: Via Longitude
