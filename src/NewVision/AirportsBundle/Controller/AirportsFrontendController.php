@@ -60,6 +60,7 @@ class AirportsFrontendController extends Controller
         $em = $this->getDoctrine()->getManager();
         $locale = $request->getLocale();
         $servicesRepo = $em->getRepository($this->itemsRepo);
+        $contentRepository = $em->getRepository('NewVisionContentBundle');
         $point = $request->query->get('point');
         $airport = $servicesRepo->findOneBySlugAndLocale($slug, $locale);
         if ($point == 'from') {
@@ -67,7 +68,10 @@ class AirportsFrontendController extends Controller
         }else{
             $to = true;
         }
-
+        $terms = $contentRepository->findOneById(24);
+        if(!$terms){
+            throw $this->createNotFoundException();
+        }
         $form = $this->container->get('form.factory')->create('order', new Order(), array(
             'method' => 'POST',
             'action' => $this->generateUrl('airport_view', array('slug' => $airport->getSlug()))
@@ -135,7 +139,8 @@ class AirportsFrontendController extends Controller
             'to' => $to,
             'offerPoint' => $point,
             'offer' => json_encode($offer),
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'terms' => $terms,
         );
     }
 

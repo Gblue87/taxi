@@ -60,6 +60,7 @@ class ServicesFrontendController extends Controller
         $locale = $request->getLocale();
         $servicesRepo = $em->getRepository($this->itemsRepo);
         $point = $request->query->get('point');
+        $contentRepository = $em->getRepository('NewVisionContentBundle');
         $hotel = $servicesRepo->findOneBySlugAndLocale($slug, $locale);
 
         if ($point == 'from') {
@@ -67,7 +68,10 @@ class ServicesFrontendController extends Controller
         }else{
             $to = true;
         }
-
+        $terms = $contentRepository->findOneById(24);
+        if(!$terms){
+            throw $this->createNotFoundException();
+        }
         $form = $this->container->get('form.factory')->create('order', new Order(), array(
             'method' => 'POST',
             'action' => $this->generateUrl('hotel_view', array('slug' => $hotel->getSlug()))
@@ -137,6 +141,7 @@ class ServicesFrontendController extends Controller
             'offerPoint' => $point,
             'offer' => json_encode($offer),
             'form' => $form->createView(),
+            'terms' => $terms,
         );
     }
 }
