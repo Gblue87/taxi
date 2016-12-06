@@ -100,87 +100,25 @@ class Builder extends ContainerAware
                                     break;
                                 }
                             }
-                        } elseif ($this->container->get('request')->get('route') == 'news_view') {
-                            $slug = $this->container->get('request')->get('route_params')['slug'];
-                            $repository = $em->getRepository('NewVisionNewsBundle:News');
-                            $obj = $repository->findOneBySlugAndLocale($slug, $locale);
-
-                            $uri = $itm->getUrl();
-                            if ($uri == '/'.$locale.'/news' && $obj) {
-                                $subMenu->setCurrent(true);
-                            }
-                        } elseif ($this->container->get('request')->get('route') == 'product') {
-                            $slug = $this->container->get('request')->get('route_params')['slug'];
-                            $repository = $em->getRepository('NewVisionProductsBundle:Product');
-                            $obj = $repository->findOneBySlugAndLocale($slug, $locale);
-
-                            $uri = $itm->getUrl();
-                            if ($uri == '/'.$locale.'/products' && $obj) {
-                                $subMenu->setCurrent(true);
-                            }
-                        } elseif ($this->container->get('request')->get('route') == 'product_category') {
-                            $slug = $this->container->get('request')->get('route_params')['slug'];
-                            $repository = $em->getRepository('NewVisionProductsBundle:ProductCategory');
-                            $obj = $repository->findOneBySlugAndLocale($slug, $locale);
-
-                            $uri = $itm->getUrl();
-                            if ($uri == '/'.$locale.'/products' && $obj) {
-                                $subMenu->setCurrent(true);
-                            }
-                        } elseif ($this->container->get('request')->get('route') == 'service') {
+                        } elseif ($this->container->get('request')->get('route') == 'hotel_view') {
                             $slug = $this->container->get('request')->get('route_params')['slug'];
                             $repository = $em->getRepository('NewVisionServicesBundle:Service');
                             $obj = $repository->findOneBySlugAndLocale($slug, $locale);
 
                             $uri = $itm->getUrl();
-                            if ($uri == '/'.$locale.'/services' && $obj) {
+                            if ($uri == '/'.$locale.'/city-and-hotel-transfers' && $obj) {
                                 $subMenu->setCurrent(true);
                             }
-                        } elseif ($this->container->get('request')->get('route') == 'service_category') {
+                        } elseif ($this->container->get('request')->get('route') == 'airport_view') {
                             $slug = $this->container->get('request')->get('route_params')['slug'];
-                            $repository = $em->getRepository('NewVisionServicesBundle:ServiceCategory');
+                            $repository = $em->getRepository('NewVisionAirportsBundle:Airport');
                             $obj = $repository->findOneBySlugAndLocale($slug, $locale);
 
                             $uri = $itm->getUrl();
-                            if ($uri == '/'.$locale.'/services' && $obj) {
+                            if ($uri == '/'.$locale.'/airport-transfers' && $obj) {
                                 $subMenu->setCurrent(true);
                             }
-                        } elseif ($this->container->get('request')->get('route') == 'careers') {
-                            $slug = $this->container->get('request')->get('route_params')['slug'];
-                            $repository = $em->getRepository('NewVisionCareersBundle:Career');
-                            $obj = $repository->findOneBySlugAndLocale($slug, $locale);
-
-                            $uri = $itm->getUrl();
-                            if ($uri == '/'.$locale.'/careers' && $obj) {
-                                $subMenu->setCurrent(true);
-                            }
-                        }elseif ($this->container->get('request')->get('route') == 'career_view') {
-                            $slug = $this->container->get('request')->get('route_params')['slug'];
-                            $repository = $em->getRepository('NewVisionCareersBundle:Career');
-                            $obj = $repository->findOneBySlugAndLocale($slug, $locale);
-                            $uri = $itm->getUrl();
-                            if ($uri == '/'.$locale.'/careers' && $obj) {
-                                $subMenu->setCurrent(true);
-                            }
-                        }  elseif ($this->container->get('request')->get('route') == 'dealers') {
-                            $slug = $this->container->get('request')->get('route_params');
-                            $repository = $em->getRepository('NewVisionDealersBundle:Dealer');
-                            $obj = $repository->findOneBySlugAndLocale($slug, $locale);
-
-                            $uri = $itm->getUrl();
-                            if ($uri == '/'.$locale.'/dealers' && $obj) {
-                                $subMenu->setCurrent(true);
-                            }
-                        }elseif ($this->container->get('request')->get('route') == 'post_without_category') {
-
-			    $slug = $this->container->get('request')->get('route_params')['slug'];
-			    $repository = $em->getRepository('NewVisionNewsBundle:News');
-                            $obj = $repository->findOneBySlugAndLocale($slug, $locale);
-                            $uri = $itm->getUrl();
-                            if ($uri == '/'.$locale.'/posts' && $obj) {
-                                $subMenu->setCurrent(true);
-                            }
-                        }elseif ($this->container->get('request')->get('route') == 'gallery_view') {
+                        } elseif ($this->container->get('request')->get('route') == 'gallery_view') {
 
                             $slug = $this->container->get('request')->get('route_params')['slug'];
                             $repository = $em->getRepository('NewVisionGalleriesBundle:Gallery');
