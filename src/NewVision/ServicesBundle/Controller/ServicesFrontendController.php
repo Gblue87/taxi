@@ -70,7 +70,7 @@ class ServicesFrontendController extends Controller
 
         $form = $this->container->get('form.factory')->create('order', new Order(), array(
             'method' => 'POST',
-            'action' => $this->generateUrl('airport_view', array('slug' => $hotel->getSlug()))
+            'action' => $this->generateUrl('hotel_view', array('slug' => $hotel->getSlug()))
         ));
 
         if ($request->isMethod('POST')) {
