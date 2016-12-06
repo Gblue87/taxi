@@ -22,8 +22,8 @@
                                     <div class="img-wrap">
                                         {% thumbnail item.translations[app.request.locale].image, 'index' with { 'alt': item.translations[app.request.locale].image.title } %}
                                         <div class="hover">
-                                            <a href="{{path('hotel_view', {'slug': item.slug })}}?point="from"><span class="orient">{{ 'from'|trans({}, "NewVisionFrontendBundle")}}<i></i></span></a>
-                                            <a href="{{path('hotel_view', {'slug': item.slug })}}?point="to"><span class="orient"><i></i>{{ 'to'|trans({}, "NewVisionFrontendBundle")}}</span></a>
+                                            <a href="{{path('hotel_view', {'slug': item.slug })?point=from}}"><span class="orient">{{ 'from'|trans({}, "NewVisionFrontendBundle")}}<i></i></span></a>
+                                            <a href="{{path('hotel_view', {'slug': item.slug })}}?point=to"><span class="orient"><i></i>{{ 'to'|trans({}, "NewVisionFrontendBundle")}}</span></a>
                                         </div>
                                     </div>
                                     <span class="price">£ {{item.price}}</span>
