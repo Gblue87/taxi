@@ -300,34 +300,7 @@ class FrontendController extends Controller
     public function custom404Action()
     {
         $em = $this->getDoctrine()->getManager();
-        $content = $em->getRepository("NewVisionContentBundle:Content")->findOneById(5);
-
-        if (!$content) {
-            throw $this->createNotFoundException("Page not found");
-        }
-
-        $breadCrumbs = array(
-            $content->getTitle() => null,
-        );
-
-        $dispatcher = $this->get('event_dispatcher');
-        $event = new \NewVision\SEOBundle\Event\SeoEvent();
-        $event->setTitle($content->getTitle());
-        $dispatcher->dispatch('newvision.seo', $event);
-
-        return array(
-            'content' => $content,
-            'breadCrumbs' => $breadCrumbs,
-        );
-    }
-
-    /**
-     * @Template("NewVisionFrontendBundle:Frontend:500.html.twig")
-     */
-    public function custom500Action()
-    {
-        $em = $this->getDoctrine()->getManager();
-        $content = $em->getRepository("NewVisionContentBundle:Content")->findOneById(18);
+        $content = $em->getRepository("NewVisionContentBundle:Content")->findOneById(2);
 
         if (!$content) {
             throw $this->createNotFoundException("Page not found");

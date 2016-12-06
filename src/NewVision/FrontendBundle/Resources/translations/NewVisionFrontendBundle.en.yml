@@ -11,6 +11,8 @@ hotel_transfers: 'City & Hotel transfers'
 select_passangers: 'Select passengers'
 calculate: 'Calculate'
 continue: 'Continue'
+listing_airports_warning: 'All prices includes 1 pickup / 1 drop off point , for multi pick up /drop off please contact us !'
+listing_hotels_warning: 'All prices includes 1 pickup / 1 drop off point , for multi pick up /drop off please contact us !'
 contact:
     subject: 'Subject'
     title: 'Contact form'

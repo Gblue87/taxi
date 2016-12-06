@@ -9,10 +9,11 @@
                 </div>
             </div>
             <div class="center">
+                <div class="warning">
+                    {{ 'listing_hotels_warning'|trans({}, "NewVisionFrontendBundle")}}
+                </div>
                 {% if content.description is defined and content.description is not null and content.description|length %}
-                    <div class="warning">
                         {{content.description|raw}}
-                    </div>
                 {% endif %}
                 {% if hotels is defined and hotels is not null and hotels|length %}
                     <div class="list">
