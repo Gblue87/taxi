@@ -12,8 +12,6 @@
 /composer.phar
 /web/docs/*
 /composer.lock
-/web/generatedCss/
-/web/generatedJs/
 /web/static/
 LICENSE
 README.md
