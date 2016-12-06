@@ -4,11 +4,19 @@
     </div>
 {% else %}
     <div class="warning hasicon" style="margin-bottom:0">
-        {% if ariport is defined and ariport is not null and ariport|length %}
+        {% if airport is defined and airport is not null and airport|length %}
             {{airport.simpleDescription}}
         {% endif %}
-        {% if hitel is defined and hitel is not null and hitel|length %}
+        {% if hotel is defined and hotel is not null and hotel|length %}
             {{hotel.simpleDescription}}
+        {% endif %}
+    </div>
+    <div>
+        {% if airport is defined and airport is not null and airport|length %}
+            {{airport.description|raw}}
+        {% endif %}
+        {% if hotel is defined and hotel is not null and hotel|length %}
+            {{hotel.description|raw}}
         {% endif %}
     </div>
 {% endif %}

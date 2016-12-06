@@ -174,15 +174,15 @@ class AirportsAdmin extends Admin
                             'label' => 'form.simpleDescription',
                             'required' => false,
                         ),
-                        // 'description' => array(
-                        //     'field_type' => 'textarea',
-                        //     'label' => 'form.description',
-                        //     'required' => false,
-                        //     'attr' => array(
-                        //         'class' => 'tinymce',
-                        //         'data-theme' => 'bbcode'
-                        //     )
-                        // ),
+                        'description' => array(
+                            'field_type' => 'textarea',
+                            'label' => 'form.description',
+                            'required' => false,
+                            'attr' => array(
+                                'class' => 'tinymce',
+                                'data-theme' => 'bbcode'
+                            )
+                        ),
                         // 'tabDescription' => array(
                         //     'field_type' => 'textarea',
                         //     'label' => 'form.tabDescription',
@@ -244,7 +244,7 @@ class AirportsAdmin extends Admin
                     ),
                     'translation_domain' => 'NewVisionAirportsBundle',
                     'label' => 'form.translations',
-                    'exclude_fields' => array('description', 'buttonTitle', 'youTubeVideo', 'gallery', 'tabTech', 'tabDescription', 'from', 'to')
+                    'exclude_fields' => array('buttonTitle', 'youTubeVideo', 'gallery', 'tabTech', 'tabDescription', 'from', 'to')
                 ))
                 //->add('from', null, array('label' => 'form.from'))
                 ->add('to', null, array('label' => 'form.destination'))
