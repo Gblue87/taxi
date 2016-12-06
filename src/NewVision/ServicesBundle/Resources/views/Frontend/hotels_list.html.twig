@@ -30,7 +30,7 @@
                                             <a href="{{path('hotel_view', {'slug': item.slug })}}?point=to"><span class="orient"><i></i>{{ 'to'|trans({}, "NewVisionFrontendBundle")}}</span></a>
                                         </div>
                                     </div>
-                                    <span class="price">£ {{item.price}}</span>
+                                    <span class="price">£ {{item.price|number_format(2)}}</span>
                                     <span class="title">{{item.title}}</span>
                                 </div>
                             {% endfor %}

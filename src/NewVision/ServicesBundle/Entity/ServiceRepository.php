@@ -64,6 +64,7 @@ class ServiceRepository extends EntityRepository
             ->setParameter('locale', $locale)
             ->setParameter('homepage', 1)
             ->setParameter('now', new \DateTime())
+            ->orderBy('c.rank', 'ASC')
             ->setMaxResults($limit)
             ->setFirstResult($offset);
         $query = $qb->getQuery();
