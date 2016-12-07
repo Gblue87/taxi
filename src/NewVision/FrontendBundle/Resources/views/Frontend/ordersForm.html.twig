@@ -4,14 +4,18 @@
     </div>
 {% else %}
         {% if airport is defined and airport is not null and airport|length %}
-            <div class="warning hasicon" style="margin-bottom:0">
-                {{airport.simpleDescription}}
-            </div>
+            {% if airport.simpleDescription is defined and airport.simpleDescription is not null and airport.simpleDescription|length %}
+                <div class="warning hasicon" style="margin-bottom:0">
+                    {{airport.simpleDescription}}
+                </div>
+            {% endif %}
         {% endif %}
         {% if hotel is defined and hotel is not null and hotel|length %}
-            <div class="warning hasicon" style="margin-bottom:0">
-                {{hotel.simpleDescription}}
-            </div>
+            {% if hotel.simpleDescription is defined and hotel.simpleDescription is not null and hotel.simpleDescription|length %}
+                <div class="warning hasicon" style="margin-bottom:0">
+                    {{hotel.simpleDescription}}
+                </div>
+            {% endif %}
         {% endif %}
     <div>
         {% if airport is defined and airport is not null and airport|length %}
@@ -127,6 +131,10 @@
                         </div>
                     </div>
                 {% endif %}
+                <div class="ffield">
+                    <label for="meet">{{ 'meet_and_greet'|trans({}, "NewVisionFrontendBundle")}}</label>
+                    <input id="meet" type="checkbox" class="disabling" name="meet" >
+                </div>
                 <button id="calculate" type="submit" class="mbtn mbtn-orange mbtn-big right">{% if (airport is not defined or airport is null) and (hotel is not defined or hotel is null) %}{{ 'calculate'|trans({}, "NewVisionFrontendBundle")}}{% else %}{{ 'continue'|trans({}, "NewVisionFrontendBundle")}}{% endif %}</button>
             </div>
         </div>
@@ -284,12 +292,21 @@
                     div = $('<div class="error" id="step1error"></div>').html(s);
                     $('#step1').before(div);
                 }
+                return false;
             }
+            var isSubmit = false;
             var offerPoint;
             var userPoint,
             amount4 = 0,
             amount8 = 0;
             $(function() {
+                $('#meet').on('change', function(){
+                    if (validateStep1(true)) {
+                        if (isSubmit) {
+                            getRoute();
+                        }
+                    }
+                });
                 var fromBox, toBox, viaBox,
                     amount4 = 0.0,
                     amount8 = 0.0,
@@ -304,6 +321,10 @@
                     fromBox = new google.maps.places.Autocomplete(gebid('from'), opts);
                     toBox = new google.maps.places.Autocomplete(gebid('to'), opts);
                     viaBox = new google.maps.places.Autocomplete(gebid('vias_location'));
+                });
+
+                $('#calculate').on('click', function(e){
+                    isSubmit = true;
                 });
 
                 var getRoute = function() {
@@ -442,7 +463,9 @@
                                 distance: distance,
                                 passengers: $('#step2 [name="order[passengers]"]').val(),
                                 date: $('#step2 [name="order[start_time]"]').val().substr(0, 10),
-                                returnDate: $('#step2 [name="order[return_time]"]').val().substr(0, 10)
+                                returnDate: $('#step2 [name="order[return_time]"]').val().substr(0, 10),
+                                meet: $('#meet').is(':checked'),
+                                time: $('#time').val()
                             };
 
                             $.ajax({
@@ -525,20 +548,28 @@
                     );
                 },
 
-                validateStep1 = function() {
+                validateStep1 = function(called = false) {
 
                     var errors = [];
 
                     if (!$.trim($('#from').val()) ||
                         !$.trim($('#to').val())
-                    )
+                    ){
                         errors.push("Please choose start and end points.");
+                        if (isSubmit || called == true) {
+                            showError("Please choose start and end points.");
+                        }
+                    }
 
                     var date = $('#step1 [name="date_submit"]').val(),
                         time = $('#step1 [name="time_submit"]').val();
 
-                    if (!date.length || !time.length)
+                    if (!date.length || !time.length){
                         errors.push("Please choose a date and time.");
+                        if (isSubmit || called == true) {
+                            showError("Please choose a date and time.");
+                        }
+                    }
 
                     if ($('#rj:checked').length) {
                         var date2 = $('#step1 [name="date2_submit"]').val(),
@@ -546,17 +577,29 @@
                             datetime = date + time,
                             datetime2 = date2 + time2;
 
-                        if (!date2.length || !time2.length)
+                        if (!date2.length || !time2.length){
                             errors.push("Please choose a date and time for return journey.");
+                            if (isSubmit || called == true) {
+                                showError("Please choose a date and time for return journey.");
+                            }
+                        }
 
-                        else if (datetime > datetime2)
+                        else if (datetime > datetime2){
                             errors.push("Please choose a date and time for return journey after the journey's date and time.");
+                            if (isSubmit || called == true) {
+                                showError("Please choose a date and time for return journey after the journey's date and time.");
+                            }
+                        }
                     }
 
                     if ($('#vias:checked').length &&
                         !$.trim($('#vias_location').val()).length
-                    )
+                    ){
                         errors.push("Please choose a via location.");
+                        if (isSubmit || called == true) {
+                                showError("Please choose a via location.");
+                        }
+                    }
 
                     if (errors.length) {
                         var message = '<ul><li>' + errors.join('</li><li>') + '</li></ul>';
@@ -566,6 +609,8 @@
 
                     return true;
                 };
+
+
 
                 $('#step1').submit(function() {
                     $('#step1error').remove();
@@ -649,6 +694,7 @@
             });
         {% else %}
             (function() {
+                console.log(123312);
                 var offerPoint;
                 var userPoint,
                 amount4 = {{item.price}},
@@ -665,6 +711,10 @@
                 google.maps.event.addDomListener(window, 'load', function () {
                     userPoint = new google.maps.places.Autocomplete(gebid('{{ offerPoint is defined or offerPoint == "to" ? "from" : "to"}}'), opts);
                     directionsDisplay = new google.maps.DirectionsRenderer({ draggable: false});
+                });
+
+                $('#meet').on('change', function(){
+                    transferData();
                 });
 
                 var getRoute = function() {
@@ -792,7 +842,8 @@
                         date: time.substr(0, 10),
                         passengers: passengers,
                         returnDate: return_time ? return_time.split(' ')[0] : '',
-                        offerType: offerType
+                        offerType: offerType,
+                        meet: $('#meet').is(':checked')
                     };
                     $.ajax({
                         url: '{{path('offer_amount')}}',
@@ -807,6 +858,7 @@
                             $('#price_1').text(amount);
                             $('#average').text((amount / passengers).toFixed(2));
                             $('#price span').text(amount);
+
                         },
                         finish: function(data) {
                             if ((typeof data != "undefined") &&
@@ -831,7 +883,6 @@
                 },
 
                 validateStep1 = function() {
-
                     if (!$.trim($('#from').val()) ||
                         !$.trim($('#to').val())
                     ) {
@@ -956,7 +1007,8 @@
                                 returnDate: $('#rj')[0].checked
                                     ? $('#date2').parent().find('[name="date2_submit"]').val()
                                     : '',
-                                offerType: offerType
+                                offerType: offerType,
+                                meet: $('#meet').is(':checked')
                             };
 
                         $.ajax({

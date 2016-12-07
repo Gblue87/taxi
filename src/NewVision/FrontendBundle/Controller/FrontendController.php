@@ -32,7 +32,7 @@ class FrontendController extends Controller
         }
         $sliderBlock = $em->getRepository('NewVisionCustomBlocksBundle:CustomBlock')->findOneByIdAndLocale(7, $locale);
         $aboutUsBlock = $em->getRepository('NewVisionCustomBlocksBundle:CustomBlock')->findOneByIdAndLocale(8, $locale);
-        $aboutUs = $em->getRepository('NewVisionContentBundle:Content')->findOneById(25);
+        $aboutUs = $em->getRepository('NewVisionContentBundle:Content')->findOneById(26);
         if(!$aboutUs){
             throw $this->createNotFoundException('About us page not found');
         }
@@ -374,11 +374,19 @@ class FrontendController extends Controller
             }else{
                 $item = $em->getRepository('NewVisionAirportsBundle:Airport')->findOneById($requestData['offer']);
             }
+
             $data = array(
                 'amount4' => $this->_getTaxedPrice($item->getPrice(), $requestData['date'], $requestData['returnDate']),
                 'amount8' => $this->_getTaxedPrice($item->getDoublePrice(), $requestData['date'], $requestData['returnDate']),
                 'success' => true
             );
+            if (isset($requestData['meet']) && $requestData['meet']) {
+                if ($requestData['meet'] == 'true') {
+                    $meet = (int)$this->get('newvision.settings_manager')->get('meet_and_greet', 0);
+                    $data['amount4'] += $meet;
+                    $data['amount8'] += $meet;
+                }
+            }
             $data['amount'] = ($requestData['passengers'] > 4)
                 ? $data['amount8']
                 : $data['amount4'];
@@ -401,12 +409,20 @@ class FrontendController extends Controller
                 strlen($requestData['returnDate'])
             )
         ){
+            $data['success'] = false;
         }
+
         $data = array(
             'amount4' => number_format($this->getAmount($requestData), 2, '.', ''),
             'amount8' => number_format($this->getAmount($requestData), 2, '.', '')
         );
-
+        if (isset($requestData['meet']) && $requestData['meet']) {
+            if ($requestData['meet'] == 'true') {
+                $meet = (int)$this->get('newvision.settings_manager')->get('meet_and_greet', 0);
+                $data['amount4'] += $meet;
+                $data['amount8'] += $meet;
+            }
+        }
         $data['amount'] = ($requestData['passengers'] > 4)
             ? $data['amount8']
             : $data['amount4'];
@@ -444,8 +460,14 @@ class FrontendController extends Controller
         if (in_array($requestData['date'], array_keys($specialDates))) {
             // $pricePerMile = $requestData['']
             $offerPrice = $requestData['distance'] * $specialDates[$date] * $daily;
+            if ($requestData['passengers'] > 4) {
+
+            }
         }else{
             $offerPrice = $requestData['distance'] * $daily;
+            if ($requestData['passengers'] > 4) {
+
+            }
 
         }
         return $offerPrice;
