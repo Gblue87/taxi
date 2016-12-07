@@ -413,8 +413,8 @@ class FrontendController extends Controller
         }
 
         $data = array(
-            'amount4' => number_format($this->getAmount($requestData), 2, '.', ''),
-            'amount8' => number_format($this->getAmount($requestData), 2, '.', '')
+            'amount4' => number_format($this->getAmount($requestData, 4), 2, '.', ''),
+            'amount8' => number_format($this->getAmount($requestData, 8), 2, '.', '')
         );
         if (isset($requestData['meet']) && $requestData['meet']) {
             if ($requestData['meet'] == 'true') {
@@ -449,7 +449,7 @@ class FrontendController extends Controller
         return $total;
     }
 
-    public function getAmount($requestData)
+    public function getAmount($requestData, $passengers)
     {
         $yearDate = date('Y');
         $nextYear = $yearDate+1;
@@ -457,16 +457,23 @@ class FrontendController extends Controller
         $settings = $this->get('newvision.settings_manager');
         $night = $settings->get('night');
         $daily = $settings->get('daily');
+        $time = date("H", strtotime($requestData['time']));
+        if ((int)$time >= 22 || (int)$time < 6) {
+           $tariff = $night;
+        }else{
+           $tariff = $daily;
+        }
         if (in_array($requestData['date'], array_keys($specialDates))) {
             // $pricePerMile = $requestData['']
-            $offerPrice = $requestData['distance'] * $specialDates[$date] * $daily;
-            if ($requestData['passengers'] > 4) {
-
+            $offerPrice = $requestData['distance'] * $specialDates[$date] * $tariff;
+            if ($passengers > 4) {
+                $offerPrice += 3;
             }
         }else{
-            $offerPrice = $requestData['distance'] * $daily;
-            if ($requestData['passengers'] > 4) {
-
+            $time = date("H:i", strtotime($requestData['time']));
+            $offerPrice = $requestData['distance'] * $tariff;
+            if ($passengers > 4) {
+                $offerPrice += 3;
             }
 
         }
