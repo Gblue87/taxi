@@ -120,7 +120,8 @@ class AirportsFrontendController extends Controller
                         'page_style' => "PayPal"
                     )
                 );
-                return $this->redirectToRoute('paypal_gateway', array('form' => $paypalForm));
+                $this->get('session')->set('paypalForm', $paypalForm);
+                return $this->redirectToRoute('paypal_gateway');
 
             } else {
                 $session->getFlashBag()->clear();
@@ -146,9 +147,10 @@ class AirportsFrontendController extends Controller
 
     /**
      * @Route("/paypal-gateway", name="paypal_gateway")
-     * @Template("NewVisionFrontendBundle:Controller:gateway.html.twig")
+     * @Template("NewVisionAirportsBundle:Frontend:gateway.html.twig")
      */
-    public function paypalGatewayAction($form){
+    public function paypalGatewayAction(Request $request){
+        $form = $this->get('session')->get('paypalForm');
         return array(
             'form' => $form,
         );

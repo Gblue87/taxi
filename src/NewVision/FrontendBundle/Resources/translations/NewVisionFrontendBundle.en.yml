@@ -36,7 +36,7 @@ customer_details: 'Customer Details'
 route_map: 'Route Map'
 attention: 'Attention'
 newvision_orders: 'Orders'
-meet_and_greet: 'meet_and_greet'
+meet_and_greet: 'Meet and greet'
 form:
     name: Name
     family: Last name
