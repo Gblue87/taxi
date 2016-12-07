@@ -32,7 +32,7 @@ class FrontendController extends Controller
         }
         $sliderBlock = $em->getRepository('NewVisionCustomBlocksBundle:CustomBlock')->findOneByIdAndLocale(7, $locale);
         $aboutUsBlock = $em->getRepository('NewVisionCustomBlocksBundle:CustomBlock')->findOneByIdAndLocale(8, $locale);
-        $aboutUs = $em->getRepository('NewVisionContentBundle:Content')->findOneById(26);
+        $aboutUs = $em->getRepository('NewVisionContentBundle:Content')->findOneById(25);
         if(!$aboutUs){
             throw $this->createNotFoundException('About us page not found');
         }
