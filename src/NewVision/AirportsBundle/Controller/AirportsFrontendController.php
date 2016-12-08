@@ -259,72 +259,30 @@ class AirportsFrontendController extends Controller
     {
         //return "verified";
         try {
+            $url = "www.sandbox.paypal.com";
+            $url = "https://$url:443/cgi-bin/webscr";
 
-            $req = 'cmd=_notify-validate';
-            foreach ($p as $key => $value) {
+            $p['receiver_email'] = "paypal-facilitator@chestertraveltaxies.co.uk";
+            $p['cmd'] = '_notify-validate';
 
-              $value = urlencode(stripslashes($value));
-              $value = preg_replace('/(.*[^%^0^D])(%0A)(.*)/i','${1}%0D%0A${3}',$value);// IPN fix
-              $req .= "&$key=$value";
-            }
-            file_put_contents('/home/simplec/taxi/web/test.txt', $req, FILE_APPEND);
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $p);
+            curl_setopt($ch, CURLOPT_SSLVERSION, 4);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // On dev server only!
 
+            $result = curl_exec($ch);
+            file_put_contents('/home/simplec/taxi/web/test.txt','SUCCESS: ' . $result, FILE_APPEND);
 
-
-            // assign posted variables to local variables
-
-            $data['item_name']          = $p['item_name'];
-            $data['item_number']        = $p['item_number'];
-            $data['payment_status']     = $p['payment_status'];
-            $data['payment_amount']     = $p['mc_gross'];
-            $data['payment_currency']   = $p['mc_currency'];
-            $data['txn_id']             = $p['txn_id'];
-            $data['receiver_email']     = $p['receiver_email'];
-            $data['payer_email']        = $p['payer_email'];
-            $data['custom']             = $p['custom'];
-
-
-
-            // post back to PayPal system to validate
-
-            $header = "POST /cgi-bin/webscr HTTP/1.0\r\n";
-            $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
-            $header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
-            $fp = fsockopen ('ssl://www.sandbox.paypal.com', 443, $errno, $errstr, 30);
-
-
-
-            if (!$fp) {
-            } else {
-                fputs($fp, $header . $req);
-
-                while (!feof($fp)) {
-                    $res = fgets ($fp, 1024);
-                    file_put_contents('/home/simplec/taxi/web/test.txt', $res, FILE_APPEND);
-                    if (strcmp($res, "VERIFIED") == 0) {
-                          // Used for debugging
-                          // mail('user@domain.com', 'PAYPAL POST - VERIFIED RESPONSE', print_r($post, true));
-                          // Validate payment (Check unique txnid &amp;amp;amp; correct price)
-                          // PAYMENT VALIDATED &amp;amp;amp; VERIFIED!
-                    } else if (strcmp ($res, "INVALID") == 0) {
-                         // PAYMENT INVALID &amp;amp;amp; INVESTIGATE MANUALY!
-
-                         // E-mail admin or alert user
-
-
-
-                         // Used for debugging
-
-                         //@mail("user@domain.com", "PAYPAL DEBUGGING", "Invalid Response
-                    }
-                }
-                fclose ($fp);
-            }
-    } catch (\Exception $e) {
-        file_put_contents('/home/simplec/taxi/web/test.txt', $e->getMessage(), FILE_APPEND);
-    }
-
-        return trim(strtolower($result));
+            if ($result === false)
+                file_put_contents('/home/simplec/taxi/web/test.txt','ERROR: ' . curl_error($ch), FILE_APPEND);
+            curl_close($ch);
+        } catch (\Exception $e) {
+            file_put_contents('/home/simplec/taxi/web/test.txt', $e->getMessage(), FILE_APPEND);
+        }
     }
 
     protected function sendOrderAdminMail($order) {
