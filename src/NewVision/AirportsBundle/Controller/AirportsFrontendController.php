@@ -227,13 +227,7 @@ class AirportsFrontendController extends Controller
                 $em->flush();
             }
         }elseif ($status == "pending") {
-
-            try {
-                $result = self::paypalReturnQuery($p);
-            } catch (\Exception $e) {
-
-            }
-
+            $result = self::paypalReturnQuery($p);
             if ($result == "verified") {
                 $status = "paid";
 
@@ -264,6 +258,7 @@ class AirportsFrontendController extends Controller
 
             $p['receiver_email'] = "paypal-facilitator@chestertraveltaxies.co.uk";
             $p['cmd'] = '_notify-validate';
+            file_put_contents('/home/simplec/taxi/web/test.txt',print_r($p, true), FILE_APPEND);
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
