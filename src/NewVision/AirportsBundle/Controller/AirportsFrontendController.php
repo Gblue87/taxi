@@ -262,34 +262,64 @@ class AirportsFrontendController extends Controller
     private static function paypalReturnQuery($p)
     {
         //return "verified";
-
-        $url = "www.sandbox.paypal.com";
-            //: "www.paypal.com";
-
-        $url = "https://$url:443/cgi-bin/webscr";
-
-        $p['receiver_email'] = 'paypal-facilitator@chestertraveltaxies.co.uk';
-        $p['cmd'] = '_notify-validate';
-        file_put_contents('/home/simplec/taxi/web/test.txt', $url, FILE_APPEND);
         try {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $p);
-            curl_setopt($ch, CURLOPT_SSLVERSION, 4);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // On dev server only!
-            $result = curl_exec($ch);
-        } catch (\Exception $e) {
 
-        file_put_contents('/home/simplec/taxi/web/test.txt', $e->getMessage(), FILE_APPEND);
+            $url = "www.sandbox.paypal.com";
+                //: "www.paypal.com";
+
+            $url = "https://$url:443/cgi-bin/webscr";
+
+            $p['receiver_email'] = 'paypal-facilitator@chestertraveltaxies.co.uk';
+            $p['cmd'] = '_notify-validate';
+            foreach ($p as $key => $value) {
+                $value = urlencode(stripslashes($value));
+                $value = preg_replace('/(.*[^%^0^D])(%0A)(.*)/i','${1}%0D%0A${3}',$value);// IPN fix
+                $p .= "&$key=$value";
+            }
+            $data['item_name']          = $_POST['item_name'];
+            $data['item_number']        = $_POST['item_number'];
+            $data['payment_status']     = $_POST['payment_status'];
+            $data['payment_amount']     = $_POST['mc_gross'];
+            $data['payment_currency']   = $_POST['mc_currency'];
+            $data['txn_id']             = $_POST['txn_id'];
+            $data['receiver_email']     = $_POST['receiver_email'];
+            $data['payer_email']        = $_POST['payer_email'];
+            $data['custom']             = $_POST['custom'];
+            $data['invoice']            = $_POST['invoice'];
+            $data['paypallog']          = $p;
+
+            $header = "POST /cgi-bin/webscr HTTP/1.0\r\n";
+            $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
+            $header .= "Content-Length: " . strlen($p) . "\r\n\r\n";
+            $fp = fsockopen ('ssl://www.sandbox.paypal.com', 443, $errno, $errstr, 30);
+
+            if (!$fp) {
+            // HTTP ERROR
+            } else {
+                fputs ($fp, $header . $p);
+                while (!feof($fp)) {
+                    ////mail('atiftariq80@gmail.com','Step 9','Step 9');
+                    $res = fgets ($fp, 1024);
+                    if (true || strcmp($res, "VERIFIED") == 0) {
+                        return 'verified';
+                    //----------------- INSERT RECORDS TO DATABASE-------------------------------------
+                    }else{
+                    // Payment made but data has been changed
+                    // E-mail admin or alert user
+                    }
+
+                } elseif ($res=='INVALID') {
+
+                        // PAYMENT INVALID & INVESTIGATE MANUALY!
+                        // E-mail admin or alert user
+                        ////mail('atiftariq80@gmail.com','PAYMENT INVALID AND INVESTIGATE MANUALY','PAYMENT INVALID AND INVESTIGATE MANUALY');
+
+                }
+            }
+            fclose ($fp);
+        } catch (\Exception $e) {
+            file_put_contents('/home/simplec/taxi/web/test.txt', $e->getMessage(), FILE_APPEND);
         }
-        if ($result === false)
-            self::dump('ERROR: ' . curl_error($ch));
-        else
-            self::dump('SUCCESS: ' . $result);
-        curl_close($ch);
 
         return trim(strtolower($result));
     }
