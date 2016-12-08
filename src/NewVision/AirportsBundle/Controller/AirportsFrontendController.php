@@ -235,7 +235,6 @@ class AirportsFrontendController extends Controller
                 $result = self::paypalReturnQuery($p);
             } catch (\Exception $e) {
 
-        file_put_contents('/home/simplec/taxi/web/test.txt', $e->getMessage(), FILE_APPEND);
             }
 
             if ($result == "verified") {
@@ -276,7 +275,6 @@ class AirportsFrontendController extends Controller
                 $value = preg_replace('/(.*[^%^0^D])(%0A)(.*)/i','${1}%0D%0A${3}',$value);// IPN fix
                 $p .= "&$key=$value";
             }
-            file_put_contents('/home/simplec/taxi/web/test.txt', print_r($p, true), FILE_APPEND);
 
             $data['item_name']          = $_POST['item_name'];
             $data['item_number']        = $_POST['item_number'];
@@ -295,7 +293,6 @@ class AirportsFrontendController extends Controller
             $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
             $header .= "Content-Length: " . strlen($p) . "\r\n\r\n";
             $fp = fsockopen ('ssl://www.sandbox.paypal.com', 443, $errno, $errstr, 30);
-            file_put_contents('/home/simplec/taxi/web/test.txt', print_r($fp, true), FILE_APPEND);
 
             if (!$fp) {
             // HTTP ERROR
@@ -304,6 +301,7 @@ class AirportsFrontendController extends Controller
                 while (!feof($fp)) {
                     ////mail('atiftariq80@gmail.com','Step 9','Step 9');
                     $res = fgets ($fp, 1024);
+            file_put_contents('/home/simplec/taxi/web/test.txt', $res, FILE_APPEND);
                     if (true || strcmp($res, "VERIFIED") == 0) {
                         return 'verified';
                     //----------------- INSERT RECORDS TO DATABASE-------------------------------------
