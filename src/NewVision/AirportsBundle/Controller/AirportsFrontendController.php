@@ -266,7 +266,7 @@ class AirportsFrontendController extends Controller
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $p);
-            curl_setopt($ch, CURLOPT_SSLVERSION, 4);
+            curl_setopt($ch, CURLOPT_SSLVERSION, 6);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // On dev server only!
 
             $result = curl_exec($ch);
