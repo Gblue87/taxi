@@ -91,7 +91,6 @@ class AirportsFrontendController extends Controller
                 if(!$price){
                     throw $this->createNotFoundException();
                 }
-                var_dump($data->getNo());exit;
                 //LIVE "https://www.paypal.com/cgi-bin/webscr",
                 $paypalForm = array(
                     'action' => "https://www.sandbox.paypal.com/cgi-bin/webscr",
