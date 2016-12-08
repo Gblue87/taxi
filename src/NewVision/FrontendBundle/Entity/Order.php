@@ -189,6 +189,13 @@ class Order
     /**
      * @var string
      * @Gedmo\Versioned
+     * @ORM\Column(name="payment_status", type="string", length=255, nullable=true)
+     */
+    protected $paymentStatus;
+
+    /**
+     * @var string
+     * @Gedmo\Versioned
      * @ORM\Column(name="payment_transaction", type="string", length=255, nullable=true)
      */
     protected $paymentTransaction;
@@ -1068,6 +1075,30 @@ class Order
     public function setNo($no)
     {
         $this->no = $no;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of paymentStatus.
+     *
+     * @return string
+     */
+    public function getPaymentStatus()
+    {
+        return $this->paymentStatus;
+    }
+
+    /**
+     * Sets the value of paymentStatus.
+     *
+     * @param string $paymentStatus the payment status
+     *
+     * @return self
+     */
+    public function setPaymentStatus($paymentStatus)
+    {
+        $this->paymentStatus = $paymentStatus;
 
         return $this;
     }

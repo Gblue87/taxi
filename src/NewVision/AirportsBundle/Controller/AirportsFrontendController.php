@@ -184,12 +184,9 @@ class AirportsFrontendController extends Controller
     {
         $settingsManager = $this->get('newvision.settings_manager');
         $requestData = $request->request->all();
-        file_put_contents('/home/simplec/taxi/web/test.txt', print_r($requestData, true));exit;
-        if (!isset($requestData['invoice']) ||
-            !isset($requestData['payment_status']) ||
-            !isset($requestData['mc_gross']) ||
-            !preg_match('/^\d+$/', $id)
-        )
+
+        file_put_contents('/home/simplec/taxi/web/test.txt', !isset($requestData['invoice']), !isset($requestData['payment_status']), !isset($requestData['mc_gross']), !preg_match('/^\d+$/', $id));
+        if (!isset($requestData['invoice']) || !isset($requestData['payment_status']) || !isset($requestData['mc_gross']) || !preg_match('/^\d+$/', $id))
             return false;
         $em = $this->getDoctrine()->getManager();
         $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
@@ -227,20 +224,42 @@ class AirportsFrontendController extends Controller
                 $em->persist($order);
                 $em->flush();
             }
+        }elseif ($status == "pending") {
+
+            $result = self::paypalReturnQuery($p);
+        file_put_contents('/home/simplec/taxi/web/test.txt', $result);
+
+            if ($result == "verified") {
+                $status = "paid";
+
+                $price = $order->getAmount() * $settingsManager->get('surcharge');
+                if (!$price || $price > (int) $requestData['mc_gross']) {
+                    $status = "payment-failed";
+                }
+
+                if ($status == "paid") {
+                    $this->sendOrderAdminMail($order);
+                    $this->sendOrderUserMail($order);
+                }
+
+                $order->setPaymentStatus($status);
+                $em->persist($order);
+                $em->flush();
+            }
         }
     }
 
 
     private static function paypalReturnQuery($p)
     {
-        return "verified";
+        //return "verified";
 
         $url = "www.sandbox.paypal.com";
             //: "www.paypal.com";
 
         $url = "https://$url:443/cgi-bin/webscr";
 
-        $p['receiver_email'] = 'taxichester.uk@gmail.com';
+        $p['receiver_email'] = 'paypal-facilitator@chestertraveltaxies.co.uk';
         $p['cmd'] = '_notify-validate';
 
         $ch = curl_init();
@@ -257,14 +276,6 @@ class AirportsFrontendController extends Controller
         else
             self::dump('SUCCESS: ' . $result);
         curl_close($ch);
-
-//        $result = file_get_contents($url, null, stream_context_create(array(
-//            'http' => array(
-//                'method' => 'POST',
-//                'header' => 'Content-type: application/x-www-form-urlencoded',
-//                'content' => http_build_query($p)
-//            )
-//        )));
 
         return trim(strtolower($result));
     }
