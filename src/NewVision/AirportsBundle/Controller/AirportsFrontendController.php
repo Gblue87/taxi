@@ -193,7 +193,6 @@ class AirportsFrontendController extends Controller
 
         $p = $requestData;
         $status = strtolower($p['payment_status']);
-        file_put_contents('/home/simplec/taxi/web/test.txt', $status, FILE_APPEND);
 
         if (in_array($status, array('denied', 'expired', 'failed'))) {
             $result = self::paypalReturnQuery($p);
@@ -208,7 +207,6 @@ class AirportsFrontendController extends Controller
                 $result = self::paypalReturnQuery($p);
             } catch (\Exception $e) {
 
-        file_put_contents('/home/simplec/taxi/web/test.txt', $e->getMessage(), FILE_APPEND);
             }
 
             if ($result == "verified") {
@@ -230,7 +228,6 @@ class AirportsFrontendController extends Controller
             }
         }elseif ($status == "pending") {
 
-        file_put_contents('/home/simplec/taxi/web/test.txt', 2, FILE_APPEND);
             try {
                 $result = self::paypalReturnQuery($p);
             } catch (\Exception $e) {
@@ -263,43 +260,27 @@ class AirportsFrontendController extends Controller
         //return "verified";
         try {
 
-            $url = "www.sandbox.paypal.com";
-                //: "www.paypal.com";
-
-            $url = "https://$url:443/cgi-bin/webscr";
-
-             $req = 'cmd=_notify-validate';
-
+            $req = 'cmd=_notify-validate';
             foreach ($p as $key => $value) {
 
               $value = urlencode(stripslashes($value));
-
               $value = preg_replace('/(.*[^%^0^D])(%0A)(.*)/i','${1}%0D%0A${3}',$value);// IPN fix
-
               $req .= "&$key=$value";
-
             }
+            file_put_contents('/home/simplec/taxi/web/test.txt', $req, FILE_APPEND);
 
 
 
             // assign posted variables to local variables
 
             $data['item_name']          = $p['item_name'];
-
             $data['item_number']        = $p['item_number'];
-
             $data['payment_status']     = $p['payment_status'];
-
             $data['payment_amount']     = $p['mc_gross'];
-
             $data['payment_currency']   = $p['mc_currency'];
-
             $data['txn_id']             = $p['txn_id'];
-
             $data['receiver_email']     = $p['receiver_email'];
-
             $data['payer_email']        = $p['payer_email'];
-
             $data['custom']             = $p['custom'];
 
 
@@ -307,43 +288,38 @@ class AirportsFrontendController extends Controller
             // post back to PayPal system to validate
 
             $header = "POST /cgi-bin/webscr HTTP/1.0\r\n";
-
             $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
-
             $header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
-
-
-
             $fp = fsockopen ('ssl://www.sandbox.paypal.com', 443, $errno, $errstr, 30);
 
 
 
-          if (!$fp) {
-          } else {
-            fputs($fp, $header . $req);
+            if (!$fp) {
+            } else {
+                fputs($fp, $header . $req);
 
-            while (!feof($fp)) {
-                $res = fgets ($fp, 1024);
-                file_put_contents('/home/simplec/taxi/web/test.txt', $res, FILE_APPEND);
-                if (strcmp($res, "VERIFIED") == 0) {
-                      // Used for debugging
-                      // mail('user@domain.com', 'PAYPAL POST - VERIFIED RESPONSE', print_r($post, true));
-                      // Validate payment (Check unique txnid &amp;amp;amp; correct price)
-                      // PAYMENT VALIDATED &amp;amp;amp; VERIFIED!
-                } else if (strcmp ($res, "INVALID") == 0) {
-                     // PAYMENT INVALID &amp;amp;amp; INVESTIGATE MANUALY!
+                while (!feof($fp)) {
+                    $res = fgets ($fp, 1024);
+                    file_put_contents('/home/simplec/taxi/web/test.txt', $res, FILE_APPEND);
+                    if (strcmp($res, "VERIFIED") == 0) {
+                          // Used for debugging
+                          // mail('user@domain.com', 'PAYPAL POST - VERIFIED RESPONSE', print_r($post, true));
+                          // Validate payment (Check unique txnid &amp;amp;amp; correct price)
+                          // PAYMENT VALIDATED &amp;amp;amp; VERIFIED!
+                    } else if (strcmp ($res, "INVALID") == 0) {
+                         // PAYMENT INVALID &amp;amp;amp; INVESTIGATE MANUALY!
 
-                     // E-mail admin or alert user
+                         // E-mail admin or alert user
 
 
 
-                     // Used for debugging
+                         // Used for debugging
 
-                     //@mail("user@domain.com", "PAYPAL DEBUGGING", "Invalid Response
+                         //@mail("user@domain.com", "PAYPAL DEBUGGING", "Invalid Response
+                    }
                 }
+                fclose ($fp);
             }
-            fclose ($fp);
-        }
     } catch (\Exception $e) {
         file_put_contents('/home/simplec/taxi/web/test.txt', $e->getMessage(), FILE_APPEND);
     }
