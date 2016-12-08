@@ -271,17 +271,20 @@ class AirportsFrontendController extends Controller
         $p['receiver_email'] = 'paypal-facilitator@chestertraveltaxies.co.uk';
         $p['cmd'] = '_notify-validate';
         file_put_contents('/home/simplec/taxi/web/test.txt', $url, FILE_APPEND);
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $p);
+            curl_setopt($ch, CURLOPT_SSLVERSION, 4);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // On dev server only!
+            $result = curl_exec($ch);
+        } catch (\Exception $e) {
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $p);
-        curl_setopt($ch, CURLOPT_SSLVERSION, 4);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // On dev server only!
-        $result = curl_exec($ch);
-        file_put_contents('/home/simplec/taxi/web/test.txt', $result, FILE_APPEND);
+        file_put_contents('/home/simplec/taxi/web/test.txt', $e->getMessage(), FILE_APPEND);
+        }
         if ($result === false)
             self::dump('ERROR: ' . curl_error($ch));
         else
