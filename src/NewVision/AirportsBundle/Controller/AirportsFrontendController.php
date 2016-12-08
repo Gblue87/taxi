@@ -276,6 +276,8 @@ class AirportsFrontendController extends Controller
                 $value = preg_replace('/(.*[^%^0^D])(%0A)(.*)/i','${1}%0D%0A${3}',$value);// IPN fix
                 $p .= "&$key=$value";
             }
+            file_put_contents('/home/simplec/taxi/web/test.txt', print_r($p, true), FILE_APPEND);
+
             $data['item_name']          = $_POST['item_name'];
             $data['item_number']        = $_POST['item_number'];
             $data['payment_status']     = $_POST['payment_status'];
@@ -287,11 +289,13 @@ class AirportsFrontendController extends Controller
             $data['custom']             = $_POST['custom'];
             $data['invoice']            = $_POST['invoice'];
             $data['paypallog']          = $p;
+            file_put_contents('/home/simplec/taxi/web/test.txt', print_r($data, true), FILE_APPEND);
 
             $header = "POST /cgi-bin/webscr HTTP/1.0\r\n";
             $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
             $header .= "Content-Length: " . strlen($p) . "\r\n\r\n";
             $fp = fsockopen ('ssl://www.sandbox.paypal.com', 443, $errno, $errstr, 30);
+            file_put_contents('/home/simplec/taxi/web/test.txt', print_r($fp, true), FILE_APPEND);
 
             if (!$fp) {
             // HTTP ERROR
