@@ -183,7 +183,7 @@ class AirportsFrontendController extends Controller
      */
     public function paypalNotifyAction(Request $request, $id)
     {
-        file_put_contents('/home/georgi/Desktop/test.txt', $id);
+        file_put_contents('/home/simplec/taxi/web/test.txt', $id);exit;
         $settingsManager = $this->get('newvision.settings_manager');
         $requestData = $request->request->all();
         if (!isset($requestData['invoice']) ||
