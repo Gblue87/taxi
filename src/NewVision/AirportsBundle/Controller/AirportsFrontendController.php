@@ -196,7 +196,7 @@ class AirportsFrontendController extends Controller
 
         $p = $requestData;
         $status = strtolower($p['payment_status']);
-        file_put_contents('/home/simplec/taxi/web/test.txt', $status);exit;
+        file_put_contents('/home/simplec/taxi/web/test.txt', $status, $p);exit;
 
         if (in_array($status, array('denied', 'expired', 'failed'))) {
             $result = self::paypalReturnQuery($p);
