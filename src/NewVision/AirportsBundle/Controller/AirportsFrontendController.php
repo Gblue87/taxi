@@ -91,7 +91,7 @@ class AirportsFrontendController extends Controller
                 if(!$price){
                     throw $this->createNotFoundException();
                 }
-
+                var_dump($data->getNo());exit;
                 //LIVE "https://www.paypal.com/cgi-bin/webscr",
                 $paypalForm = array(
                     'action' => "https://www.sandbox.paypal.com/cgi-bin/webscr",
@@ -183,6 +183,7 @@ class AirportsFrontendController extends Controller
      */
     public function paypalNotifyAction(Request $request, $id)
     {
+        file_put_contents('/home/georgi/Desktop/test.txt', $id);
         $settingsManager = $this->get('newvision.settings_manager');
         $requestData = $request->request->all();
         if (!isset($requestData['invoice']) ||
@@ -219,8 +220,8 @@ class AirportsFrontendController extends Controller
                 }
 
                 if ($status == "paid") {
-                    // $this->sendOrderAdminMail($order);
-                    // $this->sendOrderUserMail($order);
+                    $this->sendOrderAdminMail($order);
+                    $this->sendOrderUserMail($order);
                 }
 
                 $order->setPaymentStatus($status);
@@ -267,6 +268,70 @@ class AirportsFrontendController extends Controller
 //        )));
 
         return trim(strtolower($result));
+    }
+
+    protected function sendOrderAdminMail($order) {
+        $translator = $this->get('translator');
+        $em =  $this->get('doctrine')->getManager();
+        if ($order->getOffer()) {
+            $type = $order->getType();
+            if ($type == 'airport') {
+                $offer = $em->getRepository('NewVisionAirportsBundle:Airport')->findOneById($order->getOffer());
+            }elseif ($type == 'hotel') {
+                $offer = $em->getRepository('NewVisionServicesBundle:Service')->findOneById($order->getOffer());
+            }else{
+                $offer = null;
+            }
+        }
+        $adminMessage = \Swift_Message::newInstance()
+            ->setSubject($translator->trans('contact.admin_message_subject', array(), 'messages'))
+            ->setFrom($settings->get('sender_email'))
+            ->setTo($order->getEmail())
+            ->setBody(
+                $this->renderView(
+                    'NewVisionFrontendBundle:Email:admin_payment.html.twig', array(
+                        'order' => $order,
+                        'offer' => $offer,
+                    )
+                ),
+                'text/html'
+            )
+        ;
+
+        $mailer = $this->get('mailer');
+        $mailer->send($adminMessage);
+    }
+
+    protected function sendOrderUserMail($order) {
+        $translator = $this->get('translator');
+        $em =  $this->get('doctrine')->getManager();
+        if ($order->getOffer()) {
+            $type = $order->getType();
+            if ($type == 'airport') {
+                $offer = $em->getRepository('NewVisionAirportsBundle:Airport')->findOneById($order->getOffer());
+            }elseif ($type == 'hotel') {
+                $offer = $em->getRepository('NewVisionServicesBundle:Service')->findOneById($order->getOffer());
+            }else{
+                $offer = null;
+            }
+        }
+        $userMessage = \Swift_Message::newInstance()
+            ->setSubject($translator->trans('contact.user_message_subject', array(), 'messages'))
+            ->setFrom($settings->get('sender_email'))
+            ->setTo($order->getEmail())
+            ->setBody(
+                $this->renderView(
+                    'NewVisionFrontendBundle:Email:user_payment.html.twig', array(
+                        'order' => $order,
+                        'offer' => $offer,
+                    )
+                ),
+                'text/html'
+            )
+        ;
+
+        $mailer = $this->get('mailer');
+        $mailer->send($userMessage);
     }
 
 

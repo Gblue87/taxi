@@ -1,0 +1,111 @@
+<!--subject: New order #{$order.id} from TaxiChester.UK-->
+
+<style>
+    th {
+        text-align: right;
+        padding: 2px 5px;
+    }
+    td {
+        padding: 2px 5px;
+    }
+</style>
+
+<h2>General Information</h2>
+<table>
+<tr>
+    <th>Order #</th>
+    <td>{{order.no}}</td>
+</tr>
+{% if offer is defined and offer is not null and offer|length %}
+    <tr>
+        <th>Offer:</th>
+        <td><a href="{{ app.request.getSchemeAndHttpHost() }}{{path(offer.route, offer.routeParams)}}">{{offer.title}}</a></td>
+    </tr>
+{% endif %}
+<tr>
+    <th>Booked on:</th>
+    <td>{{order.createdAt|date('d.m.Y H:i')}}</td>
+</tr>
+<tr>
+    <th>Booked for:</th>
+    <td>{{order.startTime|date('d.m.Y H:i')}}</td>
+</tr>
+{% if order.returnDate is defined and order.returnDate is not null and order.returnDate|length %}
+    <tr>
+        <th>Return journey:</th>
+        <td>{{order.returnDate|date('d.m.Y')}}</td>
+    </tr>
+    <tr>
+        <th>Return journey:</th>
+        <td>{{order.returnTime|date('H:i')}}</td>
+    </tr>
+{% endif %}
+<tr>
+    <th>Starting point:</th>
+    <td>{{order.from}}<br />({{order.fromLng}}, {{order.fromLat}})</td>
+</tr>
+{% if order.via is defined and order.via is not null and order.via|length %}
+    <tr>
+        <th>Waypoint:</th>
+        <td>{{order.via}}<br />({{order.viaLng}}, {{order.viaLat}})</td>
+    </tr>
+{% endif %}
+<tr>
+    <th>End point:</th>
+    <td>{{order.to}}<br />({{order.toLng}}, {{order.toLat}})</td>
+</tr>
+<tr>
+    <th>Distance:</th>
+    <td>{{order.distance}} miles</td>
+</tr>
+<tr>
+    <th>Number of passengers:</th>
+    <td>{{order.passengers}}</td>
+</tr>
+<tr>
+    <th>Calculated amount:</th>
+    <td>
+        {% if order.payment == 'cash' %}
+            £{{order.amount|number_format(2)}}
+        {% else %}
+            {{order.amount*1.05|number_format(2)}}
+        {% endif %}
+    </td>
+</tr>
+<tr>
+    <th>Payment method:</th>
+    <td>{{order.paymentType}}</td>
+</tr>
+</table>
+
+<h2>Contact Person:</h2>
+<table>
+<tr>
+    <th>Name:</th>
+    <td>{{order.name}}</td>
+</tr>
+<tr>
+    <th>Last name:</th>
+    <td>{{order.family}}</td>
+</tr>
+<tr>
+    <th>E-mail:</th>
+    <td><a href="mailto: {{order.email}}">{{order.email}}</a></td>
+</tr>
+<tr>
+    <th>Phone:</th>
+    <td>{{order.phone}}</td>
+</tr>
+{% if order.baggageDetails is defined and order.baggageDetails is not null and order.baggageDetails|length %}
+    <tr>
+        <th>Baggage information:</th>
+        <td>{{order.baggageDetails}}</td>
+    </tr>
+{% endif %}
+{% if order.info is defined and order.info is not null and order.info|length %}
+    <tr>
+        <th>Additional information:</th>
+        <td>{{order.info}}</td>
+    </tr>
+{% endif %}
+</table>
