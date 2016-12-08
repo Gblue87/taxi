@@ -157,7 +157,7 @@ class AirportsFrontendController extends Controller
 
     /**
      * @Route("/paypal-success/{id}", name="paypal_success")
-     * @Template("NewVisionFrontendBundle:Controller:paypalSuccess.html.twig")
+     * @Template("NewVisionAirportsBundle:Frontend:paypalSuccess.html.twig")
      */
     public function paypalSuccessAction($id)
     {
@@ -182,7 +182,6 @@ class AirportsFrontendController extends Controller
      */
     public function paypalNotifyAction(Request $request, $id)
     {
-        file_put_contents('/home/simplec/taxi/web/test.txt', $id);exit;
         $settingsManager = $this->get('newvision.settings_manager');
         $requestData = $request->request->all();
         if (!isset($requestData['invoice']) ||
@@ -197,6 +196,7 @@ class AirportsFrontendController extends Controller
 
         $p = $requestData;
         $status = strtolower($p['payment_status']);
+        file_put_contents('/home/simplec/taxi/web/test.txt', $status);exit;
 
         if (in_array($status, array('denied', 'expired', 'failed'))) {
             $result = self::paypalReturnQuery($p);
