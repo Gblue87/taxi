@@ -193,7 +193,7 @@ class AirportsFrontendController extends Controller
 
         $p = $requestData;
         $status = strtolower($p['payment_status']);
-        file_put_contents('/home/simplec/taxi/web/test.txt', $status);
+        file_put_contents('/home/simplec/taxi/web/test.txt', $status, FILE_APPEND);
 
         if (in_array($status, array('denied', 'expired', 'failed'))) {
             $result = self::paypalReturnQuery($p);
@@ -208,7 +208,7 @@ class AirportsFrontendController extends Controller
                 $result = self::paypalReturnQuery($p);
             } catch (\Exception $e) {
 
-        file_put_contents('/home/simplec/taxi/web/test.txt', $e->getMessage());
+        file_put_contents('/home/simplec/taxi/web/test.txt', $e->getMessage(), FILE_APPEND);
             }
 
             if ($result == "verified") {
@@ -230,12 +230,12 @@ class AirportsFrontendController extends Controller
             }
         }elseif ($status == "pending") {
 
-        file_put_contents('/home/simplec/taxi/web/test.txt', 2);
+        file_put_contents('/home/simplec/taxi/web/test.txt', 2, FILE_APPEND);
             try {
                 $result = self::paypalReturnQuery($p);
             } catch (\Exception $e) {
 
-        file_put_contents('/home/simplec/taxi/web/test.txt', $e->getMessage());
+        file_put_contents('/home/simplec/taxi/web/test.txt', $e->getMessage(), FILE_APPEND);
             }
 
             if ($result == "verified") {
@@ -270,6 +270,7 @@ class AirportsFrontendController extends Controller
 
         $p['receiver_email'] = 'paypal-facilitator@chestertraveltaxies.co.uk';
         $p['cmd'] = '_notify-validate';
+        file_put_contents('/home/simplec/taxi/web/test.txt', $url, FILE_APPEND);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -280,6 +281,7 @@ class AirportsFrontendController extends Controller
         curl_setopt($ch, CURLOPT_SSLVERSION, 4);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // On dev server only!
         $result = curl_exec($ch);
+        file_put_contents('/home/simplec/taxi/web/test.txt', $result, FILE_APPEND);
         if ($result === false)
             self::dump('ERROR: ' . curl_error($ch));
         else
