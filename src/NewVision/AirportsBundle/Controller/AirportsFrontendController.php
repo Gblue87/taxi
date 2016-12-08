@@ -230,8 +230,13 @@ class AirportsFrontendController extends Controller
             }
         }elseif ($status == "pending") {
 
-            $result = self::paypalReturnQuery($p);
-        file_put_contents('/home/simplec/taxi/web/test.txt', $result);
+        file_put_contents('/home/simplec/taxi/web/test.txt', 2);
+            try {
+                $result = self::paypalReturnQuery($p);
+            } catch (\Exception $e) {
+
+        file_put_contents('/home/simplec/taxi/web/test.txt', $e->getMessage());
+            }
 
             if ($result == "verified") {
                 $status = "paid";
