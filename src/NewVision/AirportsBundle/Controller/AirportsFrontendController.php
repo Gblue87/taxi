@@ -185,8 +185,7 @@ class AirportsFrontendController extends Controller
         $settingsManager = $this->get('newvision.settings_manager');
         $requestData = $request->request->all();
 
-        file_put_contents('/home/simplec/taxi/web/test.txt', !isset($requestData['invoice']), !isset($requestData['payment_status']), !isset($requestData['mc_gross']), !preg_match('/^\d+$/', $id));
-        if (!isset($requestData['invoice']) || !isset($requestData['payment_status']) || !isset($requestData['mc_gross']) || !preg_match('/^\d+$/', $id))
+        if (!isset($requestData['invoice']) || !isset($requestData['payment_status']) || !isset($requestData['mc_gross']))
             return false;
         $em = $this->getDoctrine()->getManager();
         $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
