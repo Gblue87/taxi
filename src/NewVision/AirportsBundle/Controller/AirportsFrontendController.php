@@ -304,15 +304,10 @@ class AirportsFrontendController extends Controller
                         return 'verified';
                     //----------------- INSERT RECORDS TO DATABASE-------------------------------------
                     }else{
+            file_put_contents('/home/simplec/taxi/web/test.txt', $res, FILE_APPEND);
                     // Payment made but data has been changed
                     // E-mail admin or alert user
                     }
-
-                } elseif ($res=='INVALID') {
-
-                        // PAYMENT INVALID & INVESTIGATE MANUALY!
-                        // E-mail admin or alert user
-                        ////mail('atiftariq80@gmail.com','PAYMENT INVALID AND INVESTIGATE MANUALY','PAYMENT INVALID AND INVESTIGATE MANUALY');
 
                 }
             }
