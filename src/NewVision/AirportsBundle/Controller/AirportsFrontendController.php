@@ -193,6 +193,7 @@ class AirportsFrontendController extends Controller
 
         $p = $requestData;
         $status = strtolower($p['payment_status']);
+        file_put_contents('/home/simplec/taxi/web/test.txt', $status);
 
         if (in_array($status, array('denied', 'expired', 'failed'))) {
             $result = self::paypalReturnQuery($p);
@@ -203,8 +204,12 @@ class AirportsFrontendController extends Controller
             }
 
         } elseif ($status == "completed") {
+            try {
+                $result = self::paypalReturnQuery($p);
+            } catch (\Exception $e) {
 
-            $result = self::paypalReturnQuery($p);
+        file_put_contents('/home/simplec/taxi/web/test.txt', $e->getMessage());
+            }
 
             if ($result == "verified") {
                 $status = "paid";
