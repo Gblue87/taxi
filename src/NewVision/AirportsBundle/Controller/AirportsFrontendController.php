@@ -98,7 +98,7 @@ class AirportsFrontendController extends Controller
                     'fields' => array(
                         'cmd' => "_ext-enter",
                         'redirect_cmd' => "_xclick",
-                        'business' => 'taxichester.uk@gmail.com',
+                        'business' => 'paypal-facilitator@chestertraveltaxies.co.uk',
                         'invoice' => $data->getNo(),
                         'amount' => $price,
                         'currency_code' => 'GBP',
@@ -179,7 +179,7 @@ class AirportsFrontendController extends Controller
     }
 
     /**
-     * @Route("/paypal-notify", name="paypal_notify")
+     * @Route("/paypal-notify/{id}", name="paypal_notify")
      */
     public function paypalNotifyAction(Request $request, $id)
     {
