@@ -184,6 +184,7 @@ class AirportsFrontendController extends Controller
     {
         $settingsManager = $this->get('newvision.settings_manager');
         $requestData = $request->request->all();
+        file_put_contents('/home/simplec/taxi/web/test.txt', $requestData);exit;
         if (!isset($requestData['invoice']) ||
             !isset($requestData['payment_status']) ||
             !isset($requestData['mc_gross']) ||
@@ -196,7 +197,6 @@ class AirportsFrontendController extends Controller
 
         $p = $requestData;
         $status = strtolower($p['payment_status']);
-        file_put_contents('/home/simplec/taxi/web/test.txt', $status, $p);exit;
 
         if (in_array($status, array('denied', 'expired', 'failed'))) {
             $result = self::paypalReturnQuery($p);
