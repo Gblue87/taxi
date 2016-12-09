@@ -630,7 +630,7 @@
 
                     $('#price_1').text(amount.toFixed(2));
                     $('#average').text((amount / passengers).toFixed(2));
-
+                    $('#price span').text(price);
                     if ($(this).parents('.bottrow').length)
                         $('#ppp').addClass('_isbot');
                     else
@@ -936,6 +936,7 @@
                     var price = (this.value > 4) ? amount8 : amount4;
 
                     $('#price_1').text(price);
+                    $('#price span').text(price);
                     var average = price / this.value;
                     $('#average').text(average.toFixed(2));
                     if($(this).parents('.bottrow').length)
