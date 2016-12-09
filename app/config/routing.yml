@@ -5,12 +5,12 @@ airports_bundle:
     requirements:
         _locale: "[a-z]{2}"
 # NewVisionAccentsBundle routes
-accents_bundle:
-    resource: "@NewVisionAccentsBundle/Controller"
-    type:     annotation
-    prefix:   /{_locale}
-    requirements:
-        _locale: "[a-z]{2}"
+# accents_bundle:
+#     resource: "@NewVisionAccentsBundle/Controller"
+#     type:     annotation
+#     prefix:   /{_locale}
+#     requirements:
+#         _locale: "[a-z]{2}"
 
 # NewVisionCustomBlocksBundle routes
 custom_blocks:
@@ -29,12 +29,12 @@ services_bundle:
         _locale: "[a-z]{2}"
 
 # NewVisionMailChimpBundle routes
-mail_chimp:
-    resource: "@NewVisionMailChimpBundle/Controller"
-    type:     annotation
-    prefix:   /{_locale}
-    requirements:
-        _locale: "[a-z]{2}"
+# mail_chimp:
+#     resource: "@NewVisionMailChimpBundle/Controller"
+#     type:     annotation
+#     prefix:   /{_locale}
+#     requirements:
+#         _locale: "[a-z]{2}"
 
 # NewVisionFrontendBundle routes
 frontend_bundle:
@@ -45,44 +45,44 @@ frontend_bundle:
         _locale: "[a-z]{2}"
 
 # NewVisionBannersBundle routes
-banners_bundle:
-    resource: "@NewVisionBannersBundle/Controller"
-    type:     annotation
-    prefix:   /{_locale}
-    requirements:
-        _locale: "[a-z]{2}"
+# banners_bundle:
+#     resource: "@NewVisionBannersBundle/Controller"
+#     type:     annotation
+#     prefix:   /{_locale}
+#     requirements:
+#         _locale: "[a-z]{2}"
 
-# NewVisionNewsletterBundle routes
-newsletter_bundle:
-    resource: "@NewVisionNewsletterBundle/Controller"
-    type:     annotation
-    prefix:   /{_locale}
-    requirements:
-        _locale: "[a-z]{2}"
+# # NewVisionNewsletterBundle routes
+# newsletter_bundle:
+#     resource: "@NewVisionNewsletterBundle/Controller"
+#     type:     annotation
+#     prefix:   /{_locale}
+#     requirements:
+#         _locale: "[a-z]{2}"
 
 # NewVisionContactsBundle routes
-contacts_bundle:
-    resource: "@NewVisionContactsBundle/Controller"
-    type:     annotation
-    prefix:   /{_locale}
-    requirements:
-        _locale: "[a-z]{2}"
+# contacts_bundle:
+#     resource: "@NewVisionContactsBundle/Controller"
+#     type:     annotation
+#     prefix:   /{_locale}
+#     requirements:
+#         _locale: "[a-z]{2}"
 
-# NewVisionSearchBundle routes
-search_bundle:
-    resource: "@NewVisionSearchBundle/Controller"
-    type:     annotation
-    prefix:   /{_locale}
-    requirements:
-        _locale: "[a-z]{2}"
+# # NewVisionSearchBundle routes
+# search_bundle:
+#     resource: "@NewVisionSearchBundle/Controller"
+#     type:     annotation
+#     prefix:   /{_locale}
+#     requirements:
+#         _locale: "[a-z]{2}"
 
 # NewVisionNotificationsBundle routes
-notifications_bundle:
-    resource: "@NewVisionNotificationsBundle/Controller"
-    type:     annotation
-    prefix:   /{_locale}
-    requirements:
-        _locale: "[a-z]{2}"
+# notifications_bundle:
+#     resource: "@NewVisionNotificationsBundle/Controller"
+#     type:     annotation
+#     prefix:   /{_locale}
+#     requirements:
+#         _locale: "[a-z]{2}"
 
 admin:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'

@@ -92,35 +92,47 @@ class ServicesFrontendController extends Controller
                     throw $this->createNotFoundException();
                 }
 
-                //LIVE "https://www.paypal.com/cgi-bin/webscr",
-                $paypalForm = array(
-                    'action' => "https://www.sandbox.paypal.com/cgi-bin/webscr",
-                    'fields' => array(
-                        'cmd' => "_ext-enter",
-                        'redirect_cmd' => "_xclick",
-                        'business' => 'taxichester.uk@gmail.com',
-                        'invoice' => $data->getNo(),
-                        'amount' => $price,
-                        'currency_code' => 'GBP',
-                        'paymentaction' => "sale",
-                        'return' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_success', array('id' => $data->getNo())),
-                        'cancel_return' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_success', array('id' => $data->getNo())),
-                        'notify_url' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_notify', array('id' => $data->getNo())),
-                        'item_name' => "TaxiChester Order #".$data->getNo(),
-                        'lc' => "en_GB",
-                        'charset' => "utf-8",
-                        'no_shipping' => "1",
-                        'no_note' => "1",
-                        'image_url' => "",
-                        'email' => $data->getEmail(),
-                        'first_name' => $data->getName(),
-                        'last_name' => $data->getFamily(),
-                        'custom' => $data->getNo(),
-                        'cs' => "0",
-                        'page_style' => "PayPal"
-                    )
-                );
-                return $this->redirectToRoute('paypal_gateway', array('form' => $paypalForm));
+                if (isset($requestData['paymentType']) && $requestData['paymentType'] == 'paypal') {
+                    //LIVE "https://www.paypal.com/cgi-bin/webscr",
+                    $paypalForm = array(
+                        'action' => "https://www.sandbox.paypal.com/cgi-bin/webscr",
+                        'fields' => array(
+                            'cmd' => "_ext-enter",
+                            'redirect_cmd' => "_xclick",
+                            'business' => 'paypal-facilitator@chestertraveltaxies.co.uk',
+                            'invoice' => $data->getNo(),
+                            'amount' => $price,
+                            'currency_code' => 'GBP',
+                            'paymentaction' => "sale",
+                            'return' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_success', array('id' => $data->getNo())),
+                            'cancel_return' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_success', array('id' => $data->getNo())),
+                            'notify_url' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_notify', array('id' => $data->getNo())),
+                            'item_name' => "TaxiChester Order #".$data->getNo(),
+                            'lc' => "en_GB",
+                            'charset' => "utf-8",
+                            'no_shipping' => "1",
+                            'no_note' => "1",
+                            'image_url' => "",
+                            'email' => $data->getEmail(),
+                            'first_name' => $data->getName(),
+                            'last_name' => $data->getFamily(),
+                            'custom' => $data->getNo(),
+                            'cs' => "0",
+                            'page_style' => "PayPal"
+                        )
+                    );
+                    $this->get('session')->set('paypalForm', $paypalForm);
+                    return $this->redirectToRoute('paypal_gateway');
+                }elseif(isset($requestData['paymentType']) && $requestData['paymentType'] == 'worldpay'){
+
+                }elseif(isset($requestData['paymentType']) && $requestData['paymentType'] == 'cash'){
+                    $data->setPaymentStatus('cash-order');
+                    $em->persist($data);
+                    $em->flush();
+                    return $this->redirectToRoute('cash_success', array('id' => $data->getNo()));
+                }else{
+                    throw new \Exception("No payment method found", 404);
+                }
 
             } else {
                 $session->getFlashBag()->clear();

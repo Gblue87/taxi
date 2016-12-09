@@ -34,9 +34,6 @@ class OrdersAdmin extends Admin
 
         $datagridMapper
             ->add('id')
-            ->add('from', null, array('label' => 'form.from'))
-            ->add('to', null, array('label' => 'form.to'))
-            ->add('date', null, array('label' => 'form.to'))
             ->add('name', null, array('label' => 'form.name'))
             ->add('family', null, array('label' => 'form.family'));
     }
@@ -47,9 +44,18 @@ class OrdersAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('name', null, array('label' => 'form.name'))
-            ->addIdentifier('family', null, array('label' => 'form.family'))
-            ->add('createdAt', null, array('label' => 'form.createdAt'))
+            ->addIdentifier('from', null, array('label' => 'From'))
+            ->addIdentifier('to', null, array('label' => 'To'))
+            ->addIdentifier('date', null, array('label' => 'Date'))
+            ->addIdentifier('start_time', null, array('label' => 'Start time'))
+            ->addIdentifier('passengers', null, array('label' => 'Passengers'))
+            ->addIdentifier('distance', null, array('label' => 'Distance'))
+            ->addIdentifier('amount', null, array('label' => 'Amount'))
+            ->addIdentifier('name', null, array('label' => 'Name'))
+            ->addIdentifier('family', null, array('label' => 'Family'))
+            ->addIdentifier('phone', null, array('label' => 'Phone'))
+            ->addIdentifier('email', null, array('label' => 'Email'))
+            ->add('createdAt', null, array('label' => 'createdAt'))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
