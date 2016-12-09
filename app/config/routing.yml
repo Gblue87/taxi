@@ -61,12 +61,12 @@ frontend_bundle:
 #         _locale: "[a-z]{2}"
 
 # NewVisionContactsBundle routes
-# contacts_bundle:
-#     resource: "@NewVisionContactsBundle/Controller"
-#     type:     annotation
-#     prefix:   /{_locale}
-#     requirements:
-#         _locale: "[a-z]{2}"
+contacts_bundle:
+    resource: "@NewVisionContactsBundle/Controller"
+    type:     annotation
+    prefix:   /{_locale}
+    requirements:
+        _locale: "[a-z]{2}"
 
 # # NewVisionSearchBundle routes
 # search_bundle:
