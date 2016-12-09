@@ -303,6 +303,7 @@
                 $('#meet').on('change', function(){
                     if (validateStep1(true)) {
                         if (isSubmit) {
+                            transferData();
                             getRoute();
                         }
                     }
@@ -467,7 +468,6 @@
                                 time: $('#time').val(),
                                 returnTime: $('#rj').is(':checked') ? $('#time2').val() : ''
                             };
-
                             $.ajax({
                                 url: '{{path('distance_amount')}}',
                                 type: 'post',
@@ -824,7 +824,7 @@
                             : "";
                         date = $('#date').val();
                         returnDate = $('#date2').val();
-
+                        console.log(passengers);
                     // {* HIDDEN FORM FIELDS *}
                     $('#step2 [name="order[from]"]').val(from);
                     $('#step2 [name="order[to]"]').val(to);
