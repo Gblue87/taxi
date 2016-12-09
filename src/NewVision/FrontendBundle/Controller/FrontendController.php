@@ -32,7 +32,7 @@ class FrontendController extends Controller
         }
         $sliderBlock = $em->getRepository('NewVisionCustomBlocksBundle:CustomBlock')->findOneByIdAndLocale(7, $locale);
         $aboutUsBlock = $em->getRepository('NewVisionCustomBlocksBundle:CustomBlock')->findOneByIdAndLocale(8, $locale);
-        $aboutUs = $em->getRepository('NewVisionContentBundle:Content')->findOneById(25);
+        $aboutUs = $em->getRepository('NewVisionContentBundle:Content')->findOneById(26);
         if(!$aboutUs){
             throw $this->createNotFoundException('About us page not found');
         }
@@ -463,17 +463,31 @@ class FrontendController extends Controller
         }else{
            $tariff = $daily;
         }
+        if (isset($requestData['returnDate']) && $requestData['returnDate'] != '') {
+            $time = date("H", strtotime($requestData['returnTime']));
+            if ((int)$time >= 22 || (int)$time < 6) {
+               $returnTariff = $night;
+            }else{
+               $returnTariff = $daily;
+            }
+        }
         if (in_array($requestData['date'], array_keys($specialDates))) {
             // $pricePerMile = $requestData['']
             $offerPrice = $requestData['distance'] * $specialDates[$date] * $tariff;
             if ($passengers > 4) {
                 $offerPrice += 3;
             }
+            if ($requestData['returnDate'] != '') {
+                $offerPrice +=  $requestData['distance'] * $returnTariff;
+            }
         }else{
             $time = date("H:i", strtotime($requestData['time']));
             $offerPrice = $requestData['distance'] * $tariff;
             if ($passengers > 4) {
                 $offerPrice += 3;
+            }
+            if ($requestData['returnDate'] != '') {
+                $offerPrice +=  $requestData['distance'] * $returnTariff;
             }
 
         }

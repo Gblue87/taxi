@@ -1,3 +1,4 @@
+site_name: 'TaxiChester.UK'
 from: 'From'
 seoTitleText: ' - TaxiChester.UK'
 to: 'To'
@@ -37,6 +38,7 @@ route_map: 'Route Map'
 attention: 'Attention'
 newvision_orders: 'Orders'
 meet_and_greet: 'Meet and greet'
+min_distance: 'We are sorry. The minimum distance is 10 miles.'
 form:
     name: Name
     family: Last name

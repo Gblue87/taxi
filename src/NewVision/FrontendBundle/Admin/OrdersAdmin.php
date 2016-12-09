@@ -34,6 +34,9 @@ class OrdersAdmin extends Admin
 
         $datagridMapper
             ->add('id')
+            ->add('from', null, array('label' => 'form.from'))
+            ->add('to', null, array('label' => 'form.to'))
+            ->add('date', null, array('label' => 'form.to'))
             ->add('name', null, array('label' => 'form.name'))
             ->add('family', null, array('label' => 'form.family'));
     }

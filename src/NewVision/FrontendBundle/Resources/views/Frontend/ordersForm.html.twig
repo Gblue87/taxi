@@ -443,11 +443,11 @@
 
                             // {* METERS TO MILES *}
                             distance = distance * 0.000621371;
-
+                            distance = 3;
                             // {* MINIMUM 10 MILES *}
                             if (distance < 10) {
                                 clearData();
-                                showError("We are sorry. The minimum distance is 5 miles.");
+                                showError("{{ 'min_distance'|trans({}, 'NewVisionFrontendBundle')}}");
                                 return;
                             }
 
@@ -465,7 +465,8 @@
                                 date: $('#step2 [name="order[start_time]"]').val().substr(0, 10),
                                 returnDate: $('#step2 [name="order[return_time]"]').val().substr(0, 10),
                                 meet: $('#meet').is(':checked'),
-                                time: $('#time').val()
+                                time: $('#time').val(),
+                                returnTime: $('#rj').is(':checked') ? $('#time2').val() : ''
                             };
 
                             $.ajax({

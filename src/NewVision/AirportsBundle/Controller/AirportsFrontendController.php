@@ -84,6 +84,7 @@ class AirportsFrontendController extends Controller
                 $data = $form->getData();
                 $data->setNo(rand(5, 16).time());
                 $data->setType('airport');
+                $data->setPaymentType($requestData['paymentType']);
                 $em->persist($data);
                 $em->flush();
 
@@ -91,36 +92,47 @@ class AirportsFrontendController extends Controller
                 if(!$price){
                     throw $this->createNotFoundException();
                 }
-                //LIVE "https://www.paypal.com/cgi-bin/webscr",
-                $paypalForm = array(
-                    'action' => "https://www.sandbox.paypal.com/cgi-bin/webscr",
-                    'fields' => array(
-                        'cmd' => "_ext-enter",
-                        'redirect_cmd' => "_xclick",
-                        'business' => 'paypal-facilitator@chestertraveltaxies.co.uk',
-                        'invoice' => $data->getNo(),
-                        'amount' => $price,
-                        'currency_code' => 'GBP',
-                        'paymentaction' => "sale",
-                        'return' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_success', array('id' => $data->getNo())),
-                        'cancel_return' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_success', array('id' => $data->getNo())),
-                        'notify_url' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_notify', array('id' => $data->getNo())),
-                        'item_name' => "TaxiChester Order #".$data->getNo(),
-                        'lc' => "en_GB",
-                        'charset' => "utf-8",
-                        'no_shipping' => "1",
-                        'no_note' => "1",
-                        'image_url' => "",
-                        'email' => $data->getEmail(),
-                        'first_name' => $data->getName(),
-                        'last_name' => $data->getFamily(),
-                        'custom' => $data->getNo(),
-                        'cs' => "0",
-                        'page_style' => "PayPal"
-                    )
-                );
-                $this->get('session')->set('paypalForm', $paypalForm);
-                return $this->redirectToRoute('paypal_gateway');
+                if (isset($requestData['paymentType']) && $requestData['paymentType'] == 'paypal') {
+                    //LIVE "https://www.paypal.com/cgi-bin/webscr",
+                    $paypalForm = array(
+                        'action' => "https://www.sandbox.paypal.com/cgi-bin/webscr",
+                        'fields' => array(
+                            'cmd' => "_ext-enter",
+                            'redirect_cmd' => "_xclick",
+                            'business' => 'paypal-facilitator@chestertraveltaxies.co.uk',
+                            'invoice' => $data->getNo(),
+                            'amount' => $price,
+                            'currency_code' => 'GBP',
+                            'paymentaction' => "sale",
+                            'return' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_success', array('id' => $data->getNo())),
+                            'cancel_return' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_success', array('id' => $data->getNo())),
+                            'notify_url' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_notify', array('id' => $data->getNo())),
+                            'item_name' => "TaxiChester Order #".$data->getNo(),
+                            'lc' => "en_GB",
+                            'charset' => "utf-8",
+                            'no_shipping' => "1",
+                            'no_note' => "1",
+                            'image_url' => "",
+                            'email' => $data->getEmail(),
+                            'first_name' => $data->getName(),
+                            'last_name' => $data->getFamily(),
+                            'custom' => $data->getNo(),
+                            'cs' => "0",
+                            'page_style' => "PayPal"
+                        )
+                    );
+                    $this->get('session')->set('paypalForm', $paypalForm);
+                    return $this->redirectToRoute('paypal_gateway');
+                }elseif(isset($requestData['paymentType']) && $requestData['paymentType'] == 'worldpay'){
+
+                }elseif(isset($requestData['paymentType']) && $requestData['paymentType'] == 'cash'){
+                    $data->setPaymentStatus('cash-order');
+                    $em->persist($data);
+                    $em->flush();
+                    return $this->redirectToRoute('cash_success', array('id' => $data->getNo()));
+                }else{
+                    throw new \Exception("No payment method found", 404);
+                }
 
             } else {
                 $session->getFlashBag()->clear();
@@ -156,6 +168,27 @@ class AirportsFrontendController extends Controller
     }
 
     /**
+     * @Route("/success/{id}", name="cash_success")
+     * @Template("NewVisionAirportsBundle:Frontend:cashSuccess.html.twig")
+     */
+    public function cashSuccessAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
+        if (!preg_match('/^\d+$/', $id))
+            throw $this->createNotFoundException();
+        $order = $ordersRepository->findOneByNo($id);
+        if (empty($order))
+            throw $this->createNotFoundException();
+
+        // $this->sendOrderAdminMail($order);
+        // $this->sendOrderUserMail($order);
+        return array(
+            'order' => $order,
+        );
+    }
+
+    /**
      * @Route("/paypal-success/{id}", name="paypal_success")
      * @Template("NewVisionAirportsBundle:Frontend:paypalSuccess.html.twig")
      */
@@ -166,14 +199,28 @@ class AirportsFrontendController extends Controller
         if (!preg_match('/^\d+$/', $id))
             throw $this->createNotFoundException();
         $order = $ordersRepository->findOneByNo($id);
-
         if (empty($order))
             throw $this->createNotFoundException();
+
+        if ($order->getPaymentStatus() != 'paid') {
+            return $this->redirectToRoute('paypal_error');
+        }
+
 
         // $this->sendOrderAdminMail($order);
         // $this->sendOrderUserMail($order);
         return array(
             'order' => $order,
+        );
+    }
+
+    /**
+     * @Route("/paypal-error", name="paypal_error")
+     * @Template("NewVisionAirportsBundle:Frontend:paypalError.html.twig")
+     */
+    public function paypalErrorAction()
+    {
+        return array(
         );
     }
 
@@ -203,11 +250,9 @@ class AirportsFrontendController extends Controller
             }
 
         } elseif ($status == "completed") {
-            try {
-                $result = self::paypalReturnQuery($p);
-            } catch (\Exception $e) {
 
-            }
+            $result = self::paypalReturnQuery($p);
+
 
             if ($result == "verified") {
                 $status = "paid";
@@ -222,10 +267,12 @@ class AirportsFrontendController extends Controller
                     $this->sendOrderUserMail($order);
                 }
 
-                $order->setPaymentStatus($status);
-                $em->persist($order);
-                $em->flush();
+            }else{
+                $status = "payment-failed";
             }
+            $order->setPaymentStatus($status);
+            $em->persist($order);
+            $em->flush();
         }elseif ($status == "pending") {
             $result = self::paypalReturnQuery($p);
             if ($result == "verified") {
@@ -235,6 +282,7 @@ class AirportsFrontendController extends Controller
                 if (!$price || $price > (int) $requestData['mc_gross']) {
                     $status = "payment-failed";
                 }
+
 
                 if ($status == "paid") {
                     $this->sendOrderAdminMail($order);
@@ -258,7 +306,6 @@ class AirportsFrontendController extends Controller
 
             $p['receiver_email'] = "paypal-facilitator@chestertraveltaxies.co.uk";
             $p['cmd'] = '_notify-validate';
-            file_put_contents('/home/simplec/taxi/web/test.txt',print_r($p, true), FILE_APPEND);
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -270,11 +317,16 @@ class AirportsFrontendController extends Controller
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // On dev server only!
 
             $result = curl_exec($ch);
-            file_put_contents('/home/simplec/taxi/web/test.txt','SUCCESS: ' . $result, FILE_APPEND);
 
             if ($result === false)
                 file_put_contents('/home/simplec/taxi/web/test.txt','ERROR: ' . curl_error($ch), FILE_APPEND);
+
             curl_close($ch);
+            if (!$this->checkPaypalTxnId($p['txn_id'])) {
+                return 'invalid';
+            }
+
+            return strtolower($result);
         } catch (\Exception $e) {
             file_put_contents('/home/simplec/taxi/web/test.txt', $e->getMessage(), FILE_APPEND);
         }
@@ -310,6 +362,17 @@ class AirportsFrontendController extends Controller
 
         $mailer = $this->get('mailer');
         $mailer->send($adminMessage);
+    }
+
+    public function checkPaypalTxnId($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
+        $result = $ordersRepository->findOneByPaymentTransaction($id);
+        if (!$result) {
+            return true;
+        }
+        return false;
     }
 
     protected function sendOrderUserMail($order) {

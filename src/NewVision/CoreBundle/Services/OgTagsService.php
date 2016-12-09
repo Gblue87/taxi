@@ -59,7 +59,7 @@ class OgTagsService
         }
 
         if (!isset($params['type'])) {
-            $seoSerivice->addMeta('property', 'og:type', 'article');
+            $seoSerivice->addMeta('property', 'og:type', 'place');
         } else {
             $seoSerivice->addMeta('property', 'og:type', $params['type']);
             unset($params['type']);
@@ -67,7 +67,7 @@ class OgTagsService
 
         $seoSerivice
             ->addMeta('property', 'og:url',  $request->getUri())
-            ->addMeta('property', 'og:site_name', $translator->trans('site_name', array(), 'messages'));
+            ->addMeta('property', 'og:site_name', $translator->trans('site_name', array(), 'NewVisionFrontendBundle'));
 
         if (!isset($params['image_url'])) {
             $translation = $object->getTranslations()->get($request->getLocale());
