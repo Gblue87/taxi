@@ -1,51 +1,49 @@
 {% extends '::base.html.twig' %}
 
 {% block main %}
-<div id="content">
-        <div class="inner-page contact">
-            <div class="page-header">
-                <div class="center">
-                    <h1 class="title">{{content}}</h1>
+<div class="inner-page contact">
+    <div class="page-header">
+        <div class="center">
+            <h1 class="title">{{content}}</h1>
+        </div>
+    </div>
+    <div id="map"></div>
+    <div class="cinfo">
+        <div class="center">
+            <div class="cheader">
+                <a href="#" id="shcfrom">&ndash;</a>
+                <div class="ctitle">
+                    Chester Travel Taxis
+                </div>
+                <div>
+                    {{content.description|raw}}
                 </div>
             </div>
-            <div id="map"></div>
-            <div class="cinfo">
-                <div class="center">
-                    <div class="cheader">
-                        <a href="#" id="shcfrom">&ndash;</a>
-                        <div class="ctitle">
-                            Chester Travel Taxis
+            {% if app.session.flashBag.get('success') %}
+                <div class="success">{{ 'contact.success'|trans({}, "NewVisionFrontendBundle")}}</div>
+            {% endif %}
+            {% if app.session.flashBag.get('error') %}
+                <div class="error">{{ 'contact.error'|trans({}, "NewVisionFrontendBundle")}}</div>
+            {% endif %}
+            {% form_theme form with 'NewVisionContactsBundle:Form:contact_form.html.twig' %}
+            <div class="cform">
+                <form id="cform" method="post" action="{{ path("contacts") }}">
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.phone) }}
+                    {{ form_row(form.subject) }}
+                    {{ form_row(form.message) }}
+                    {{ form_row(form.captcha) }}
+                    <div class="frow" style="padding-top: 30px;">
+                        <div class="ffield fw">
+                            <button type="submit" class="mbtn mbtn-orange mbtn-big">{{ 'contact.submit'|trans({}, "NewVisionFrontendBundle")}}</button>
                         </div>
-                        <address>
-                            {{content.description|raw}}
-                        </address>
                     </div>
-                    {% if app.session.flashBag.get('success') %}
-                        <div class="success">{{ 'contact.success'|trans({}, "NewVisionFrontendBundle")}}</div>
-                    {% endif %}
-                    {% if app.session.flashBag.get('error') %}
-                        <div class="error">{{ 'contact.error'|trans({}, "NewVisionFrontendBundle")}}</div>
-                    {% endif %}
-                    {% form_theme form with 'NewVisionContactsBundle:Form:contact_form.html.twig' %}
-                    <div class="cform">
-                        <form id="cform" method="post" action="{{ path("contacts") }}">
-                            {{ form_row(form.name) }}
-                            {{ form_row(form.email) }}
-                            {{ form_row(form.phone) }}
-                            {{ form_row(form.subject) }}
-                            {{ form_row(form.message) }}
-                            {{ form_row(form.captcha) }}
-                            <div class="frow" style="padding-top: 30px;">
-                                <div class="ffield fw">
-                                    <button type="submit" class="mbtn mbtn-orange mbtn-big">{{ 'contact.submit'|trans({}, "NewVisionFrontendBundle")}}</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}

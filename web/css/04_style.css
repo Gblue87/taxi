@@ -429,13 +429,15 @@ footer {
 }
 
 .footer-top {
-    height: 260px;
+	padding-bottom: 40px;
     border-bottom: 1px solid #737380;
 }
 
 .fbox {
     float: left;
+    width: 25%;
     padding-right: 20px;
+    box-sizing: border-box;
 }
 
 .fbox ul li a {
@@ -2011,7 +2013,7 @@ div#templates-preview a:hover {
         z-index: 50;
     }
     .viewmobile {display: block;}
-    #menu+label div, #label-menu div {
+    #menu+label span, #label-menu div {
         position: absolute;
         left: 0;
         right: 0;
@@ -2027,7 +2029,7 @@ div#templates-preview a:hover {
         width: 50px;
         height: 6px;
         background: #fff;
-        box-shadow: 0 27px 0 0 #fff, 0 13px 0 0 #fff;
+        box-shadow: 0 26px 0 0 #fff, 0 13px 0 0 #fff;
     }
     nav > label {
         width: 100px;
@@ -2046,7 +2048,7 @@ div#templates-preview a:hover {
         -moz-perspective: 500px;
         perspective: 500px;
         padding-left: 0;
-        float: none;
+        float: right;
         position: relative;
         z-index: 3;
     }
@@ -2169,7 +2171,7 @@ div#templates-preview a:hover {
         margin-bottom: 10px;
     }
     #time, #time2 {
-        width: 64px;
+        width: 115px;
     }
     .cform {
         padding: 10px;
@@ -2192,6 +2194,7 @@ div#templates-preview a:hover {
     .index-top .frow:first-child .ffield label {
         display: none;
     }
+    .mbtn.mbtn-orange.mbtn-big.right { display: block; float: none; margin: 20px auto; }
 
     select, input[type="text"], input[type="email"], input[type="password"], input[type="data"], textarea {
         width: 100%;
@@ -2206,7 +2209,7 @@ div#templates-preview a:hover {
     }
     .picker--time .picker__holder {
         min-width: 80px;
-        max-width: 90px;
+        max-width: 115px;
     }
     .ppp {
         position: relative;

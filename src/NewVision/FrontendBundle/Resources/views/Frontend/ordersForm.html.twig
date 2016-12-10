@@ -82,9 +82,9 @@
                     <label><input class="passengersHomepage" type="radio" value="7" name="pssngrs"><span>7</span></label>
                     <label><input class="passengersHomepage" type="radio" value="8" name="pssngrs"><span>8</span></label>
                 </div>
-                <div id="ppp" class="ppp {% if hotel is not defined and airport is not defined %}hidden{% endif %}">
+                <div id="ppp" class="ppp {% if hotel is not defined and airport is not defined %}hidden{% endif %}" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                     <i></i>
-                    £<span id="price_1" class="price">0.00</span>
+                    £<span id="price_1" class="price" itemprop="price">0.00</span>
                     <span class="average">~ £<span id="average">0</span>{{ 'per_person'|trans({}, "NewVisionFrontendBundle")}}</span>
                 </div>
                 {% if hotel is not defined and airport is not defined %}

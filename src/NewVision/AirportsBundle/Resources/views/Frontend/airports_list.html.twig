@@ -1,45 +1,43 @@
 {% extends '::base.html.twig' %}
 
 {% block main %}
-    <div id="content">
-        <div class="inner-page">
-            <div class="page-header">
-                <div class="center">
-                    <h1 class="title">{{content.title}}</h1>
-                </div>
-            </div>
+    <div class="inner-page">
+        <div class="page-header">
             <div class="center">
-                <div class="warning">
-                    {{ 'listing_airports_warning'|trans({}, "NewVisionFrontendBundle")}}
-                </div>
-                {% if content.description is defined and content.description is not null and content.description|length %}
-                        {{content.description|raw}}
-                {% endif %}
-                {% if airports is defined and airports is not null and airports|length %}
-                    <div class="list">
-                        <div class="slider">
-                            {% for item in airports %}
-                                <div class="slide">
-                                    <div class="img-wrap">
-                                        {% if item.translations[app.request.locale].image is defined and item.translations[app.request.locale].image is not null and item.translations[app.request.locale].image|length %}
-                                            {% thumbnail item.translations[app.request.locale].image, 'index' with { 'alt': item.translations[app.request.locale].image.title } %}
-                                        {% else %}
-                                            <img src="/images/no-img.jpg">
-                                        {% endif %}
-                                        <div class="hover">
-                                            <a href="{{path('airport_view', {'slug': item.slug })}}?point=from"><span class="orient">{{ 'from'|trans({}, "NewVisionFrontendBundle")}}<i></i></span></a>
-                                            <a href="{{path('airport_view', {'slug': item.slug })}}?point=to"><span class="orient"><i></i>{{ 'to'|trans({}, "NewVisionFrontendBundle")}}</span></a>
-                                        </div>
-                                    </div>
-                                    <span class="price">£ {{item.price|number_format(2)}}</span>
-                                    <span class="title">{{item.title}}</span>
-                                </div>
-                            {% endfor %}
-                            <div class="clear"></div>
-                        </div>
-                    </div>
-                {% endif %}
+                <h1 class="title">{{content.title}}</h1>
             </div>
+        </div>
+        <div class="center">
+            <div class="warning">
+                {{ 'listing_airports_warning'|trans({}, "NewVisionFrontendBundle")}}
+            </div>
+            {% if content.description is defined and content.description is not null and content.description|length %}
+                    {{content.description|raw}}
+            {% endif %}
+            {% if airports is defined and airports is not null and airports|length %}
+                <div class="list">
+                    <div class="slider">
+                        {% for item in airports %}
+                            <div class="slide">
+                                <div class="img-wrap">
+                                    {% if item.translations[app.request.locale].image is defined and item.translations[app.request.locale].image is not null and item.translations[app.request.locale].image|length %}
+                                        {% thumbnail item.translations[app.request.locale].image, 'index' with { 'alt': item.translations[app.request.locale].image.title } %}
+                                    {% else %}
+                                        <img src="/images/no-img.jpg" alt="{{item.title}}">
+                                    {% endif %}
+                                    <div class="hover">
+                                        <a href="{{path('airport_view', {'slug': item.slug })}}?point=from"><span class="orient">{{ 'from'|trans({}, "NewVisionFrontendBundle")}}<i></i></span></a>
+                                        <a href="{{path('airport_view', {'slug': item.slug })}}?point=to"><span class="orient"><i></i>{{ 'to'|trans({}, "NewVisionFrontendBundle")}}</span></a>
+                                    </div>
+                                </div>
+                                <span class="price">£ {{item.price|number_format(2)}}</span>
+                                <span class="title">{{item.title}}</span>
+                            </div>
+                        {% endfor %}
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

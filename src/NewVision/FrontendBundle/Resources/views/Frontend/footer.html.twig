@@ -17,7 +17,7 @@
                          <a href="{{ settings.get('fb') }}" target="_blank" class="fb"></a>
                     {% endif %}
                     {% if settings.get('gplus') is defined and settings.get('gplus') is not null and settings.get('gplus')|length %}
-                        <a href="https:{{ settings.get('gplus') }}" target="_blank" class="gp"></a>
+                        <a href="{{ settings.get('gplus') }}" target="_blank" class="gp"></a>
                     {% endif %}
                     {% if settings.get('twitter') is defined and settings.get('twitter') is not null and settings.get('twitter')|length %}
                         <a href="{{ settings.get('twitter') }}" target="_blank" class="tw"></a>
