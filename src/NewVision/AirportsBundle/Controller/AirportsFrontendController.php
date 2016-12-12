@@ -377,8 +377,8 @@ class AirportsFrontendController extends Controller
 
                 // SEND MAILS IF OK
                 if ($status == "paid") {
-                    $this->sendOrderAdminMail($order);
-                    $this->sendOrderUserMail($order);
+                    // $this->sendOrderAdminMail($order);
+                    // $this->sendOrderUserMail($order);
                 file_put_contents('/home/simplec/taxi/web/test.txt', $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_success', array('id' => $order->getNo())))), FILE_APPEND);
                     return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_success', array('id' => $order->getNo()))));
                 }
