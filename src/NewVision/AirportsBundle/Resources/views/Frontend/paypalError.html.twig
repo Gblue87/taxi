@@ -15,6 +15,15 @@
                 </div>
             </article>
         </div>
+        {% if msg is defined and msg is not null and msg|length %}
+            <div class="center">
+                <article>
+                    <div class="error">
+                        {{msg}}
+                    </div>
+                </article>
+            </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

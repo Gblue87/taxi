@@ -302,9 +302,10 @@ class AirportsFrontendController extends Controller
      * @Route("/worldpay-error", name="worldpay_error")
      * @Template("NewVisionAirportsBundle:Frontend:paypalError.html.twig")
      */
-    public function worldpayErrorAction()
+    public function worldpayErrorAction($msg = null)
     {
         return array(
+            'msg' => $msg,
         );
     }
 
@@ -313,78 +314,81 @@ class AirportsFrontendController extends Controller
      */
     public function worldpayNotifyAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $settingsManager = $this->get('newvision.settings_manager');
-        $ip = $this->container->get('request')->getClientIp();
-        if (empty($ip) ||
-            (substr(gethostbyaddr($ip), -13) != ".worldpay.com")
-        )
-            return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
+        try {
 
-        $p = $request->request->all();
-        $checks = explode(' ', "instId callbackPW AVS cartId currency amount transId transStatus");
-
-        foreach ($checks as $key)
-            if (!isset($p[$key]))
-                return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
-        file_put_contents('/home/simplec/taxi/web/test.txt', $p['instId'] != WPAY_INSTALLATION_ID, FILE_APPEND);
-        file_put_contents('/home/simplec/taxi/web/test.txt', $p['callbackPW'] != WPAY_RESPONSE_PASSWORD, FILE_APPEND);
-        file_put_contents('/home/simplec/taxi/web/test.txt', $p['currency'] != WPAY_CURRENCY, FILE_APPEND);
-        file_put_contents('/home/simplec/taxi/web/test.txt', substr($p['AVS'], 0, 1) != "2" && (!WPAY_TEST_MODE || substr($p['AVS'], 0, 1) != "1"), FILE_APPEND);
-        file_put_contents('/home/simplec/taxi/web/test.txt', !preg_match('/^\d+$/', $p['transId']), FILE_APPEND);
-        if (
-            $p['instId'] != WPAY_INSTALLATION_ID ||
-            $p['callbackPW'] != WPAY_RESPONSE_PASSWORD ||
-            $p['currency'] != WPAY_CURRENCY ||
-            (substr($p['AVS'], 0, 1) != "2" && (!WPAY_TEST_MODE || substr($p['AVS'], 0, 1) != "1")) || !preg_match('/^\d+$/', $p['transId']))
-        {
-            return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
-        }
-// GET ORDER
-
-        $id = substr($p['cartId'], strlen(WPAY_CART_ID_PREFIX));
-        if (!preg_match('/^\d+$/', $id))
-            return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
-        $id -= WPAY_INVOICE_ID_ADD;
-
-        $order = $em->getRepository('NewVisionFrontendBundle:Order')->findOneByNo($id);
-
-        file_put_contents('/home/simplec/taxi/web/test.txt', 'ORDER NO:'. $order->getNo(), FILE_APPEND);
-        if (empty($order) || ($order->getPaymentStatus() != "new"))
-            return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
-
-
-// TRANSACTION - FAILED
-        if (($p['transStatus'] != 'Y')){
-            $order->setPaymentStatus('payment-failed');
-        }
-// TRANSACTION - SUCCESS
-        else {
-
-            // AMOUNT MISSMATCH
-            $price = $order->getAmount()*$settingsManager->get('surcharge');
-            if (($price === false) ||
-                ((int) $price > (int) $p['amount'])
+            $em = $this->getDoctrine()->getManager();
+            $settingsManager = $this->get('newvision.settings_manager');
+            $ip = $this->container->get('request')->getClientIp();
+            if (empty($ip) ||
+                (substr(gethostbyaddr($ip), -13) != ".worldpay.com")
             )
-                $status = "payment-failed";
+                return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
 
-            // AMOUNT OK
-            else
-                $status = "paid";
+            $p = $request->request->all();
+            $checks = explode(' ', "instId callbackPW AVS cartId currency amount transId transStatus");
 
-        file_put_contents('/home/simplec/taxi/web/test.txt', $status, FILE_APPEND);
-           $order->setPaymentStatus($status);
-           $order->setPaymentTransaction($p['transId']);
-           $em->persist($order);
-           $em->flush();
-            // SEND MAILS IF OK
-            if ($status == "paid") {
-                $this->sendOrderAdminMail($order);
-                $this->sendOrderUserMail($order);
-                return $this->redirectToRoute('worldpay_success', array('id' => $order->getId()));
+            foreach ($checks as $key)
+                if (!isset($p[$key]))
+                    return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
+            file_put_contents('/home/simplec/taxi/web/test.txt', substr($p['AVS'], 0, 1)."\n", FILE_APPEND);
+            file_put_contents('/home/simplec/taxi/web/test.txt', WPAY_INSTALLATION_ID, FILE_APPEND);
+            file_put_contents('/home/simplec/taxi/web/test.txt', WPAY_CURRENCY, FILE_APPEND);
+            if (
+                $p['instId'] != WPAY_INSTALLATION_ID ||
+                $p['callbackPW'] != WPAY_RESPONSE_PASSWORD ||
+                $p['currency'] != WPAY_CURRENCY ||
+                (substr($p['AVS'], 0, 1) != "2" && (!WPAY_TEST_MODE || substr($p['AVS'], 0, 1) != "1")) || !preg_match('/^\d+$/', $p['transId']))
+            {
+                return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
             }
+    // GET ORDER
+
+            $id = substr($p['cartId'], strlen(WPAY_CART_ID_PREFIX));
+            if (!preg_match('/^\d+$/', $id))
+                return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
+            $id -= WPAY_INVOICE_ID_ADD;
+
+            $order = $em->getRepository('NewVisionFrontendBundle:Order')->findOneByNo($id);
+
+            file_put_contents('/home/simplec/taxi/web/test.txt', 'ORDER NO:'. $order->getNo(), FILE_APPEND);
+            if (empty($order) || ($order->getPaymentStatus() != "new"))
+                return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
+
+
+    // TRANSACTION - FAILED
+            if (($p['transStatus'] != 'Y')){
+                $order->setPaymentStatus('payment-failed');
+            }
+    // TRANSACTION - SUCCESS
+            else {
+
+                // AMOUNT MISSMATCH
+                $price = $order->getAmount()*$settingsManager->get('surcharge');
+                if (($price === false) ||
+                    ((int) $price > (int) $p['amount'])
+                )
+                    $status = "payment-failed";
+
+                // AMOUNT OK
+                else
+                    $status = "paid";
+
+            file_put_contents('/home/simplec/taxi/web/test.txt', $status, FILE_APPEND);
+               $order->setPaymentStatus($status);
+               $order->setPaymentTransaction($p['transId']);
+               $em->persist($order);
+               $em->flush();
+                // SEND MAILS IF OK
+                if ($status == "paid") {
+                    $this->sendOrderAdminMail($order);
+                    $this->sendOrderUserMail($order);
+                    return $this->redirectToRoute('worldpay_success', array('id' => $order->getId()));
+                }
+            }
+            return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
+        } catch (\Exception $e) {
+            return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error', array('msg' => $e->getMessage()))));
         }
-        return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
     }
 
     /**
