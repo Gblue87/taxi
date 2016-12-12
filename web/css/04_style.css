@@ -1812,7 +1812,12 @@ div#templates-preview a:hover {
 .mobileversion,
 .viewmobile {display: none;}
 
-
+.fieldError textarea,
+.fieldError input { box-shadow: 0 0 5px #e21b00 !important; color: #e21b00 !important; }
+label.fieldError { color: #e21b00 !important; }
+.fieldSuccess textarea,
+.fieldSuccess input { box-shadow: 0 0 5px #38bba2 !important; color: #38bba2 !important; }
+label.fieldSuccess { color: #38bba2 !important; }
 
 /* vvvvvvvvvvvvvv < MEDIA QUERIES > vvvvvvvvvv */
 

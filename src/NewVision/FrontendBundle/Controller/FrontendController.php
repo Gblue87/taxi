@@ -106,6 +106,73 @@ class FrontendController extends Controller
             'action' => $this->generateUrl('new_order')
         ));
 
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            $settingsManager = $this->get('newvision.settings_manager');
+            $session = $this->get('session');
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $data->setNo(rand(5, 16).time());
+                $data->setType('');
+                $data->setPaymentType($data->getPaymentType());
+                $em->persist($data);
+                $em->flush();
+
+                $price = $data->getAmount() * $settingsManager->get('surcharge', 1);
+                if(!$price){
+                    throw $this->createNotFoundException();
+                }
+                if ($data->getPaymentType() != null && $data->getPaymentType() == 'paypal') {
+                    //LIVE "https://www.paypal.com/cgi-bin/webscr",
+                    $paypalForm = array(
+                        'action' => "https://www.sandbox.paypal.com/cgi-bin/webscr",
+                        'fields' => array(
+                            'cmd' => "_ext-enter",
+                            'redirect_cmd' => "_xclick",
+                            'business' => 'paypal-facilitator@chestertraveltaxies.co.uk',
+                            'invoice' => $data->getNo(),
+                            'amount' => $price,
+                            'currency_code' => 'GBP',
+                            'paymentaction' => "sale",
+                            'return' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_success', array('id' => $data->getNo())),
+                            'cancel_return' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_success', array('id' => $data->getNo())),
+                            'notify_url' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_notify', array('id' => $data->getNo())),
+                            'item_name' => "TaxiChester Order #".$data->getNo(),
+                            'lc' => "en_GB",
+                            'charset' => "utf-8",
+                            'no_shipping' => "1",
+                            'no_note' => "1",
+                            'image_url' => "",
+                            'email' => $data->getEmail(),
+                            'first_name' => $data->getName(),
+                            'last_name' => $data->getFamily(),
+                            'custom' => $data->getNo(),
+                            'cs' => "0",
+                            'page_style' => "PayPal"
+                        )
+                    );
+                    $this->get('session')->set('paypalForm', $paypalForm);
+                    return $this->redirectToRoute('paypal_gateway');
+                }elseif($data->getPaymentType() != null && $data->getPaymentType() == 'worldpay'){
+
+                }elseif($data->getPaymentType() != null && $data->getPaymentType() == 'cash'){
+                    $data->setPaymentStatus('cash-order');
+                    $em->persist($data);
+                    $em->flush();
+                    return $this->redirectToRoute('cash_success', array('id' => $data->getNo()));
+                }else{
+                    throw new \Exception("No payment method found", 404);
+                }
+
+            } else {
+                $session->getFlashBag()->clear();
+                $session->getFlashBag()->add(
+                    'error',
+                    'applyment_error'
+                );
+            }
+        }
+
         $fill = array();
         foreach ($fields as $field)
             if (isset($requestData[$field]) && strlen($requestData[$field]))

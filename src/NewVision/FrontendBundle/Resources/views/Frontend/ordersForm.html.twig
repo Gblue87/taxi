@@ -131,10 +131,12 @@
                         </div>
                     </div>
                 {% endif %}
-                <div class="ffield">
-                    <label for="meet">{{ 'meet_and_greet'|trans({}, "NewVisionFrontendBundle")}}</label>
-                    <input id="meet" type="checkbox" class="disabling" name="meet" >
-                </div>
+                {% if  hotel is not defined or hotel is null %}
+                    <div class="ffield">
+                        <label for="meet">{{ 'meet_and_greet'|trans({}, "NewVisionFrontendBundle")}}</label>
+                        <input id="meet" type="checkbox" class="disabling" name="meet" >
+                    </div>
+                {% endif %}
                 <button id="calculate" type="submit" class="mbtn mbtn-orange mbtn-big right">{% if (airport is not defined or airport is null) and (hotel is not defined or hotel is null) %}{{ 'calculate'|trans({}, "NewVisionFrontendBundle")}}{% else %}{{ 'continue'|trans({}, "NewVisionFrontendBundle")}}{% endif %}</button>
             </div>
         </div>
@@ -143,7 +145,7 @@
 
     <div class="clear"></div>
 </form>
-<form class="checkout" action="{{ airport is defined ? path('airport_view', {slug: airport.slug}) : hotel is defined ? path('hotel_view', {'slug': hotel.slug}) : path('order')}}" method="post">
+<form class="checkout" action="{{ airport is defined ? path('airport_view', {slug: airport.slug}) : hotel is defined ? path('hotel_view', {'slug': hotel.slug}) : path('new_order')}}" method="post" name="orderForm">
     <div id="step2" class="step2 hidden">
         <input type="hidden" name="order[from]">
         <input type="hidden" name="order[to]">
@@ -285,6 +287,33 @@
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCtm2xZxd09GKAPHypwLhKwjFiVKxDZIW4"></script>
     <script type="text/javascript">
         var offerType = '{{airport is defined and airport is not null and airport|length ? 'airport' : 'hotel'}}';
+        $(function(){
+            var $form = $('form[name="orderForm"]');
+            var formValidator = $form.formValidator({
+                validCallback: function(el, isValid) {
+                    if (isValid) {
+                        if ($(el).hasClass('g-recaptcha-response')) {
+                            $('#captcha_error').remove();
+                        }
+
+                        $(el).closest('div.ffield').removeClass('fieldError');
+                        $(el).closest('div.ffield').addClass('fieldSuccess');
+                    } else {
+                        if ($(el).hasClass('g-recaptcha-response') && !$('#captcha_error').length) {
+                            $('#captcha').append('<p id="captcha_error" class="textError">{{ 'fill_captcha'|trans({}, 'messages')}}</p>');
+                        }
+
+                        if (!$(el).closest('div.ffield').hasClass('fieldError')) {
+                            $(el).closest('div.ffield').removeClass('fieldSuccess');
+                            $(el).closest('div.ffield').addClass('fieldError');
+                        }
+                    }
+                }
+            });
+
+            $($form.prop('elements')).keyup(formValidator.validateElement);
+            $($form.prop('elements')).change(formValidator.validateElement);
+        });
         {% if item is not defined %}
             function showErrorInline(s) {
                 var div = $('#step1error');
@@ -300,14 +329,16 @@
             amount4 = 0,
             amount8 = 0;
             $(function() {
-                $('#meet').on('change', function(){
-                    if (validateStep1(true)) {
-                        if (isSubmit) {
-                            transferData();
-                            getRoute();
+                if ($('#meet').length) {
+                    $('#meet').on('change', function(){
+                        if (validateStep1(true)) {
+                            if (isSubmit) {
+                                transferData();
+                                getRoute();
+                            }
                         }
-                    }
-                });
+                    });
+                }
                 var fromBox, toBox, viaBox,
                     amount4 = 0.0,
                     amount8 = 0.0,
@@ -694,7 +725,6 @@
             });
         {% else %}
             (function() {
-                console.log(123312);
                 var offerPoint;
                 var userPoint,
                 amount4 = {{item.price}},
@@ -712,10 +742,11 @@
                     userPoint = new google.maps.places.Autocomplete(gebid('{{ offerPoint is defined or offerPoint == "to" ? "from" : "to"}}'), opts);
                     directionsDisplay = new google.maps.DirectionsRenderer({ draggable: false});
                 });
-
-                $('#meet').on('change', function(){
-                    transferData();
-                });
+                if ($('#meet').length) {
+                    $('#meet').on('change', function(){
+                        transferData();
+                    });
+                }
 
                 var getRoute = function() {
 
