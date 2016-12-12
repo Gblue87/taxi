@@ -167,7 +167,7 @@ class FrontendController extends Controller
                     define('WPAY_INVOICE_ID_ADD',       0);
                     $testMode = WPAY_TEST_MODE ? "100" : "0";
                     $signature = md5(WPAY_MD5_SECRET . ":" . WPAY_CURRENCY . ":$price:$testMode:" . WPAY_INSTALLATION_ID);
-                    $form = array(
+                    $worldPay = array(
 
                         'action' => WPAY_TEST_MODE
                             ? "https://secure-test.worldpay.com/wcc/purchase"
@@ -188,7 +188,7 @@ class FrontendController extends Controller
                             'signature' => $signature
                         )
                     );
-                    $this->get('session')->set('worldpayForm', $paypalForm);
+                    $this->get('session')->set('worldpayForm', $worldPay);
                     return $this->redirectToRoute('worldpay_gateway');
                 }elseif($data->getPaymentType() != null && $data->getPaymentType() == 'cash'){
                     $data->setPaymentStatus('cash-order');
