@@ -32,7 +32,7 @@ class FrontendController extends Controller
         }
         $sliderBlock = $em->getRepository('NewVisionCustomBlocksBundle:CustomBlock')->findOneByIdAndLocale(7, $locale);
         $aboutUsBlock = $em->getRepository('NewVisionCustomBlocksBundle:CustomBlock')->findOneByIdAndLocale(8, $locale);
-        $aboutUs = $em->getRepository('NewVisionContentBundle:Content')->findOneById(26);
+        $aboutUs = $em->getRepository('NewVisionContentBundle:Content')->findOneById(25);
         if(!$aboutUs){
             throw $this->createNotFoundException('About us page not found');
         }
@@ -105,6 +105,72 @@ class FrontendController extends Controller
             'method' => 'POST',
             'action' => $this->generateUrl('new_order')
         ));
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            $session = $this->get('session');
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $data->setNo(rand(5, 16).time());
+                $data->setType('');
+                $data->setPaymentType($requestData['paymentType']);
+                $em->persist($data);
+                $em->flush();
+
+                $price = $data->getAmount() * $settingsManager->get('surcharge', 1);
+                if(!$price){
+                    throw $this->createNotFoundException();
+                }
+                if (isset($requestData['paymentType']) && $requestData['paymentType'] == 'paypal') {
+                    //LIVE "https://www.paypal.com/cgi-bin/webscr",
+                    $paypalForm = array(
+                        'action' => "https://www.sandbox.paypal.com/cgi-bin/webscr",
+                        'fields' => array(
+                            'cmd' => "_ext-enter",
+                            'redirect_cmd' => "_xclick",
+                            'business' => 'paypal-facilitator@chestertraveltaxies.co.uk',
+                            'invoice' => $data->getNo(),
+                            'amount' => $price,
+                            'currency_code' => 'GBP',
+                            'paymentaction' => "sale",
+                            'return' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_success', array('id' => $data->getNo())),
+                            'cancel_return' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_success', array('id' => $data->getNo())),
+                            'notify_url' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_notify', array('id' => $data->getNo())),
+                            'item_name' => "TaxiChester Order #".$data->getNo(),
+                            'lc' => "en_GB",
+                            'charset' => "utf-8",
+                            'no_shipping' => "1",
+                            'no_note' => "1",
+                            'image_url' => "",
+                            'email' => $data->getEmail(),
+                            'first_name' => $data->getName(),
+                            'last_name' => $data->getFamily(),
+                            'custom' => $data->getNo(),
+                            'cs' => "0",
+                            'page_style' => "PayPal"
+                        )
+                    );
+                    $this->get('session')->set('paypalForm', $paypalForm);
+                    return $this->redirectToRoute('paypal_gateway');
+                }elseif(isset($requestData['paymentType']) && $requestData['paymentType'] == 'worldpay'){
+
+                }elseif(isset($requestData['paymentType']) && $requestData['paymentType'] == 'cash'){
+                    $data->setPaymentStatus('cash-order');
+                    $em->persist($data);
+                    $em->flush();
+                    return $this->redirectToRoute('cash_success', array('id' => $data->getNo()));
+                }else{
+                    throw new \Exception("No payment method found", 404);
+                }
+
+            } else {
+                $session->getFlashBag()->clear();
+                $session->getFlashBag()->add(
+                    'error',
+                    'applyment_error'
+                );
+            }
+        }
 
         $fill = array();
         foreach ($fields as $field)
