@@ -375,12 +375,12 @@ class AirportsFrontendController extends Controller
                $order->setPaymentTransaction($p['transId']);
                $em->persist($order);
                $em->flush();
-                file_put_contents('/home/simplec/taxi/web/test.txt', $order->getNo(), FILE_APPEND);
 
                 // SEND MAILS IF OK
                 if ($status == "paid") {
                     $this->sendOrderAdminMail($order);
                     $this->sendOrderUserMail($order);
+                file_put_contents('/home/simplec/taxi/web/test.txt', $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_success', array('id' => $order->getNo())))), FILE_APPEND);
                     return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_success', array('id' => $order->getNo()))));
                 }
             }
