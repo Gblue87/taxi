@@ -299,6 +299,16 @@ class AirportsFrontendController extends Controller
     }
 
     /**
+     * @Route("/worldpay-error", name="worldpay_error")
+     * @Template("NewVisionAirportsBundle:Frontend:paypalError.html.twig")
+     */
+    public function paypalErrorAction()
+    {
+        return array(
+        );
+    }
+
+    /**
      * @Route("/worldpay-notify", name="worldpay_notify")
      */
     public function worldpayNotifyAction(Request $request)
@@ -310,49 +320,42 @@ class AirportsFrontendController extends Controller
         if (empty($ip) ||
             (substr(gethostbyaddr($ip), -13) != ".worldpay.com")
         )
-            throw $this->createNotFoundException();
+            return $this->redirectToRoute('worldpay_error');
 
         $p = $request->request->all();
-        file_put_contents('/home/simplec/taxi/web/test.txt',print_r($p, true), FILE_APPEND);
         $checks = explode(' ', "instId callbackPW AVS cartId currency amount transId transStatus");
 
         foreach ($checks as $key)
             if (!isset($p[$key]))
-                throw $this->createNotFoundException();
-
-
+                return $this->redirectToRoute('worldpay_error');
         if (
             $p['instId'] != WPAY_INSTALLATION_ID ||
             $p['callbackPW'] != WPAY_RESPONSE_PASSWORD ||
             $p['currency'] != WPAY_CURRENCY ||
-            (substr($p['AVS'], 0, 1) != "2" && !WPAY_TEST_MODE || substr($p['AVS'], 0, 1) != "1") || !preg_match('/^\d+$/', $p['transId']))
+            (substr($p['AVS'], 0, 1) != "2" && (!WPAY_TEST_MODE || substr($p['AVS'], 0, 1) != "1")) || !preg_match('/^\d+$/', $p['transId']))
         {
-            throw $this->createNotFoundException();
+            return $this->redirectToRoute('worldpay_error');
         }
 // GET ORDER
 
         $id = substr($p['cartId'], strlen(WPAY_CART_ID_PREFIX));
-        file_put_contents('/home/simplec/taxi/web/test.txt', 'ID:'. $id, FILE_APPEND);
         if (!preg_match('/^\d+$/', $id))
-            throw $this->createNotFoundException();
+            return $this->redirectToRoute('worldpay_error');
         $id -= WPAY_INVOICE_ID_ADD;
         file_put_contents('/home/simplec/taxi/web/test.txt', 'ID:'. $id, FILE_APPEND);
 
         $order = $em->getRepository('NewVisionFrontendBundle:Order')->findOneByNo($id);
 
-        file_put_contents('/home/simplec/taxi/web/test.txt', 'ID:'. $order->getNo(), FILE_APPEND);
+        file_put_contents('/home/simplec/taxi/web/test.txt', 'ORDER NO:'. $order->getNo(), FILE_APPEND);
         if (empty($order) || ($order->getPaymentStatus() != "new"))
-            throw $this->createNotFoundException();
+            return $this->redirectToRoute('worldpay_error');
 
 
 // TRANSACTION - FAILED
-
-        file_put_contents('/home/simplec/taxi/web/test.txt', $p['transStatus'], FILE_APPEND);
-        if (($p['transStatus'] != 'Y'))
+        if (($p['transStatus'] != 'Y')){
             $order->setPaymentStatus('payment-failed');
-
+        }
 // TRANSACTION - SUCCESS
-
         else {
 
             // AMOUNT MISSMATCH
@@ -368,6 +371,7 @@ class AirportsFrontendController extends Controller
 
         file_put_contents('/home/simplec/taxi/web/test.txt', $status, FILE_APPEND);
            $order->setPaymentStatus($status);
+           $order->setPaymentTransaction($p['transId']);
            $em->persist($order);
            $em->flush();
             // SEND MAILS IF OK
@@ -377,6 +381,7 @@ class AirportsFrontendController extends Controller
                 return $this->redirectToRoute('worldpay_success', array('id' => $order->getId()));
             }
         }
+        return $this->redirectToRoute('worldpay_error');
     }
 
     /**
@@ -426,6 +431,7 @@ class AirportsFrontendController extends Controller
                 $status = "payment-failed";
             }
             $order->setPaymentStatus($status);
+            $order->setPaymentTransaction($p['txn_id']);
             $em->persist($order);
             $em->flush();
         }elseif ($status == "pending") {
@@ -445,6 +451,7 @@ class AirportsFrontendController extends Controller
                 }
 
                 $order->setPaymentStatus($status);
+                $order->setPaymentTransaction($p['txn_id']);
                 $em->persist($order);
                 $em->flush();
             }
