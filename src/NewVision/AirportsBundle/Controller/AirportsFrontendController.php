@@ -332,9 +332,6 @@ class AirportsFrontendController extends Controller
             foreach ($checks as $key)
                 if (!isset($p[$key]))
                     return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
-            file_put_contents('/home/simplec/taxi/web/test.txt', substr($p['AVS'], 0, 1)."\n", FILE_APPEND);
-            file_put_contents('/home/simplec/taxi/web/test.txt', WPAY_INSTALLATION_ID, FILE_APPEND);
-            file_put_contents('/home/simplec/taxi/web/test.txt', WPAY_CURRENCY, FILE_APPEND);
             if (
                 $p['instId'] != WPAY_INSTALLATION_ID ||
                 $p['callbackPW'] != WPAY_RESPONSE_PASSWORD ||
@@ -352,7 +349,6 @@ class AirportsFrontendController extends Controller
 
             $order = $em->getRepository('NewVisionFrontendBundle:Order')->findOneByNo($id);
 
-            file_put_contents('/home/simplec/taxi/web/test.txt', 'ORDER NO:'. $order->getNo(), FILE_APPEND);
             if (empty($order) || ($order->getPaymentStatus() != "new"))
                 return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
 
@@ -375,16 +371,17 @@ class AirportsFrontendController extends Controller
                 else
                     $status = "paid";
 
-            file_put_contents('/home/simplec/taxi/web/test.txt', $status, FILE_APPEND);
                $order->setPaymentStatus($status);
                $order->setPaymentTransaction($p['transId']);
                $em->persist($order);
                $em->flush();
+                file_put_contents('/home/simplec/taxi/web/test.txt', $order->getNo(), FILE_APPEND);
+
                 // SEND MAILS IF OK
                 if ($status == "paid") {
                     $this->sendOrderAdminMail($order);
                     $this->sendOrderUserMail($order);
-                    return $this->redirectToRoute('worldpay_success', array('id' => $order->getId()));
+                    return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_success', array('id' => $order->getNo()))));
                 }
             }
             return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
@@ -504,6 +501,7 @@ class AirportsFrontendController extends Controller
     }
 
     protected function sendOrderAdminMail($order) {
+        file_put_contents('/home/simplec/taxi/web/test.txt', $order->getNo(), FILE_APPEND);
         $translator = $this->get('translator');
         $em =  $this->get('doctrine')->getManager();
         if ($order->getOffer()) {
