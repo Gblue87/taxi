@@ -324,7 +324,7 @@ class AirportsFrontendController extends Controller
             if (empty($ip) ||
                 (substr(gethostbyaddr($ip), -13) != ".worldpay.com")
             )
-                return return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error'))));
+                return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error'))));
 
             $p = $request->request->all();
             $checks = explode(' ', "instId callbackPW AVS cartId currency amount transId transStatus");
