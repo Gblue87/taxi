@@ -384,7 +384,7 @@ class AirportsFrontendController extends Controller
                 return $this->redirectToRoute('worldpay_success', array('id' => $order->getId()));
             }
         }
-        return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')))
+        return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
     }
 
     /**
