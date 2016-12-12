@@ -172,7 +172,6 @@ class AirportsFrontendController extends Controller
                 }else{
                     throw new \Exception("No payment method found", 404);
                 }
-
             } else {
                 $session->getFlashBag()->clear();
                 $session->getFlashBag()->add(
