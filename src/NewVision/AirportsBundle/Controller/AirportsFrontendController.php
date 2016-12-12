@@ -302,7 +302,7 @@ class AirportsFrontendController extends Controller
      * @Route("/worldpay-error", name="worldpay_error")
      * @Template("NewVisionAirportsBundle:Frontend:paypalError.html.twig")
      */
-    public function paypalErrorAction()
+    public function worldpayErrorAction()
     {
         return array(
         );
