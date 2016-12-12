@@ -501,7 +501,7 @@ class AirportsFrontendController extends Controller
     }
 
     protected function sendOrderAdminMail($order) {
-        file_put_contents('/home/simplec/taxi/web/test.txt', $order->getNo(), FILE_APPEND);
+        $settingsManager = $this->get('newvision.settings_manager');
         $translator = $this->get('translator');
         $em =  $this->get('doctrine')->getManager();
         if ($order->getOffer()) {
@@ -516,7 +516,7 @@ class AirportsFrontendController extends Controller
         }
         $adminMessage = \Swift_Message::newInstance()
             ->setSubject($translator->trans('contact.admin_message_subject', array(), 'messages'))
-            ->setFrom($settings->get('sender_email'))
+            ->setFrom($settingsManager->get('sender_email'))
             ->setTo($order->getEmail())
             ->setBody(
                 $this->renderView(
@@ -545,6 +545,7 @@ class AirportsFrontendController extends Controller
     }
 
     protected function sendOrderUserMail($order) {
+        $settingsManager = $this->get('newvision.settings_manager');
         $translator = $this->get('translator');
         $em =  $this->get('doctrine')->getManager();
         if ($order->getOffer()) {
@@ -559,7 +560,7 @@ class AirportsFrontendController extends Controller
         }
         $userMessage = \Swift_Message::newInstance()
             ->setSubject($translator->trans('contact.user_message_subject', array(), 'messages'))
-            ->setFrom($settings->get('sender_email'))
+            ->setFrom($settingsManager->get('sender_email'))
             ->setTo($order->getEmail())
             ->setBody(
                 $this->renderView(
