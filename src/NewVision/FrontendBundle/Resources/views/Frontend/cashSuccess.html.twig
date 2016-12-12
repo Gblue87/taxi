@@ -1,0 +1,54 @@
+{% extends '::base.html.twig' %}
+
+{% block main %}
+	<div id="content">
+	    <div class="inner-page">
+	        <div class="page-header">
+	            <div class="center">
+	                <h1 class="title">Success</h1>
+	            </div>
+	        </div>
+	        <div class="center">
+	            <article>
+	                <div class="success">
+	                    Your order ID is {{order.no}}.
+	                </div>
+	            </article>
+	        </div>
+	    </div>
+	</div>
+{% endblock %}
+{% block footerJS %}
+	{{parent()}}
+	<script type="text/javascript">
+	var google_conversion_id = 925425683;
+	var google_conversion_language = "en";
+	var google_conversion_format = "3";
+	var google_conversion_color = "ffffff";
+	var google_conversion_label = "CGGfCIqS8mUQk8CjuQM";
+	var google_remarketing_only = false;
+	</script>
+	<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+	</script>
+	<noscript>
+	<div style="display:inline;">
+	<img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/925425683/?label=CGGfCIqS8mUQk8CjuQM&amp;guid=ON&amp;script=0"/>
+	</div>
+	</noscript>
+
+	<script type="text/javascript">
+	var google_conversion_id = 926462677;
+	var google_conversion_language = "en";
+	var google_conversion_format = "3";
+	var google_conversion_color = "ffffff";
+	var google_conversion_label = "FS09CLO052UQ1eXiuQM";
+	var google_remarketing_only = false;
+	</script>
+	<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+	</script>
+	<noscript>
+	<div style="display:inline;">
+	<img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/926462677/?label=FS09CLO052UQ1eXiuQM&amp;guid=ON&amp;script=0"/>
+	</div>
+</noscript>
+{% endblock %}

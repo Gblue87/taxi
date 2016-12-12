@@ -84,7 +84,7 @@ class AirportsFrontendController extends Controller
                 $data = $form->getData();
                 $data->setNo(rand(5, 16).time());
                 $data->setType('airport');
-                $data->setPaymentType($requestData['paymentType']);
+                $data->setPaymentType($data->getPaymentType());
                 $em->persist($data);
                 $em->flush();
 
@@ -92,7 +92,7 @@ class AirportsFrontendController extends Controller
                 if(!$price){
                     throw $this->createNotFoundException();
                 }
-                if (isset($requestData['paymentType']) && $requestData['paymentType'] == 'paypal') {
+                if ($data->getPaymentType() != null && $data->getPaymentType() == 'paypal') {
                     //LIVE "https://www.paypal.com/cgi-bin/webscr",
                     $paypalForm = array(
                         'action' => "https://www.sandbox.paypal.com/cgi-bin/webscr",
@@ -123,9 +123,9 @@ class AirportsFrontendController extends Controller
                     );
                     $this->get('session')->set('paypalForm', $paypalForm);
                     return $this->redirectToRoute('paypal_gateway');
-                }elseif(isset($requestData['paymentType']) && $requestData['paymentType'] == 'worldpay'){
+                }elseif($data->getPaymentType() != null && $data->getPaymentType() == 'worldpay'){
 
-                }elseif(isset($requestData['paymentType']) && $requestData['paymentType'] == 'cash'){
+                }elseif($data->getPaymentType() != null && $data->getPaymentType() == 'cash'){
                     $data->setPaymentStatus('cash-order');
                     $em->persist($data);
                     $em->flush();
@@ -169,7 +169,7 @@ class AirportsFrontendController extends Controller
 
     /**
      * @Route("/success/{id}", name="cash_success")
-     * @Template("NewVisionAirportsBundle:Frontend:cashSuccess.html.twig")
+     * @Template("NewVisionFrontendBundle:Frontend:cashSuccess.html.twig")
      */
     public function cashSuccessAction($id)
     {
@@ -181,8 +181,8 @@ class AirportsFrontendController extends Controller
         if (empty($order))
             throw $this->createNotFoundException();
 
-        // $this->sendOrderAdminMail($order);
-        // $this->sendOrderUserMail($order);
+        $this->sendOrderAdminMail($order);
+        $this->sendOrderUserMail($order);
         return array(
             'order' => $order,
         );

@@ -84,6 +84,7 @@ class ServicesFrontendController extends Controller
                 $data = $form->getData();
                 $data->setNo(rand(5, 16).time());
                 $data->setType('hotel');
+                $data->setPaymentType($data->getPaymentType());
                 $em->persist($data);
                 $em->flush();
 
@@ -91,8 +92,7 @@ class ServicesFrontendController extends Controller
                 if(!$price){
                     throw $this->createNotFoundException();
                 }
-
-                if (isset($requestData['paymentType']) && $requestData['paymentType'] == 'paypal') {
+                if ($data->getPaymentType() != null && $data->getPaymentType() == 'paypal') {
                     //LIVE "https://www.paypal.com/cgi-bin/webscr",
                     $paypalForm = array(
                         'action' => "https://www.sandbox.paypal.com/cgi-bin/webscr",
@@ -123,9 +123,9 @@ class ServicesFrontendController extends Controller
                     );
                     $this->get('session')->set('paypalForm', $paypalForm);
                     return $this->redirectToRoute('paypal_gateway');
-                }elseif(isset($requestData['paymentType']) && $requestData['paymentType'] == 'worldpay'){
+                }elseif($data->getPaymentType() != null && $data->getPaymentType() == 'worldpay'){
 
-                }elseif(isset($requestData['paymentType']) && $requestData['paymentType'] == 'cash'){
+                }elseif($data->getPaymentType() != null && $data->getPaymentType() == 'cash'){
                     $data->setPaymentStatus('cash-order');
                     $em->persist($data);
                     $em->flush();

@@ -32,7 +32,7 @@ class FrontendController extends Controller
         }
         $sliderBlock = $em->getRepository('NewVisionCustomBlocksBundle:CustomBlock')->findOneByIdAndLocale(7, $locale);
         $aboutUsBlock = $em->getRepository('NewVisionCustomBlocksBundle:CustomBlock')->findOneByIdAndLocale(8, $locale);
-        $aboutUs = $em->getRepository('NewVisionContentBundle:Content')->findOneById(25);
+        $aboutUs = $em->getRepository('NewVisionContentBundle:Content')->findOneById(26);
         if(!$aboutUs){
             throw $this->createNotFoundException('About us page not found');
         }
@@ -108,12 +108,13 @@ class FrontendController extends Controller
 
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
+            $settingsManager = $this->get('newvision.settings_manager');
             $session = $this->get('session');
             if ($form->isValid()) {
                 $data = $form->getData();
                 $data->setNo(rand(5, 16).time());
                 $data->setType('');
-                $data->setPaymentType($requestData['paymentType']);
+                $data->setPaymentType($data->getPaymentType());
                 $em->persist($data);
                 $em->flush();
 
@@ -121,7 +122,7 @@ class FrontendController extends Controller
                 if(!$price){
                     throw $this->createNotFoundException();
                 }
-                if (isset($requestData['paymentType']) && $requestData['paymentType'] == 'paypal') {
+                if ($data->getPaymentType() != null && $data->getPaymentType() == 'paypal') {
                     //LIVE "https://www.paypal.com/cgi-bin/webscr",
                     $paypalForm = array(
                         'action' => "https://www.sandbox.paypal.com/cgi-bin/webscr",
@@ -152,9 +153,9 @@ class FrontendController extends Controller
                     );
                     $this->get('session')->set('paypalForm', $paypalForm);
                     return $this->redirectToRoute('paypal_gateway');
-                }elseif(isset($requestData['paymentType']) && $requestData['paymentType'] == 'worldpay'){
+                }elseif($data->getPaymentType() != null && $data->getPaymentType() == 'worldpay'){
 
-                }elseif(isset($requestData['paymentType']) && $requestData['paymentType'] == 'cash'){
+                }elseif($data->getPaymentType() != null && $data->getPaymentType() == 'cash'){
                     $data->setPaymentStatus('cash-order');
                     $em->persist($data);
                     $em->flush();
