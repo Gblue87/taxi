@@ -13,6 +13,15 @@ use Knp\Menu\Matcher\Matcher;
 use Knp\Menu\Matcher\Voter\UriVoter;
 use NewVision\FrontendBundle\Entity\Order;
 
+define('WPAY_TEST_MODE',            true);
+define('WPAY_INSTALLATION_ID',      1110266);
+define('WPAY_ACCOUNT_ID',           "CHESTERTRAV1M2");
+define('WPAY_CURRENCY',             "GBP");
+define('WPAY_MD5_SECRET',           "1Qq!;lgdl;gioijgiojio");
+define('WPAY_RESPONSE_PASSWORD',    "321W%4fdg5fg/fgfgg");
+define('WPAY_CART_ID_PREFIX',       "");
+define('WPAY_INVOICE_ID_ADD',       0);
+
 class AirportsFrontendController extends Controller
 {
     use \NewVision\FrontendBundle\Traits\NewVisionHelperTrait;
@@ -127,14 +136,7 @@ class AirportsFrontendController extends Controller
                 }elseif($data->getPaymentType() != null && $data->getPaymentType() == 'worldpay'){
                     if (empty($data) || ($data->getPaymentStatus() != "new"))
                         throw $this->createNotFoundException();
-                    define('WPAY_TEST_MODE',            true);
-                    define('WPAY_INSTALLATION_ID',      1110266);
-                    define('WPAY_ACCOUNT_ID',           "CHESTERTRAV1M2");
-                    define('WPAY_CURRENCY',             "GBP");
-                    define('WPAY_MD5_SECRET',           "1Qq!;lgdl;gioijgiojio");
-                    define('WPAY_RESPONSE_PASSWORD',    "321W%4fdg5fg/fgfgg");
-                    define('WPAY_CART_ID_PREFIX',       "");
-                    define('WPAY_INVOICE_ID_ADD',       0);
+
                     $testMode = WPAY_TEST_MODE ? "100" : "0";
                     $signature = md5(WPAY_MD5_SECRET . ":" . WPAY_CURRENCY . ":$price:$testMode:" . WPAY_INSTALLATION_ID);
 
