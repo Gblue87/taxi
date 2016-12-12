@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Knp\Menu\MenuFactory;
 use Knp\Menu\Renderer\ListRenderer;
@@ -379,7 +380,7 @@ class AirportsFrontendController extends Controller
                 if ($status == "paid") {
                     // $this->sendOrderAdminMail($order);
                     // $this->sendOrderUserMail($order);
-                file_put_contents('/home/simplec/taxi/web/test.txt', $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_success', array('id' => $order->getNo())))), FILE_APPEND);
+                    return new Response('<html><head><meta http-equiv="refresh" content="0;URL='.$request->getSchemeAndHttpHost().$this->generateUrl('worldpay_success', array('id' => $order->getNo())).'" /></head></html>');
                     return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_success', array('id' => $order->getNo()))));
                 }
             }
