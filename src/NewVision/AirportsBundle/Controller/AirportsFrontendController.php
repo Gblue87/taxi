@@ -216,6 +216,7 @@ class AirportsFrontendController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
+        $content = $em->getRepository('NewVisionContentBundle:Content')->findOneById(27);
         if (!preg_match('/^\d+$/', $id))
             throw $this->createNotFoundException();
         $order = $ordersRepository->findOneByNo($id);
@@ -224,6 +225,11 @@ class AirportsFrontendController extends Controller
 
         $this->sendOrderAdminMail($order);
         $this->sendOrderUserMail($order);
+
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new \Stenik\SEOBundle\Event\SeoEvent($content);
+        $dispatcher->dispatch('stenik.seo', $event);
+
         return array(
             'order' => $order,
         );
@@ -237,6 +243,7 @@ class AirportsFrontendController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
+        $content = $em->getRepository('NewVisionContentBundle:Content')->findOneById(27);
         if (!preg_match('/^\d+$/', $id))
             throw $this->createNotFoundException();
         $order = $ordersRepository->findOneByNo($id);
@@ -247,6 +254,9 @@ class AirportsFrontendController extends Controller
             return $this->redirectToRoute('paypal_error');
         }
 
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new \Stenik\SEOBundle\Event\SeoEvent($content);
+        $dispatcher->dispatch('stenik.seo', $event);
 
         // $this->sendOrderAdminMail($order);
         // $this->sendOrderUserMail($order);
@@ -263,11 +273,16 @@ class AirportsFrontendController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
+        $content = $em->getRepository('NewVisionContentBundle:Content')->findOneById(27);
         if (!preg_match('/^\d+$/', $id))
             throw $this->createNotFoundException();
         $order = $ordersRepository->findOneByNo($id);
         if (empty($order))
             throw $this->createNotFoundException();
+
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new \Stenik\SEOBundle\Event\SeoEvent($content);
+        $dispatcher->dispatch('stenik.seo', $event);
 
         if ($order->getPaymentStatus() != 'paid') {
             return $this->redirectToRoute('paypal_error');
