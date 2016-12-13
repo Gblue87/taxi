@@ -104,6 +104,9 @@ class AirportsFrontendController extends Controller
                     throw $this->createNotFoundException();
                 }
                 if ($data->getPaymentType() != null && $data->getPaymentType() == 'paypal') {
+                    $data->setPaymentStatus('payment-failed');
+                    $em->persist($data);
+                    $em->flush();
                     //LIVE "https://www.paypal.com/cgi-bin/webscr",
                     $paypalForm = array(
                         'action' => "https://www.sandbox.paypal.com/cgi-bin/webscr",
@@ -138,6 +141,9 @@ class AirportsFrontendController extends Controller
                     if (empty($data) || ($data->getPaymentStatus() != "new"))
                         throw $this->createNotFoundException();
 
+                    $data->setPaymentStatus('payment-failed');
+                    $em->persist($data);
+                    $em->flush();
                     $testMode = WPAY_TEST_MODE ? "100" : "0";
                     $signature = md5(WPAY_MD5_SECRET . ":" . WPAY_CURRENCY . ":$price:$testMode:" . WPAY_INSTALLATION_ID);
 
@@ -358,6 +364,9 @@ class AirportsFrontendController extends Controller
             $id -= WPAY_INVOICE_ID_ADD;
 
             $order = $em->getRepository('NewVisionFrontendBundle:Order')->findOneByNo($id);
+            $order->setPaymentStatus('payment-failed');
+            $em->persist($order);
+            $em->flush();
             if (empty($order) || ($order->getPaymentStatus() != "new"))
                 return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error', array('msg' => $translator->trans('wrong_status', array(), 'NewVisionFrontendBundle'))))));
 
