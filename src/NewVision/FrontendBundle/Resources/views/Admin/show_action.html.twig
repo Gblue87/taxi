@@ -305,10 +305,10 @@ file that was distributed with this source code.
                         {% if object.paymentStatus is defined and object.paymentStatus is not null and object.paymentStatus|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
-                                    Payment Transaction Id:
+                                    Payment Status:
                                 </td>
                                 <td>
-                                    {{ object.paymentTransaction }}
+                                    {{ object.paymentStatus }}
                                 </td>
                             </tr>
                         {% endif %}
