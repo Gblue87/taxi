@@ -132,9 +132,6 @@ class FrontendController extends Controller
                     throw $this->createNotFoundException();
                 }
                 if ($data->getPaymentType() != null && $data->getPaymentType() == 'paypal') {
-                    $data->setPaymentStatus('payment-failed');
-                    $em->persist($data);
-                    $em->flush();
                     //LIVE "https://www.paypal.com/cgi-bin/webscr",
                     $paypalForm = array(
                         'action' => "https://www.sandbox.paypal.com/cgi-bin/webscr",
@@ -168,10 +165,6 @@ class FrontendController extends Controller
                 }elseif($data->getPaymentType() != null && $data->getPaymentType() == 'worldpay'){
                     if (empty($data) || ($data->getPaymentStatus() != "new"))
                         throw $this->createNotFoundException();
-
-                    $data->setPaymentStatus('payment-failed');
-                    $em->persist($data);
-                    $em->flush();
 
                     $testMode = WPAY_TEST_MODE ? "100" : "0";
                     $signature = md5(WPAY_MD5_SECRET . ":" . WPAY_CURRENCY . ":$price:$testMode:" . WPAY_INSTALLATION_ID);
