@@ -254,6 +254,15 @@ class Order
     protected $info;
 
     /**
+     * Phone of the person
+     *
+     * @var string
+     *
+     * @ORM\Column(name="meet", type="string", length=255, nullable=true)
+     */
+    protected $meet;
+
+    /**
      * @Gedmo\Versioned
      * @ORM\Column(name="amount", type="string", length=255, nullable=true)
      */
@@ -1099,6 +1108,30 @@ class Order
     public function setPaymentStatus($paymentStatus)
     {
         $this->paymentStatus = $paymentStatus;
+
+        return $this;
+    }
+
+    /**
+     * Gets the Phone of the person.
+     *
+     * @return string
+     */
+    public function getMeet()
+    {
+        return $this->meet;
+    }
+
+    /**
+     * Sets the Phone of the person.
+     *
+     * @param string $meet the meet
+     *
+     * @return self
+     */
+    public function setMeet($meet)
+    {
+        $this->meet = $meet;
 
         return $this;
     }

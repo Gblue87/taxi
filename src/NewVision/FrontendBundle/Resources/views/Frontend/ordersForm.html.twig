@@ -134,7 +134,7 @@
                 {% if  hotel is not defined or hotel is null %}
                     <div class="ffield">
                         <label for="meet">{{ 'meet_and_greet'|trans({}, "NewVisionFrontendBundle")}}</label>
-                        <input id="meet" type="checkbox" class="disabling" name="meet" >
+                        <input id="meet" type="checkbox" class="disabling" name="order[meet]" >
                     </div>
                 {% endif %}
                 <button id="calculate" type="submit" class="mbtn mbtn-orange mbtn-big right">{% if (airport is not defined or airport is null) and (hotel is not defined or hotel is null) %}{{ 'calculate'|trans({}, "NewVisionFrontendBundle")}}{% else %}{{ 'continue'|trans({}, "NewVisionFrontendBundle")}}{% endif %}</button>
@@ -168,6 +168,7 @@
         <input type="hidden" name="order[via_lng]">
         <input type="hidden" name="order[date]">
         <input type="hidden" name="order[return_date]">
+        <input type="hidden" name="order[meet]">
 
         <input type="hidden" name="order[amount]">
 
@@ -564,6 +565,9 @@
                     $('#step2 [name="order[via]"]').val(via);
                     $('#step2 [name="order[date]"]').val(date);
                     $('#step2 [name="order[return_date]"]').val(returnDate);
+                    if ($('#meet').length) {
+                        $('#step2 [name="order[meet]"]').val($('#meet')is(':checked'));
+                    }
 
                     // {* SUMMARY BLOCK *}
                     $('#step2 .from').text(from);
@@ -865,6 +869,9 @@
                     $('#step2 [name="order[offer_point]"]').val(offerPoint);
                     $('#step2 [name="order[date]"]').val(date);
                     $('#step2 [name="order[return_date]"]').val(returnDate);
+                    if ($('#meet').length) {
+                        $('#step2 [name="order[meet]"]').val($('#meet')is(':checked'));
+                    }
 
                     // {* PRICE *}
                     var data = {
