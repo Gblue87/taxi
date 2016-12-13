@@ -45,6 +45,8 @@ form:
     createdAt: Created at
     actions: Actions
 contact:
+    contact_user_subject: 'Enquiry sent to administrator'
+    contact_subject: 'New enquiry from contact form'
     admin_message_subject: 'New order !'
     subject: 'Subject'
     title: 'Contact form'

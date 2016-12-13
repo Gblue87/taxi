@@ -58,7 +58,7 @@ class ContactsFrontendController extends Controller
                 $data = $form->getData();
 
                 $adminMessage = \Swift_Message::newInstance()
-                    ->setSubject($translator->trans('contact.subject', array(), 'messages'))
+                    ->setSubject($translator->trans('contact.contact_subject', array(), 'NewVisionFrontendBundle'))
                     ->setFrom($settings->get('sender_email'))
                     ->setTo(explode(',', $settings->get('contact_email')))
                     ->setBody(
@@ -72,7 +72,7 @@ class ContactsFrontendController extends Controller
                 ;
 
                 $userMessage = \Swift_Message::newInstance()
-                    ->setSubject($translator->trans('contact.user_message_subject', array(), 'messages'))
+                    ->setSubject($translator->trans('contact.contact_user_subject', array(), 'NewVisionFrontendBundle'))
                     ->setFrom($settings->get('sender_email'))
                     ->setTo($data['email'])
                     ->setBody(
