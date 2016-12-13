@@ -292,6 +292,26 @@ file that was distributed with this source code.
                                 </td>
                             </tr>
                         {% endif %}
+                        {% if object.paymentTransaction is defined and object.paymentTransaction is not null and object.paymentTransaction|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    Payment Transaction Id:
+                                </td>
+                                <td>
+                                    {{ object.paymentTransaction }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if object.paymentStatus is defined and object.paymentStatus is not null and object.paymentStatus|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    Payment Transaction Id:
+                                </td>
+                                <td>
+                                    {{ object.paymentTransaction }}
+                                </td>
+                            </tr>
+                        {% endif %}
                     {% endblock %}
                 </tbody>
             </table>
