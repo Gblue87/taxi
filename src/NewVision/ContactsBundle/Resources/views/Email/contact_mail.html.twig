@@ -19,10 +19,6 @@
 			<td style="width: 25%; border-right: 1px solid #e6e6e6; border-bottom: 1px solid #e6e6e6;"><strong>{{ 'contact.name'|trans({}, "NewVisionFrontendBundle")}}</strong></td>
 			<td style="border-bottom: 1px solid #e6e6e6;">{{data.name}}</td>
 		</tr>
-		<tr>
-			<td style="width: 25%; border-right: 1px solid #e6e6e6; border-bottom: 1px solid #e6e6e6;"><strong>{{ 'contact.family'|trans({}, "NewVisionFrontendBundle")}}</strong></td>
-			<td style="border-bottom: 1px solid #e6e6e6;">{{data.family}}</td>
-		</tr>
 		{% if data.phone is defined and data.phone is not null and data.phone|length %}
 			<tr>
 				<td style="width: 25%; border-right: 1px solid #e6e6e6; border-bottom: 1px solid #e6e6e6;"><strong>{{ 'contact.phone'|trans({}, "NewVisionFrontendBundle")}}</strong></td>
