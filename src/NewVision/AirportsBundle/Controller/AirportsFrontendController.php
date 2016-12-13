@@ -231,7 +231,7 @@ class AirportsFrontendController extends Controller
         $this->sendOrderUserMail($order);
 
         $dispatcher = $this->get('event_dispatcher');
-        $event = new \Stenik\SEOBundle\Event\SeoEvent($content);
+        $event = new \NewVision\SEOBundle\Event\SeoEvent($content);
         $dispatcher->dispatch('stenik.seo', $event);
 
         return array(
@@ -259,7 +259,7 @@ class AirportsFrontendController extends Controller
         }
 
         $dispatcher = $this->get('event_dispatcher');
-        $event = new \Stenik\SEOBundle\Event\SeoEvent($content);
+        $event = new \NewVision\SEOBundle\Event\SeoEvent($content);
         $dispatcher->dispatch('stenik.seo', $event);
 
         // $this->sendOrderAdminMail($order);
@@ -285,7 +285,7 @@ class AirportsFrontendController extends Controller
             throw $this->createNotFoundException();
 
         $dispatcher = $this->get('event_dispatcher');
-        $event = new \Stenik\SEOBundle\Event\SeoEvent($content);
+        $event = new \NewVision\SEOBundle\Event\SeoEvent($content);
         $dispatcher->dispatch('stenik.seo', $event);
 
         if ($order->getPaymentStatus() != 'paid') {
