@@ -74,7 +74,7 @@ class ContactsFrontendController extends Controller
                 $userMessage = \Swift_Message::newInstance()
                     ->setSubject($translator->trans('contact.user_message_subject', array(), 'messages'))
                     ->setFrom($settings->get('sender_email'))
-                    ->setTo($data->getEmail())
+                    ->setTo($data['email'])
                     ->setBody(
                         $this->renderView(
                             'NewVisionContactsBundle:Email:contact_mail.html.twig', array(
