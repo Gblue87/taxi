@@ -2053,7 +2053,7 @@ label.fieldSuccess { color: #38bba2 !important; }
         -moz-perspective: 500px;
         perspective: 500px;
         padding-left: 0;
-        float: right;
+        float: none;
         position: relative;
         z-index: 3;
     }
