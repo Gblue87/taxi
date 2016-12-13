@@ -341,7 +341,7 @@ class AirportsFrontendController extends Controller
 
             foreach ($checks as $key)
                 if (!isset($p[$key]))
-                    return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error'array('msg' => $translator->trans('missing_property', array(), 'NewVisionFrontendBundle'))))));
+                    return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error', array('msg' => $translator->trans('missing_property', array(), 'NewVisionFrontendBundle'))))));
             if (
                 $p['instId'] != WPAY_INSTALLATION_ID ||
                 $p['callbackPW'] != WPAY_RESPONSE_PASSWORD ||
