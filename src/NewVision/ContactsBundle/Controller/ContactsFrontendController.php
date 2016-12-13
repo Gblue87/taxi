@@ -90,7 +90,6 @@ class ContactsFrontendController extends Controller
                 $mailer->send($userMessage);
 
                 $this->get('session')->getFlashBag()->add('success', 'Your message has been sent.');
-                return $this->redirect($this->generateUrl('contact_success'));
             } else {
                 $this->get('session')->getFlashBag()->add('error', 'Your message has not been sent.');
             }
