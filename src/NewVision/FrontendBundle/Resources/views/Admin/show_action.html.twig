@@ -246,6 +246,20 @@ file that was distributed with this source code.
                                 </td>
                             </tr>
                         {% endif %}
+                        {% if object.meet is defined and object.meet is not null and object.meet|length %}
+                            <tr class="sonata-ba-view-container">
+                                <td>
+                                    Meet and greet
+                                </td>
+                                <td>
+                                    {% if object.meet is sameas(true) %}
+                                        Yes
+                                    {% else %}
+                                        No
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
                         {% if object.amount is defined and object.amount is not null and object.amount|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
