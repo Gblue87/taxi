@@ -14,15 +14,6 @@ use Knp\Menu\Matcher\Matcher;
 use Knp\Menu\Matcher\Voter\UriVoter;
 use NewVision\FrontendBundle\Entity\Order;
 
-define('WPAY_TEST_MODE',            true);
-define('WPAY_INSTALLATION_ID',      1110266);
-define('WPAY_ACCOUNT_ID',           "CHESTERTRAV1M2");
-define('WPAY_CURRENCY',             "GBP");
-define('WPAY_MD5_SECRET',           "1Qq!;lgdl;gioijgiojio");
-define('WPAY_RESPONSE_PASSWORD',    "321W%4fdg5fg/fgfgg");
-define('WPAY_CART_ID_PREFIX',       "");
-define('WPAY_INVOICE_ID_ADD',       0);
-
 class AirportsFrontendController extends Controller
 {
     use \NewVision\FrontendBundle\Traits\NewVisionHelperTrait;
@@ -512,6 +503,8 @@ class AirportsFrontendController extends Controller
             }else{
                 $offer = null;
             }
+        }else{
+            $offer = null;
         }
         $adminMessage = \Swift_Message::newInstance()
             ->setSubject($translator->trans('contact.admin_message_subject', array(), 'messages'))
@@ -556,6 +549,8 @@ class AirportsFrontendController extends Controller
             }else{
                 $offer = null;
             }
+        }else{
+            $offer = null;
         }
         $userMessage = \Swift_Message::newInstance()
             ->setSubject($translator->trans('contact.user_message_subject', array(), 'messages'))

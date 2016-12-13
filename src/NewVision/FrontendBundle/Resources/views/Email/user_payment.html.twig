@@ -32,7 +32,7 @@
 {% if order.returnDate is defined and order.returnDate is not null and order.returnDate|length %}
     <tr>
         <th>Return journey:</th>
-        <td>{{order.returnDate|date('d.m.Y')}}</td>
+        <td>{{order.returnDate}}</td>
     </tr>
     <tr>
         <th>Return journey:</th>
@@ -64,7 +64,7 @@
 <tr>
     <th>Calculated amount:</th>
     <td>
-        {% if order.payment == 'cash' %}
+        {% if order.paymentType == 'cash' %}
             £{{order.amount|number_format(2)}}
         {% else %}
             {{order.amount*1.05|number_format(2)}}

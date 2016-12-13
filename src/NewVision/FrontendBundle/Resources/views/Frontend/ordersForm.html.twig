@@ -553,7 +553,7 @@
                             ? $.trim($('#vias_location').val())
                             : "";
                         date = $('#date').val();
-                        returnDate = $('#date').val();
+                        returnDate = $('#date2').val();
 
                     // {* HIDDEN FORM FIELDS *}
                     $('#step2 [name="order[from]"]').val(from);
@@ -865,7 +865,7 @@
                     $('#step2 [name="order[offer]"]').val(offer.id);
                     $('#step2 [name="order[offer_point]"]').val(offerPoint);
                     $('#step2 [name="order[date]"]').val(date);
-                    $('#step2 [name="order[returnDate]"]').val(returnDate);
+                    $('#step2 [name="order[return_date]"]').val(returnDate);
 
                     // {* PRICE *}
                     var data = {

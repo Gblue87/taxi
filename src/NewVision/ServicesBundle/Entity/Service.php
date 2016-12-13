@@ -383,11 +383,7 @@ class Service implements PublishWorkflowInterface, SeoAwareInterface
 
     public function getRoute()
     {
-        if ($this->getServiceCategories()->count() > 0) {
-            return 'services_category_service_view';
-        } else {
-            return 'service_without_category';
-        }
+        return 'hotel_view';
     }
 
     public function getRouteParams($params = array())

@@ -383,11 +383,7 @@ class Airport implements PublishWorkflowInterface, SeoAwareInterface
 
     public function getRoute()
     {
-        if ($this->getAirportCategories()->count() > 0) {
-            return 'airports_category_airport_view';
-        } else {
-            return 'airport_without_category';
-        }
+        return 'airport_view';
     }
 
     public function getRouteParams($params = array())

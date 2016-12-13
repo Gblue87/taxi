@@ -84,7 +84,6 @@ class FrontendController extends Controller
             $footerBlock2 != null ? $footerBlock2->getRank() : '-2' => $footerBlock2,
             $footerBlock3 != null ? $footerBlock3->getRank() : '-3' => $footerBlock3,
         );
-
         ksort($footerBlocks);
 
         $footerText = $em->getRepository('NewVisionCustomBlocksBundle:CustomBlock')->findOneByIdAndLocale(5, $locale);
