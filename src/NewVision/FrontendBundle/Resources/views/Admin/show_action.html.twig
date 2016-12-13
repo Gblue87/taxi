@@ -228,24 +228,6 @@ file that was distributed with this source code.
                                 </td>
                             </tr>
                         {% endif %}
-                        {% if object.returnDate is defined and object.returnDate is not null and object.returnDate|length %}
-                            <tr class="sonata-ba-view-container">
-                                <td>
-                                    Return date
-                                </td>
-                                <td>
-                                    {{ object.returnDate }}
-                                </td>
-                            </tr>
-                            <tr class="sonata-ba-view-container">
-                                <td>
-                                    Return time
-                                </td>
-                                <td>
-                                    {{ object.returnTime|date('H:i') }}
-                                </td>
-                            </tr>
-                        {% endif %}
                         {% if object.meet is defined and object.meet is not null and object.meet|length %}
                             <tr class="sonata-ba-view-container">
                                 <td>
