@@ -150,10 +150,10 @@ class AirportsFrontendController extends Controller
                         'fields' => array(
                             'instId' => WPAY_INSTALLATION_ID,
                             'amount' => $price,
-                            'cartId' => WPAY_CART_ID_PREFIX . ($data->getId() + WPAY_INVOICE_ID_ADD),
+                            'cartId' => WPAY_CART_ID_PREFIX . ($data->getNo() + WPAY_INVOICE_ID_ADD),
                             'currency' => WPAY_CURRENCY,
                             'testMode' => $testMode,
-                            'desc' => "TaxiChester Order #$data->getId()",
+                            'desc' => "TaxiChester Order #$data->getNo()",
                             'authMode' => "A",
                             'accId1' => WPAY_ACCOUNT_ID,
                             'withDelivery' => "false",
@@ -358,7 +358,6 @@ class AirportsFrontendController extends Controller
             $id -= WPAY_INVOICE_ID_ADD;
 
             $order = $em->getRepository('NewVisionFrontendBundle:Order')->findOneByNo($id);
-            file_put_contents('/home/simplec/taxi/web/test.txt', $id.'^'.$order->getId());
             if (empty($order) || ($order->getPaymentStatus() != "new"))
                 return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error', array('msg' => $translator->trans('wrong_status', array(), 'NewVisionFrontendBundle'))))));
 
