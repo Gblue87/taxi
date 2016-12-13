@@ -270,7 +270,7 @@
                 </div>
                 <p class="text-right">{{ 'surcharge'|trans({}, "NewVisionFrontendBundle")}}</p>
             </div>
-            <div class="g-recaptcha ffield" data-sitekey="{$smarty.const.RECAPTCHA_KEY}"></div>
+            {{ form_row(form.captcha) }}
             <p class="terms ffield">{{ 'by_completing'|trans({}, "NewVisionFrontendBundle")}} <a href="{{path('content', {'slug': terms.slug})}}" target="_blank">{{terms.title}}</a></p>
             <div class="clear"></div>
             <article class="hasicon">
@@ -855,7 +855,6 @@
                             : "";
                         date = $('#date').val();
                         returnDate = $('#date2').val();
-                        console.log(passengers);
                     // {* HIDDEN FORM FIELDS *}
                     $('#step2 [name="order[from]"]').val(from);
                     $('#step2 [name="order[to]"]').val(to);

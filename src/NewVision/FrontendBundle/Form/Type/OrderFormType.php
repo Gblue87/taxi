@@ -174,6 +174,7 @@ class OrderFormType extends AbstractType
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
+            ->add('captcha', 'ds_re_captcha', array('mapped' => false))
             ->add('submit', 'submit');
     }
 

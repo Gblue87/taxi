@@ -324,7 +324,7 @@ services:
             - { name: 'twig.extension' }
 
 re_captcha:
-    public_key: 6LeEPQ4UAAAAAPDHIEOp9PHllWxqqa6LMXeKSqY
+    public_key: 6LeEPQ4UAAAAAPDHIEOp9PHllWxqqa6LMXeKSqYc
     private_key: 6LeEPQ4UAAAAAKHCAVB10nvsngrPTtWWexkHAJOi
     locale: "%locale%"
 
