@@ -387,8 +387,8 @@ class AirportsFrontendController extends Controller
 
                 // SEND MAILS IF OK
                 if ($status == "paid") {
-                    // $this->sendOrderAdminMail($order);
-                    // $this->sendOrderUserMail($order);
+                    $this->sendOrderAdminMail($order);
+                    $this->sendOrderUserMail($order);
                     return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_success', array('id' => $order->getNo())))));
                 }
             }
@@ -463,12 +463,14 @@ class AirportsFrontendController extends Controller
                     $this->sendOrderAdminMail($order);
                     $this->sendOrderUserMail($order);
                 }
-
-                $order->setPaymentStatus($status);
-                $order->setPaymentTransaction($p['txn_id']);
-                $em->persist($order);
-                $em->flush();
+            }else{
+                $status = "payment-failed";
             }
+
+            $order->setPaymentStatus($status);
+            $order->setPaymentTransaction($p['txn_id']);
+            $em->persist($order);
+            $em->flush();
         }
     }
 
