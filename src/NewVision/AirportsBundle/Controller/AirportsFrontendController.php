@@ -357,9 +357,7 @@ class AirportsFrontendController extends Controller
             $id -= WPAY_INVOICE_ID_ADD;
 
             $order = $em->getRepository('NewVisionFrontendBundle:Order')->findOneByNo($id);
-            $order->setPaymentStatus('payment-failed');
-            $em->persist($order);
-            $em->flush();
+
             if (empty($order) || ($order->getPaymentStatus() != "new"))
                 return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error', array('msg' => $translator->trans('wrong_status', array(), 'NewVisionFrontendBundle'))))));
 
