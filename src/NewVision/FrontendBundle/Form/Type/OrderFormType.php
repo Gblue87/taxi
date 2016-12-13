@@ -169,6 +169,11 @@ class OrderFormType extends AbstractType
                 'translation_domain' => 'NewVisionFrontendBundle',
                 'required' => false
             ))
+            ->add('meet', 'text', array(
+                'label' => 'order.form.meet',
+                'translation_domain' => 'NewVisionFrontendBundle',
+                'required' => false
+            ))
             ->add('paymentType', 'text', array(
                 'label' => 'order.form.paymentType',
                 'translation_domain' => 'NewVisionFrontendBundle',
