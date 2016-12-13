@@ -34,6 +34,7 @@
                     {{ form_row(form.subject) }}
                     {{ form_row(form.message) }}
                     {{ form_row(form.captcha) }}
+                    {{ form_widget(form._token) }}
                     <div class="frow" style="padding-top: 30px;">
                         <div class="ffield fw">
                             <button type="submit" class="mbtn mbtn-orange mbtn-big">{{ 'contact.submit'|trans({}, "NewVisionFrontendBundle")}}</button>
