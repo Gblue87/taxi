@@ -507,7 +507,7 @@ class AirportsFrontendController extends Controller
             $offer = null;
         }
         $adminMessage = \Swift_Message::newInstance()
-            ->setSubject($translator->trans('contact.admin_message_subject', array(), 'messages'))
+            ->setSubject($translator->trans('contact.admin_message_subject', array(), 'NewVisionFrontendBundle'))
             ->setFrom($settingsManager->get('sender_email'))
             ->setTo($order->getEmail())
             ->setBody(
@@ -553,7 +553,7 @@ class AirportsFrontendController extends Controller
             $offer = null;
         }
         $userMessage = \Swift_Message::newInstance()
-            ->setSubject($translator->trans('contact.user_message_subject', array(), 'messages'))
+            ->setSubject($translator->trans('contact.user_message_subject', array(), 'NewVisionFrontendBundle'))
             ->setFrom($settingsManager->get('sender_email'))
             ->setTo($order->getEmail())
             ->setBody(

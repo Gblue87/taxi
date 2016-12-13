@@ -45,6 +45,7 @@ form:
     createdAt: Created at
     actions: Actions
 contact:
+    admin_message_subject: 'New order !'
     subject: 'Subject'
     title: 'Contact form'
     name: 'Name'
