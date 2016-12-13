@@ -14,6 +14,15 @@ use Knp\Menu\Matcher\Matcher;
 use Knp\Menu\Matcher\Voter\UriVoter;
 use NewVision\FrontendBundle\Entity\Order;
 
+define('WPAY_TEST_MODE',            true);
+define('WPAY_INSTALLATION_ID',      1110266);
+define('WPAY_ACCOUNT_ID',           "CHESTERTRAV1M2");
+define('WPAY_CURRENCY',             "GBP");
+define('WPAY_MD5_SECRET',           "1Qq!;lgdl;gioijgiojio");
+define('WPAY_RESPONSE_PASSWORD',    "321W%4fdg5fg/fgfgg");
+define('WPAY_CART_ID_PREFIX',       "");
+define('WPAY_INVOICE_ID_ADD',       0);
+
 class AirportsFrontendController extends Controller
 {
     use \NewVision\FrontendBundle\Traits\NewVisionHelperTrait;
@@ -165,11 +174,6 @@ class AirportsFrontendController extends Controller
                     throw new \Exception("No payment method found", 404);
                 }
             } else {
-                $session->getFlashBag()->clear();
-                $session->getFlashBag()->add(
-                    'error',
-                    'applyment_error'
-                );
             }
         }
 
