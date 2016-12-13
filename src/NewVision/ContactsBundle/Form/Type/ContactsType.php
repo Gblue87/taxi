@@ -59,7 +59,6 @@ class ContactsType extends AbstractType
                 'required' => true,
                 'constraints' => new NotBlank(array('message' => 'required_field')),
                 'attr' => array(
-                    'class' => 'required-entry'
                     //'placeholder' => 'contact.name'
                 )
             ))
@@ -69,7 +68,6 @@ class ContactsType extends AbstractType
                 'required' => true,
                 'constraints' => new NotBlank(array('message' => 'required_field')),
                 'attr' => array(
-                    'class' => 'required-entry',
                     //'placeholder' => 'contact.message',
                     'cols' => 30,
                     'rows' => 10
