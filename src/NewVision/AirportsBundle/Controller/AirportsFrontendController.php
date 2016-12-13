@@ -311,7 +311,7 @@ class AirportsFrontendController extends Controller
     }
 
     /**
-     * @Route("/worldpay-error", name="worldpay_error")
+     * @Route("/worldpay-error/{msg}", name="worldpay_error")
      * @Template("NewVisionAirportsBundle:Frontend:paypalError.html.twig")
      */
     public function worldpayErrorAction($msg = null)
@@ -327,28 +327,28 @@ class AirportsFrontendController extends Controller
     public function worldpayNotifyAction(Request $request)
     {
         try {
-
+            $translator = $this->get('translator');
             $em = $this->getDoctrine()->getManager();
             $settingsManager = $this->get('newvision.settings_manager');
             $ip = $this->container->get('request')->getClientIp();
             if (empty($ip) ||
                 (substr(gethostbyaddr($ip), -13) != ".worldpay.com")
             )
-                return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error'))));
+                return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error', array('msg' => $translator->trans('wrong_ip', array(), 'NewVisionFrontendBundle'))))));
 
             $p = $request->request->all();
             $checks = explode(' ', "instId callbackPW AVS cartId currency amount transId transStatus");
 
             foreach ($checks as $key)
                 if (!isset($p[$key]))
-                    return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error'))));
+                    return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error'array('msg' => $translator->trans('missing_property', array(), 'NewVisionFrontendBundle'))))));
             if (
                 $p['instId'] != WPAY_INSTALLATION_ID ||
                 $p['callbackPW'] != WPAY_RESPONSE_PASSWORD ||
                 $p['currency'] != WPAY_CURRENCY ||
                 (substr($p['AVS'], 0, 1) != "2" && (!WPAY_TEST_MODE || substr($p['AVS'], 0, 1) != "1")) || !preg_match('/^\d+$/', $p['transId']))
             {
-                return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error'))));
+                return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error', array('msg' => $translator->trans('wrong_data', array(), 'NewVisionFrontendBundle'))))));
             }
     // GET ORDER
 
@@ -360,7 +360,7 @@ class AirportsFrontendController extends Controller
             $order = $em->getRepository('NewVisionFrontendBundle:Order')->findOneByNo($id);
 
             if (empty($order) || ($order->getPaymentStatus() != "new"))
-                return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error'))));
+                return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error', array('msg' => $translator->trans('wrong_status', array(), 'NewVisionFrontendBundle'))))));
 
 
     // TRANSACTION - FAILED
