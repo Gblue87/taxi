@@ -124,7 +124,36 @@ class ServicesFrontendController extends Controller
                     $this->get('session')->set('paypalForm', $paypalForm);
                     return $this->redirectToRoute('paypal_gateway');
                 }elseif($data->getPaymentType() != null && $data->getPaymentType() == 'worldpay'){
+                    if (empty($data) || ($data->getPaymentStatus() != "new"))
+                        throw $this->createNotFoundException();
 
+                    $testMode = WPAY_TEST_MODE ? "100" : "0";
+                    $signature = md5(WPAY_MD5_SECRET . ":" . WPAY_CURRENCY . ":$price:$testMode:" . WPAY_INSTALLATION_ID);
+
+                    $worldPay = array(
+
+                        'action' => WPAY_TEST_MODE
+                            ? "https://secure-test.worldpay.com/wcc/purchase"
+                            : "https://secure.worldpay.com/wcc/purchase",
+
+                        'fields' => array(
+                            'instId' => WPAY_INSTALLATION_ID,
+                            'amount' => $price,
+                            'cartId' => WPAY_CART_ID_PREFIX . ($data->getNo() + WPAY_INVOICE_ID_ADD),
+                            'currency' => WPAY_CURRENCY,
+                            'testMode' => $testMode,
+                            'desc' => "TaxiChester Order #$data->getNo()",
+                            'authMode' => "A",
+                            'accId1' => WPAY_ACCOUNT_ID,
+                            'withDelivery' => "false",
+                            'fixContact' => "false",
+                            'hideContact' => "false",
+                            'signature' => $signature
+                        )
+                    );
+
+                    $this->get('session')->set('worldpayForm', $worldPay);
+                    return $this->redirectToRoute('worldpay_gateway');
                 }elseif($data->getPaymentType() != null && $data->getPaymentType() == 'cash'){
                     $data->setPaymentStatus('cash-order');
                     $em->persist($data);
