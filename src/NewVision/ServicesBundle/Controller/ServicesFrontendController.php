@@ -57,6 +57,7 @@ class ServicesFrontendController extends Controller
         $to = false;
         $from = false;
         $em = $this->getDoctrine()->getManager();
+        $settingsManager = $this->get('newvision.settings_manager');
         $locale = $request->getLocale();
         $servicesRepo = $em->getRepository($this->itemsRepo);
         $point = $request->query->get('point');
