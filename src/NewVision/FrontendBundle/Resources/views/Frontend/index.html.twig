@@ -40,7 +40,7 @@
                 <div class="frow">
                     <div class="ffield">
                         <label for="rj">{{ 'return_journey'|trans({}, "NewVisionFrontendBundle")}}</label>
-                        <input id="rj" type="checkbox" name="" class="disabling">
+                        <input id="rj" type="checkbox" name="dummy" class="disabling">
                         <div class="ffield datetime">
                             <span class="picker-wrapper"><input id="date2" type="text" name="date2" value="" placeholder="Date" disabled=""></span>
                             <span class="picker-wrapper relative"><input id="time2" type="text" name="time2" value="" placeholder="Time" disabled=""></span>
@@ -73,7 +73,7 @@
                                     {% if item.translations[app.request.locale].image is defined and item.translations[app.request.locale].image is not null and item.translations[app.request.locale].image|length %}
                                         {% thumbnail item.translations[app.request.locale].image, 'index' with { 'alt': item.translations[app.request.locale].image.title } %}
                                     {% else %}
-                                        <img src="/images/no-img.jpg">
+                                        <img src="/images/no-img.jpg" alt="No image">
                                     {% endif %}
                                     <div class="hover">
                                         <a href="{{ path("airport_view", {'slug': item.slug }) }}?point=from"><span class="orient">{{ 'from'|trans({}, "NewVisionFrontendBundle")}} <i></i></span></a>
@@ -91,14 +91,14 @@
             <div class="center">
                 <h1 class="title">{{ 'hotel_transfers'|trans({}, "NewVisionFrontendBundle")}}</h1>
                 <div class="slider-wrapper">
-                    <div id="airport_slider" class="slider">
+                    <div class="slider">
                         {% for item in hotels %}
                             <div class="slide">
                                 <div class="img-wrap">
                                     {% if item.translations[app.request.locale].image is defined and item.translations[app.request.locale].image is not null and item.translations[app.request.locale].image|length %}
                                         {% thumbnail item.translations[app.request.locale].image, 'index' with { 'alt': item.translations[app.request.locale].image.title } %}
                                     {% else %}
-                                        <img src="/images/no-img.jpg">
+                                        <img src="/images/no-img.jpg" alt="No image">
                                     {% endif %}
                                     <div class="hover">
                                         <a href="{{ path("hotel_view", {'slug': item.slug}) }}?point=from"><span class="orient">{{ 'from'|trans({}, "NewVisionFrontendBundle")}} <i></i></span></a>

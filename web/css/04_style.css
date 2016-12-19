@@ -299,6 +299,9 @@ opacity: 0.8;
     font-size: 27px;
     line-height: 36px;
 }
+.breadcrumbs { margin-bottom: 10px; font-size: 14px; }
+.breadcrumbs li { display: inline-block; }
+.breadcrumbs li a:after { content: "/"; margin: 0 10px; }
 article, p, article p, article ul, article ol {
     color: #32495e;
     font: normal 14px/22px Arial;
