@@ -26,19 +26,7 @@ class ContactsType extends AbstractType
             ->add('phone', 'text', array(
                 'label' => 'contact.phone',
                 'translation_domain' => 'NewVisionFrontendBundle',
-                'required' => false,
-                'constraints' => array(
-                    new Regex(array(
-                        'pattern' => '/^(0|\+)[0-9]+$/',
-                        'match' => true,
-                        'message' => 'only_numbers',
-                    )),
-                    //new NotBlank(array('message' => 'required_field')),
-                ),
-                'attr' => array(
-                    'class' => 'validation-phone'
-                    //'placeholder' => 'contact.phone'
-                )
+                'required' => false
             ))
             ->add('email', 'text', array(
                 'label' => 'contact.email',
