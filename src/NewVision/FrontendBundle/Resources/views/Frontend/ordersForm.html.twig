@@ -1,18 +1,18 @@
 {% if (airport is not defined or airport is null) and (hotel is not defined or hotel is null) %}
-    <div class="warning hasicon" style="margin-bottom:0">
+    <div class="warning hasicon">
         {{content.description|raw}}
     </div>
 {% else %}
         {% if airport is defined and airport is not null and airport|length %}
             {% if airport.simpleDescription is defined and airport.simpleDescription is not null and airport.simpleDescription|length %}
-                <div class="warning hasicon" style="margin-bottom:0">
+                <div class="warning hasicon">
                     {{airport.simpleDescription}}
                 </div>
             {% endif %}
         {% endif %}
         {% if hotel is defined and hotel is not null and hotel|length %}
             {% if hotel.simpleDescription is defined and hotel.simpleDescription is not null and hotel.simpleDescription|length %}
-                <div class="warning hasicon" style="margin-bottom:0">
+                <div class="warning hasicon">
                     {{hotel.simpleDescription}}
                 </div>
             {% endif %}
