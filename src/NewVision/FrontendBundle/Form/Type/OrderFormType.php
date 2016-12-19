@@ -35,10 +35,7 @@ class OrderFormType extends AbstractType
             ->add('phone', 'text', array(
                 'label' => 'order.form.phone',
                 'translation_domain' => 'NewVisionFrontendBundle',
-                'required' => false,
-                'attr' => array(
-                    'class' => 'validation-phone'
-                )
+                'required' => false
             ))
             ->add('email', 'email', array(
                 'label' => 'order.form.email',

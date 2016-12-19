@@ -101,7 +101,8 @@ if ($('#date').length){
             formatSubmit: 'HH:i',
             interval: 5,
             min: minTime,
-            max: maxTime
+            max: maxTime,
+            clear: 'Clear',
         },
         date1 = $('#date').pickadate(dateOptions).pickadate('picker'),
         time1 = $('#time').pickatime(timeOptions).pickatime('picker');

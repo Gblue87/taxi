@@ -479,8 +479,8 @@ class FrontendController extends Controller
             }
 
             $data = array(
-                'amount4' => $this->_getTaxedPrice($item->getPrice(), $requestData['date'], $requestData['returnDate']),
-                'amount8' => $this->_getTaxedPrice($item->getDoublePrice(), $requestData['date'], $requestData['returnDate']),
+                'amount4' => $this->_getTaxedPrice($item->getPrice(), $requestData['date'], $requestData['returnDate'], 0),
+                'amount8' => $this->_getTaxedPrice($item->getDoublePrice(), $requestData['date'], $requestData['returnDate'], 6),
                 'success' => true
             );
             if (isset($requestData['meet']) && $requestData['meet']) {
@@ -533,21 +533,27 @@ class FrontendController extends Controller
         return new JsonResponse($data);
     }
 
-    private function _getTaxedPrice($offerPrice, $date, $returnDate)
+    private function _getTaxedPrice($offerPrice, $date, $returnDate, $passengers)
     {
+
         $yearDate = date('Y');
         $nextYear = $yearDate+1;
         $specialDates = [$yearDate.'-12-24'=> 1.5, $yearDate.'-12-25' => 2, $yearDate.'-12-26' => 2, $yearDate.'-12-31' => 1.5, $nextYear.'-01-01' => 2, $yearDate.'-01-01' => 2];
-
+        $offerPriceTmp = $offerPrice;
         if (in_array($date, array_keys($specialDates))) {
             $offerPrice = $offerPrice * $specialDates[$date];
         }
         $total = $offerPrice;
         if (mb_strlen($returnDate) > 0) {
             if (in_array($returnDate, array_keys($specialDates))) {
-                $offerPrice = $offerPrice * $specialDates[$returnDate];
+                $offerPrice = $offerPriceTmp * $specialDates[$returnDate];
+            }else{
+                $offerPrice = $offerPriceTmp;
             }
             $total += $offerPrice;
+            if ($passengers > 4) {
+                $total += 3;
+            }
         }
         return $total;
     }
@@ -577,20 +583,26 @@ class FrontendController extends Controller
         if (in_array($requestData['date'], array_keys($specialDates))) {
             // $pricePerMile = $requestData['']
             $offerPrice = $requestData['distance'] * $specialDates[$date] * $tariff;
-            if ($passengers > 4) {
-                $offerPrice += 3;
-            }
             if ($requestData['returnDate'] != '') {
                 $offerPrice +=  $requestData['distance'] * $returnTariff;
+                if ($passengers > 4) {
+                    $offerPrice += 3;
+                }
+            }
+            if ($passengers > 4) {
+                $offerPrice += 3;
             }
         }else{
             $time = date("H:i", strtotime($requestData['time']));
             $offerPrice = $requestData['distance'] * $tariff;
-            if ($passengers > 4) {
-                $offerPrice += 3;
-            }
             if ($requestData['returnDate'] != '') {
                 $offerPrice +=  $requestData['distance'] * $returnTariff;
+                if ($passengers > 4) {
+                    $offerPrice += 3;
+                }
+            }
+            if ($passengers > 4) {
+                $offerPrice += 3;
             }
 
         }

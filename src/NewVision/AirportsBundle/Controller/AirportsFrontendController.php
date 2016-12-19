@@ -14,14 +14,14 @@ use Knp\Menu\Matcher\Matcher;
 use Knp\Menu\Matcher\Voter\UriVoter;
 use NewVision\FrontendBundle\Entity\Order;
 
-define('WPAY_TEST_MODE',            true);
-define('WPAY_INSTALLATION_ID',      1110266);
-define('WPAY_ACCOUNT_ID',           "CHESTERTRAV1M2");
-define('WPAY_CURRENCY',             "GBP");
-define('WPAY_MD5_SECRET',           "1Qq!;lgdl;gioijgiojio");
-define('WPAY_RESPONSE_PASSWORD',    "321W%4fdg5fg/fgfgg");
-define('WPAY_CART_ID_PREFIX',       "");
-define('WPAY_INVOICE_ID_ADD',       0);
+// define('WPAY_TEST_MODE',            true);
+// define('WPAY_INSTALLATION_ID',      1110266);
+// define('WPAY_ACCOUNT_ID',           "CHESTERTRAV1M2");
+// define('WPAY_CURRENCY',             "GBP");
+// define('WPAY_MD5_SECRET',           "1Qq!;lgdl;gioijgiojio");
+// define('WPAY_RESPONSE_PASSWORD',    "321W%4fdg5fg/fgfgg");
+// define('WPAY_CART_ID_PREFIX',       "");
+// define('WPAY_INVOICE_ID_ADD',       0);
 
 class AirportsFrontendController extends Controller
 {
@@ -59,7 +59,7 @@ class AirportsFrontendController extends Controller
     }
 
     /**
-     * @Route("/airport-transfer/{slug}", name="airport_view")
+     * @Route("/airport-transfer/{slug}/", name="airport_view")
      * @Template("NewVisionAirportsBundle:Frontend:airportOrder.html.twig")
      */
     public function airportsOrderAction(Request $request, $slug)
@@ -175,8 +175,14 @@ class AirportsFrontendController extends Controller
             } else {
             }
         }
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new \NewVision\SEOBundle\Event\SeoEvent($airport);
+        if ($event->getOriginalUrl() === null || $event->getOriginalUrl() == '') {
+            $event->setOriginalUrl($this->generateUrl('airport_view', array('slug' => $airport->getSlug())));
+        }
+        $dispatcher->dispatch('newvision.seo', $event);
 
-        $this->generateSeoAndOgTags($airport);
+        $this->generateOgTags($airport);
         $offer['id'] = $airport->getId();
         return array(
             'airport' => $airport,
@@ -231,7 +237,7 @@ class AirportsFrontendController extends Controller
 
         $dispatcher = $this->get('event_dispatcher');
         $event = new \NewVision\SEOBundle\Event\SeoEvent($content);
-        $dispatcher->dispatch('stenik.seo', $event);
+        $dispatcher->dispatch('newvision.seo', $event);
 
         return array(
             'order' => $order,
@@ -259,7 +265,7 @@ class AirportsFrontendController extends Controller
 
         $dispatcher = $this->get('event_dispatcher');
         $event = new \NewVision\SEOBundle\Event\SeoEvent($content);
-        $dispatcher->dispatch('stenik.seo', $event);
+        $dispatcher->dispatch('newvision.seo', $event);
 
         // $this->sendOrderAdminMail($order);
         // $this->sendOrderUserMail($order);
@@ -285,7 +291,7 @@ class AirportsFrontendController extends Controller
 
         $dispatcher = $this->get('event_dispatcher');
         $event = new \NewVision\SEOBundle\Event\SeoEvent($content);
-        $dispatcher->dispatch('stenik.seo', $event);
+        $dispatcher->dispatch('newvision.seo', $event);
 
         if ($order->getPaymentStatus() != 'paid') {
             return $this->redirectToRoute('paypal_error');

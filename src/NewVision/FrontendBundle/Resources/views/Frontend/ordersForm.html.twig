@@ -329,17 +329,8 @@
             var userPoint,
             amount4 = 0,
             amount8 = 0;
+
             $(function() {
-                if ($('#meet').length) {
-                    $('#meet').on('change', function(){
-                        if (validateStep1(true)) {
-                            if (isSubmit) {
-                                transferData();
-                                getRoute();
-                            }
-                        }
-                    });
-                }
                 var fromBox, toBox, viaBox,
                     amount4 = 0.0,
                     amount8 = 0.0,
@@ -357,6 +348,7 @@
                 });
 
                 $('#calculate').on('click', function(e){
+                    transferData();
                     isSubmit = true;
                 });
 
@@ -555,6 +547,7 @@
                             : "";
                         date = $('#date').val();
                         returnDate = $('#date2').val();
+                    console.log(passengers);
 
                     // {* HIDDEN FORM FIELDS *}
                     $('#step2 [name="order[from]"]').val(from);
@@ -725,7 +718,36 @@
                     setTimeout(function() {
                         $('#step1').trigger('submit');
                     }, 1);
+
+                    var $date = $('#date'),
+                    $returnDate = $('#date2'),
+                    $time = $('#time'),
+                    $returnTime = $('#time2');
+
                 }
+                $(function() {
+                    $time.pickatime('picker').on({ set: transferData });
+                    $time.pickatime('picker').on({ set: getRoute });
+
+                    $returnTime.pickatime('picker').on({ set: transferData });
+                    $returnTime.pickatime('picker').on({ set: getRoute });
+                    // {* RETURN JOURNEY CHECKBOX CLICK - AMOUNT CHANGE *}
+                    if ($('#meet').length) {
+                        $('#meet').on('change', function(){
+                            transferData();
+                            $('#calculate').click();
+                            if (validateStep1(true)) {
+                                if (isSubmit) {
+                                    getRoute();
+                                }
+                            }
+                        });
+                    }
+                    $('#rj').on('click', function(){
+                        transferData();
+                        $('#calculate').click();
+                    });
+                });
             });
         {% else %}
             (function() {
@@ -793,7 +815,6 @@
                         }
 
                     });
-
                     // {* CALCULATE DISTANCE & DURATION *}
                     new google.maps.DistanceMatrixService().getDistanceMatrix({
                         origins: [origin],
@@ -804,7 +825,6 @@
                         avoidTolls: false
 
                     }, function (response, status) {
-
                         if (status == google.maps.DistanceMatrixStatus.OK) {
                             var row, i,
                                 distance = 0,
@@ -812,7 +832,6 @@
 
                             for (i in response.rows) {
                                 row = response.rows[i].elements[i];
-
                                 // {* NO DATA *}
                                 if ((row.status == "ZERO_RESULTS") ||
                                     (row.status == "NOT_FOUND")
@@ -1032,7 +1051,9 @@
 
                 // {* AMOUNT CHANGE *}
                 var $date = $('#date'),
-
+                $returnDate = $('#date2'),
+                $time = $('#time'),
+                $returnTime = $('#time2');
                     amountChange = function() {
                         if (!$date.val().length)
                             return;
@@ -1068,14 +1089,16 @@
                     };
 
                 // {* DATE CHANGE - AMOUNT CHANGE *}
+
                 $(function() {
+                    $date.pickadate('picker').on({ set: transferData });
                     $date.pickadate('picker').on({ set: amountChange });
-                    $('#date2').pickadate('picker').on({ set: amountChange });
+                    $returnDate.pickadate('picker').on({ set: transferData });
+                    $returnDate.pickadate('picker').on({ set: amountChange });
+                    // {* RETURN JOURNEY CHECKBOX CLICK - AMOUNT CHANGE *}
                 });
 
-                // {* RETURN JOURNEY CHECKBOX CLICK - AMOUNT CHANGE *}
-                $('#rj').click(amountChange);
-
+                    $('#rj').click(amountChange);
             })();
         {% endif %}
     </script>

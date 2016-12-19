@@ -249,7 +249,7 @@ class Order
      *
      * @var string
      *
-     * @ORM\Column(name="info", type="string", length=255, nullable=true)
+     * @ORM\Column(name="info", type="text", nullable=true)
      */
     protected $info;
 
