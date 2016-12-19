@@ -59,7 +59,7 @@ class AirportsFrontendController extends Controller
     }
 
     /**
-     * @Route("/airport-transfer/{slug}/", name="airport_view")
+     * @Route("/airport-transfer/{slug}", name="airport_view")
      * @Template("NewVisionAirportsBundle:Frontend:airportOrder.html.twig")
      */
     public function airportsOrderAction(Request $request, $slug)
