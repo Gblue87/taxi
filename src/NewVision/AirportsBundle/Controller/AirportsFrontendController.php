@@ -179,7 +179,7 @@ class AirportsFrontendController extends Controller
         $dispatcher = $this->get('event_dispatcher');
         $event = new \NewVision\SEOBundle\Event\SeoEvent($airport);
         if ($event->getOriginalUrl() === null || $event->getOriginalUrl() == '') {
-            $event->setOriginalUrl($this->generateUrl('airport_view', array('slug' => $airport->getSlug())));
+            $event->setOriginalUrl($this->generateUrl('airport_view', array('slug' => $airport->getSlug())).'/');
         }
         $dispatcher->dispatch('newvision.seo', $event);
 

@@ -178,7 +178,7 @@ class ServicesFrontendController extends Controller
         $dispatcher = $this->get('event_dispatcher');
         $event = new \NewVision\SEOBundle\Event\SeoEvent($hotel);
         if ($event->getOriginalUrl() === null || $event->getOriginalUrl() == '') {
-            $event->setOriginalUrl($this->generateUrl('airport_view', array('slug' => $hotel->getSlug())));
+            $event->setOriginalUrl($this->generateUrl('airport_view', array('slug' => $airport->getSlug())).'/');
         }
         $dispatcher->dispatch('newvision.seo', $event);
 
