@@ -301,7 +301,8 @@ opacity: 0.8;
 }
 .breadcrumbs { margin-bottom: 10px; font-size: 14px; }
 .breadcrumbs li { display: inline-block; }
-.breadcrumbs li a:after { content: "/"; margin: 0 10px; }
+.breadcrumbs li a:after { content: "/"; display: inline-block; margin: 0 10px; text-decoration: none; }
+.breadcrumbs li a:hover:after { text-decoration: none; }
 article, p, article p, article ul, article ol {
     color: #32495e;
     font: normal 14px/22px Arial;
@@ -2257,7 +2258,7 @@ label.fieldSuccess { color: #38bba2 !important; }
     }
 }
 
-.popUp { display: none; width: 930px; min-height: 113px; background: #fff; }
+.popUp { display: none; width: 930px; max-width: 100%; min-height: 113px; background: #fff; }
 #generror { position: static; top: auto; right: auto; bottom: auto; left: auto; height: auto; }
 #cboxLoadedContent .popUp {
     display: block;

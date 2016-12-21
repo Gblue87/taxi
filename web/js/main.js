@@ -256,7 +256,6 @@ $('.slider-wrapper .slider').owlCarousel({
     items: 6,
     pagination: true
 })
-
 $('#shcfrom').on('click',function(e){
     e.preventDefault();
     $(this).parent().toggleClass('closed')
