@@ -584,6 +584,9 @@ class FrontendController extends Controller
             $offerPrice = $requestData['distance'] * $specialDates[$requestData['date']] * $tariff;
             if ($requestData['returnDate'] != '') {
                 $offerPrice +=  $requestData['distance'] * $returnTariff;
+                if (in_array($requestData['returnDate'], array_keys($specialDates))) {
+                    $offerPrice *= $specialDates[$requestData['returnDate']];
+                }
                 if ($passengers > 4) {
                     $offerPrice += 3;
                 }
@@ -596,6 +599,9 @@ class FrontendController extends Controller
             $offerPrice = $requestData['distance'] * $tariff;
             if ($requestData['returnDate'] != '') {
                 $offerPrice +=  $requestData['distance'] * $returnTariff;
+                if (in_array($requestData['returnDate'], array_keys($specialDates))) {
+                    $offerPrice *= $specialDates[$requestData['returnDate']];
+                }
                 if ($passengers > 4) {
                     $offerPrice += 3;
                 }
