@@ -20,6 +20,23 @@ DirectoryIndex app.php
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+    RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+    RewriteCond %{REQUEST_URI} !^.*\.(jpg|css|js|gif|png|jpeg)$ [NC]
+    RewriteCond %{REQUEST_URI} !^.*/_wdt/.*$ [NC]
+    RewriteCond %{QUERY_STRING} ^.+$
+    RewriteCond %{REQUEST_METHOD} !POST
+    RewriteCond %{QUERY_STRING} !(.*)/$
+    RewriteRule ^(.+)$ /$1?%{QUERY_STRING}/ [R=301,L]
+
+    RewriteCond %{REQUEST_URI} !^.*\.(jpg|css|js|gif|png|jpeg)$ [NC]
+    RewriteCond %{REQUEST_URI} !^.*/_wdt/.*$ [NC]
+    RewriteCond %{QUERY_STRING} !.+$
+    RewriteCond %{REQUEST_METHOD} !POST
+    RewriteCond %{REQUEST_URI} !(.*)/$
+    RewriteRule ^(.+)$ /$1/ [R=301,L]
+
     # Determine the RewriteBase automatically and set it as environment variable.
     # If you are using Apache aliases to do mass virtual hosting or installed the
     # project in a subdirectory, the base path will be prepended to allow proper
@@ -55,6 +72,134 @@ DirectoryIndex app.php
 
     # Rewrite all other queries to the front controller.
     RewriteRule .? %{ENV:BASE}/app.php [L]
+
+    Redirect 301 /airport-transfer  https://taxichester.uk//en/airport-transfers
+    Redirect 301 /city-hotel-transfers  https://taxichester.uk/en/city-and-hotel-transfers/
+    Redirect 301 /about-us  https://taxichester.uk/en/about-us/
+    Redirect 301 /contact-us  https://taxichester.uk/en/contact-us/
+    Redirect 301 /terms-and-conditions  https://taxichester.uk/en/terms-and-conditions/
+    Redirect 301 /orders  https://taxichester.uk/en/new-order/
+    Redirect 301 /offers/gatwick-airport-transfers  https://taxichester.uk//en/airport-transfer/chester-to-or-from-gatwick/
+    Redirect 301 /offers/birmingham-airport  https://taxichester.uk/en/airport-transfer/chester-to-or-from-birmingham-airport/
+    Redirect 301 /offers/liverpool-aiport-transfers  https://taxichester.uk/en/airport-transfer/chester-to-or-from-liverpool-airport/
+    Redirect 301 /offers/manchester-airport-transfers  https://taxichester.uk/en/airport-transfer/chester-to-or-from-manchester-airport/
+    Redirect 301 /offers/heathrow-airport-transfers  https://taxichester.uk/en/airport-transfer/chester-to-or-from-heathrow-airport/
+    Redirect 301 /offers/luton-airport-transfers  https://taxichester.uk/en/airport-transfer/chester-to-or-from-luton-airport/
+    Redirect 301 /offers/carden-park-hotel  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-carden-park-hotel/
+    Redirect 301 /offers/peckforton-castle?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-peckforton-castle/
+    Redirect 301 /offers/macdonald-craxton-wood-hotel-spa  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-macdonald-craxton-wood-hotel-spa/
+    Redirect 301 /offers/grosvenor-hotel-pulford-taxi-transfer  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-grosvenor-hotel-pulford/
+    Redirect 301 /offers/holyhead-ferry-transfers?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-holyhead-ferry/
+    Redirect 301 /offers/crewe-town-transfers?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-crewe/
+    Redirect 301 /offers/shrewsbury-town-transfers?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-shrewsbury-town/
+    Redirect 301 /offers/holyhead-ferry-transfers?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-holyhead-ferry/
+    Redirect 301 /offers/macdonald-portal-hotel-golf-spa  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-macdonald-portal-hotel-golf-spa/
+    Redirect 301 /offers/chester-st-davids-village-hotels  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-st-davids-village-hotels/
+    Redirect 301 /offers/london-stansted-airport-transfers?point=to  https://taxichester.uk/en/airport-transfer/chester-to-from-london-stansted-airport/
+    Redirect 301 /offers/manchester-city-centre-transfers?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-or-from-manchester-city-centre/
+    Redirect 301 /offers/liverpool-city-centre-transfers?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-or-from-liverpool-centre/
+    Redirect 301 /offers/wrexham-town-centre-transfers?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-wrexham/
+    Redirect 301 /offers/wrexham-town-centre-transfers?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-wrexham/
+    Redirect 301 /offers/liverpool-airport-to-from-holyhead-ferry?point=to  https://taxichester.uk/en/airport-transfer/liverpool-airport-to-or-from-holyhead-ferry/
+    Redirect 301 /offers/liverpool-airport-to-from-holyhead-ferry?point=from  https://taxichester.uk/en/airport-transfer/liverpool-airport-to-or-from-holyhead-ferry/
+    Redirect 301 /offers/chester-to-from-rhyl?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-rhyl/
+    Redirect 301 /offers/chester-to-from-llangollen?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-llangollen/
+    Redirect 301 /offers/chester-to-from-llandudno?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-llandudno/
+    Redirect 301 /offers/chester-to-from-coventry?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-coventry/
+    Redirect 301 /offers/chester-to-from-hoylake?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-hoylake/
+    Redirect 301 /offers/chester-to-from-northwich?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-northwich/
+    Redirect 301 /offers/chester-to-from-preston?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-preston/
+    Redirect 301 /offers/chester-to-from-nantwich?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-northwich/
+    Redirect 301 /offers/chester-to-from-runcorn?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-runcorn/
+    Redirect 301 /offers/chester-to-from-york?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-york/
+    Redirect 301 /offers/chester-to-from-rhyl?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-rhyl/
+    Redirect 301 /offers/chester-to-from-birkenhead?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-birkenhead/
+    Redirect 301 /offers/chester-to-from-knutsford?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-knutsford/
+    Redirect 301 /offers/chester-to-from-northwich?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-northwich/
+    Redirect 301 /offers/chester-to-from-wigan?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-wigan/
+    Redirect 301 /offers/chester-to-from-chesterfield?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-chesterfield/
+    Redirect 301 /offers/chester-to-from-altrincham?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-altrincham/
+    Redirect 301 /offers/chester-to-from-tarporley?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-tarporley/
+    Redirect 301 /offers/chester-to-from-preston?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-preston/
+    Redirect 301 /offers/chester-to-from-mold?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-mold/
+    Redirect 301 /offers/chester-to-from-llangollen?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-llangollen/
+    Redirect 301 /offers/chester-to-from-mold?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-mold/
+    Redirect 301 /offers/chester-to-from-london-central?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-london-central/
+    Redirect 301 /offers/chester-to-from-london-euston?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-london-euston/
+    Redirect 301 /offers/pulford-to-from-manchester-airport?point=to  https://taxichester.uk/en/airport-transfer/pulford-to-or-from-manchester-airport/
+    Redirect 301 /offers/rossett-ll12-to-from-liverpool-airport?point=to  https://taxichester.uk/en/airport-transfer/rossett-ll12-to-or-from-liverpool-airport/
+    Redirect 301 /offers/chester-to-from-trafford-hall-chester?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-trafford-hall-chester/
+    Redirect 301 /offers/chester-to-from-best-western-llyndir-hall-hotel  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-best-western-llyndir-hall-hotel/
+    Redirect 301 /offers/rossett-ll12-to-from-manchester-aiport?point=to  https://taxichester.uk/en/airport-transfer/rossett-ll12-to-or-from-manchester-airport/
+    Redirect 301 /offers/chester-to-from-rossett-hall-hotel?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-rossett-hall-hotel/
+    Redirect 301 /offers/broughton-ch4-to-from-manchester-airport?point=to  https://taxichester.uk/en/airport-transfer/broughton-ch4-to-or-from-manchester-airport/
+    Redirect 301 /offers/tarvin-chester-to-from-manchester-airport?point=to  https://taxichester.uk/en/airport-transfer/tarvin-chester-to-or-from-manchester-airport/
+    Redirect 301 /offers/roomzzz-chester-city-to-from-manchester-airport?point=to  https://taxichester.uk/en/airport-transfer/roomzzz-hotel-chester-to-or-from-manchester-airport/
+    Redirect 301 /offers/crowne-plaza-chester-to-from-liverpool-airport?point=to  https://taxichester.uk/en/airport-transfer/crowne-plaza-chester-to-or-from-liverpool-airport/
+    Redirect 301 /offers/chester-to-from-holiday-inn-ellesmere-port?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-holiday-inn-ellesmere-port/
+    Redirect 301 /offers/chester-to-from-thornton-hall-hotel-spa?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-thornton-hall-hotel-spa/
+    Redirect 301 /offers/brookside-hotel-chester-to-from-manchester-airport?point=to  https://taxichester.uk/en/airport-transfer/brookside-hotel-chester-to-or-from-manchester-airport/
+    Redirect 301 /offers/crowne-plaza-chester-to-from-manchester-airport?point=to  https://taxichester.uk/en/airport-transfer/crowne-plaza-chester-to-or-from-manchester-airport/
+    Redirect 301 /offers/chester-to-from-travelodge-hotel-cheshire-oaks?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-travelodge-hotel-cheshire-oaks/
+    Redirect 301 /offers/chester-to-from-holiday-inn-a55-chester-west?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-holiday-inn-a55-chester-west/
+    Redirect 301 /offers/macdonald-new-blossoms-hotel-to-from-manchester-airport?point=to  https://taxichester.uk/en/airport-transfer/macdonald-new-blossoms-hotel-chester-to-or-from-manchester-airport/
+    Redirect 301 /offers/days-inn-chester-east-to-from-manchester-airport?point=to  https://taxichester.uk/en/airport-transfer/days-inn-hotel-chester-east-to-or-from-manchester-airport/
+    Redirect 301 /offers/doubletree-by-hilton-chester-to-from-manchester-airport?point=to  https://taxichester.uk/en/airport-transfer/double-tree-by-hilton-hotel-spa-chester-to-or-from-manchester-airport/
+    Redirect 301 /offers/doubletree-by-hilton-chester-to-from-liverpool-airport?point=from  https://taxichester.uk/en/airport-transfer/double-tree-by-hilton-hotel-spa-chester-to-or-from-liverpool-airport/
+    Redirect 301 /offers/the-mill-hotel-spa-to-from-liverpool-airport?point=from  https://taxichester.uk/en/airport-transfer/the-mill-hotel-spa-chester-to-or-from-liverpool-airport/
+    Redirect 301 /offers/chester-to-from-best-western-llyndir-hall-hotel?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-best-western-llyndir-hall-hotel/
+    Redirect 301 /offers/grosvenor-pulford-hotel-spa-to-from-liverpool-airport?point=from  https://taxichester.uk/en/airport-transfer/grosvenor-pulford-hotel-spa-to-or-from-liverpool-airport/
+    Redirect 301 /offers/chester-to-from-northop-hall-country-house-hotel?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-northop-hall-country-house-hotel/
+    Redirect 301 /offers/travelodge-hotel-chester-central-to-from-manchester-airport?point=to  https://taxichester.uk/en/airport-transfer/travelodge-hotel-chester-central-to-or-from-manchester-airport/
+    Redirect 301 /offers/best-western-westminster-hotel-to-from-manchester-airport?point=to  https://taxichester.uk/best-western-westminster-hotel-chester-to-or-from-manchester-airport/
+    Redirect 301 /offers/mollington-banastre-hotel-spa-chester-to-from-liverpool-airport?point=to  https://taxichester.uk/en/airport-transfer/mollington-banastre-hotel-spa-chester-to-or-from-liverpool-airport/
+    Redirect 301 /offers/best-western-premier-queen-hotel-to-from-liverpool-airport?point=to  https://taxichester.uk/en/airport-transfer/queen-hotel-chester-to-or-from-liverpool-airport/
+    Redirect 301 /offers/macdonald-craxton-wood-hotel-ch66-to-from-manchester-airport?point=from  https://taxichester.uk/en/airport-transfer/macdonald-craxton-wood-hotel-ch66-to-or-from-manchester-airport/
+    Redirect 301 /offers/premier-inn-chester-city-centre-to-from-manchester-airport?point=to  https://taxichester.uk/en/airport-transfer/premier-inn-chester-city-centre-to-or-from-manchester-airport/
+    Redirect 301 /offers/mercure-chester-abbots-well-hotel-to-from-liverpool-airport?point=to  https://taxichester.uk/en/airport-transfer/mercure-chester-abbots-well-hotel-to-or-from-liverpool-airport/
+    Redirect 301 /offers/macdonald-craxton-wood-hotel-ch66-to-from-liverpool-airport?point=to  https://taxichester.uk/en/airport-transfer/macdonald-craxton-wood-hotel-ch66-to-or-from-liverpool-airport/
+    Redirect 301 /offers/travelodge-hotel-chester-warrington-road-to-from-manchester-airport?point=to  https://taxichester.uk/en/airport-transfer/travelodge-hotel-chester-warrington-road-to-or-from-manchester-airport/
+    Redirect 301 /offers/macdonald-new-blossoms-hotel-to-from-liverpool-airport?point=to  https://taxichester.uk/en/airport-transfer/macdonald-new-blossoms-hotel-chester-to-or-from-liverpool-airport/
+    Redirect 301 /offers/chester-to-from-altrincham?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-altrincham/
+    Redirect 301 /offers/chester-to-from-rossett-hall-hotel?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-rossett-hall-hotel/
+    Redirect 301 /offers/grosvenor-pulford-hotel-spa-to-from-liverpool-airport?point=to  https://taxichester.uk/en/airport-transfer/grosvenor-pulford-hotel-spa-to-or-from-liverpool-airport/
+    Redirect 301 /offers/chester-to-from-travelodge-hotel-chester-northop-hall?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-travelodge-hotel-chester-northop-hall/
+    Redirect 301 /offers/macdonald-craxton-wood-hotel-ch66-to-from-manchester-airport?point=to  https://taxichester.uk/en/airport-transfer/macdonald-craxton-wood-hotel-ch66-to-or-from-manchester-airport/
+    Redirect 301 /offers/tarporley-to-from-manchester-airport?point=to  https://taxichester.uk/en/airport-transfer/tarporley-to-or-from-manchester-airport/
+    Redirect 301 /offers/chester-to-from-coventry?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-coventry/
+    Redirect 301 /offers/best-western-premier-queen-hotel-to-from-manchester-airport?point=to  https://taxichester.uk/en/airport-transfer/queen-hotel-chester-to-or-from-manchester-airport/
+    Redirect 301 /offers/the-mill-hotel-spa-to-from-liverpool-airport?point=to  https://taxichester.uk/en/airport-transfer/the-mill-hotel-spa-chester-to-or-from-liverpool-airport/
+    Redirect 301 /offers/chester-to-from-sheffield?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-sheffield/
+    Redirect 301 /offers/chester-to-from-stoke-on-trent?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-stoke-on-trent/
+    Redirect 301 /offers/chester-to-from-sandbach?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-sandbach/
+    Redirect 301 /offers/days-inn-chester-east-to-from-liverpool-airport?point=to  https://taxichester.uk/en/airport-transfer/days-inn-hotel-chester-east-to-or-from-liverpool-airport/
+    Redirect 301 /offers/travelodge-hotel-chester-central-to-from-liverpool-airport?point=to  https://taxichester.uk/en/airport-transfer/travelodge-hotel-chester-central-to-or-from-liverpool-airport/
+    Redirect 301 /offers/chester-to-from-london-euston?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-london-euston/
+    Redirect 301 /offers/chester-to-from-cheshire-oaks?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-cheshire-oaks-designer-outlet/
+    Redirect 301 /offers/london-stansted-airport-transfers  https://taxichester.uk/en/airport-transfer/chester-to-from-london-stansted-airport/
+    Redirect 301 /offers/chester-to-from-ruthin?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-ruthin/
+    Redirect 301 /offers/brookside-hotel-chester-to-from-liverpool-airport?point=to  https://taxichester.uk/en/airport-transfer/brookside-hotel-chester-to-or-from-liverpool-airport/
+    Redirect 301 /offers/brookside-hotel-chester-to-from-manchester-airport?point=from  https://taxichester.uk/en/airport-transfer/brookside-hotel-chester-to-or-from-manchester-airport/
+    Redirect 301 /offers/chester-to-from-prestatyn?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-prestatyn/
+    Redirect 301 /offers/roomzzz-chester-city-to-from-liverpool-airport?point=to  https://taxichester.uk/en/airport-transfer/roomzzz-hotel-chester-to-or-from-liverpool-airport/
+    Redirect 301 /offers/chester-to-from-oswestry?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-oswestry/
+    Redirect 301 /offers/penyffordd-ch4-to-from-manchester-airport?point=to  https://taxichester.uk/en/airport-transfer/penyffordd-ch4-to-or-from-manchester-airport/
+    Redirect 301 /offers/pulford-to-from-liverpool-airport?point=from  https://taxichester.uk/en/airport-transfer/pulford-to-or-from-liverpool-airport/
+    Redirect 301 /offers/chester-grosvenor-hotel-to-from-liverpool-airport?point=to  https://taxichester.uk/en/airport-transfer/chester-grosvenor-hotel-to-or-from-liverpool-airport/
+    Redirect 301 /offers/chester-to-from-hoylake?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-hoylake/
+    Redirect 301 /offers/chester-to-from-tarporley?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-tarporley/
+    Redirect 301 /offers/carden-park-hotel-broxton-to-from-liverpool-airport?point=to  https://taxichester.uk/en/airport-transfer/carden-park-hotel-broxton-to-or-from-liverpool-airport/
+    Redirect 301 /offers/chester-to-from-travelodge-hotel-chester-northop-hall?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-travelodge-hotel-chester-northop-hall/
+    Redirect 301 /offers/chester-to-from-soughton-hall-northop?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-soughton-hall-northop/
+    Redirect 301 /offers/pulford-to-from-liverpool-airport?point=to  https://taxichester.uk/en/airport-transfer/pulford-to-or-from-liverpool-airport/
+    Redirect 301 /offers/crabwall-manor-hotel-spa-to-from-manchester-airport?point=to  https://taxichester.uk/en/airport-transfer/crabwall-manor-hotel-spa-chester-to-or-from-manchester-airport/
+    Redirect 301 /offers/best-western-westminster-hotel-to-from-liverpool-airport?point=to  https://taxichester.uk/en/airport-transfer/best-western-westminster-hotel-chester-to-or-from-liverpool-airport/
+    Redirect 301 /offers/chester-to-from-birkenhead?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-birkenhead/
+    Redirect 301 /offers/travelodge-hotel-chester-warrington-road-to-from-liverpool-airport?point=to  https://taxichester.uk/en/airport-transfer/travelodge-hotel-chester-warrington-road-to-or-from-liverpool-airport/
+    Redirect 301 /offers/hawarden-to-from-manchester-airport?point=from  https://taxichester.uk/en/airport-transfer/hawarden-to-or-from-manchester-airport/
+    Redirect 301 /offers/chester-to-from-london-central?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-london-central/
+    Redirect 301 /offers/penyffordd-ch4-to-from-manchester-airport?point=from  https://taxichester.uk/en/airport-transfer/penyffordd-ch4-to-or-from-manchester-airport/
+    Redirect 301 /offers/chester-to-from-ruthin?point=from  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-ruthin/
 </IfModule>
 
 <IfModule !mod_rewrite.c>

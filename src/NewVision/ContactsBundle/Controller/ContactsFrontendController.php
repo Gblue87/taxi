@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ContactsFrontendController extends Controller
 {
     /**
-     * @Route("/contact-us", name="contacts")
+     * @Route("/contact-us{trailingSlash}", name="contacts", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionContactsBundle:Frontend:contacts.html.twig")
      */
     public function contactsAction(Request $request, $item = null)

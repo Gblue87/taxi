@@ -28,7 +28,7 @@ define('WPAY_INVOICE_ID_ADD',       0);
 class FrontendController extends Controller
 {
     /**
-     * @Route("/", name="homepage", defaults={"_locale"="en"})
+     * @Route("", name="homepage")
      * @Template()
      */
     public function indexAction(Request $request)
@@ -97,7 +97,7 @@ class FrontendController extends Controller
     }
 
     /**
-     * @Route("/new-order", name="new_order")
+     * @Route("/new-order{trailingSlash}", name="new_order", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionFrontendBundle:Frontend:newOrder.html.twig")
      */
     public function renderNewOrderAction(Request $request)

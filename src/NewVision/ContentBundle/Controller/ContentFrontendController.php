@@ -16,7 +16,7 @@ use Knp\Menu\Matcher\Voter\UriVoter;
 class ContentFrontendController extends Controller
 {
     /**
-     * @Route("/terms-and-conditions", name="terms-and-conditions")
+     * @Route("/terms-and-conditions{trailingSlash}", name="terms-and-conditions", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionContentBundle:Frontend:index.html.twig")
      */
     public function termsAndConditionsAction(Request $request)
@@ -44,7 +44,7 @@ class ContentFrontendController extends Controller
     }
 
     /**
-     * @Route("/sitemap", name="sitemap")
+     * @Route("/sitemap{trailingSlash}", name="sitemap", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionContentBundle:Frontend:sitemap.html.twig")
      */
     public function sitemapAction(Request $request)
@@ -110,7 +110,7 @@ class ContentFrontendController extends Controller
     }
 
     /**
-     * @Route("/{slug}", name="content")
+     * @Route("/{slug}{trailingSlash}", name="content", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionContentBundle:Frontend:index.html.twig")
      */
     public function indexAction(Request $request, $slug)

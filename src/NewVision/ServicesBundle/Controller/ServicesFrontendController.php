@@ -27,7 +27,7 @@ class ServicesFrontendController extends Controller
 
 
     /**
-     * @Route("/city-and-hotel-transfers/{page}", name="hotels_list", requirements={"page": "\d+"})
+     * @Route("/city-and-hotel-transfers/{page}{trailingSlash}", name="hotels_list", requirements={"page": "\d+", "trailingSlash" = "[/]{0,1}"}), defaults={"trailingSlash" = "/"}
      * @Template("NewVisionServicesBundle:Frontend:hotels_list.html.twig")
      */
     public function servicesListAction(Request $request, $page = 1)
@@ -50,7 +50,7 @@ class ServicesFrontendController extends Controller
     }
 
     /**
-     * @Route("/city-and-hotel-transfers/{slug}", name="hotel_view")
+     * @Route("/city-and-hotel-transfers/{slug}{trailingSlash}", name="hotel_view", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionServicesBundle:Frontend:hotelOrder.html.twig")
      */
     public function hotelOrderAction(Request $request, $slug)

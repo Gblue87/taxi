@@ -36,7 +36,7 @@ class AirportsFrontendController extends Controller
 
 
     /**
-     * @Route("/airport-transfers", name="airports_list")
+     * @Route("/airport-transfers{trailingSlash}", name="airports_list", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionAirportsBundle:Frontend:airports_list.html.twig")
      */
     public function airportsListAction(Request $request)
@@ -60,7 +60,7 @@ class AirportsFrontendController extends Controller
     }
 
     /**
-     * @Route("/airport-transfer/{slug}", name="airport_view")
+     * @Route("/airport-transfer/{slug}{trailingSlash}", name="airport_view", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionAirportsBundle:Frontend:airportOrder.html.twig")
      */
     public function airportsOrderAction(Request $request, $slug)
@@ -220,7 +220,7 @@ class AirportsFrontendController extends Controller
     }
 
     /**
-     * @Route("/success/{id}", name="cash_success")
+     * @Route("/success/{id}{trailingSlash}", name="cash_success", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionFrontendBundle:Frontend:cashSuccess.html.twig")
      */
     public function cashSuccessAction($id)
@@ -247,7 +247,7 @@ class AirportsFrontendController extends Controller
     }
 
     /**
-     * @Route("/paypal-success/{id}", name="paypal_success")
+     * @Route("/paypal-success/{id}{trailingSlash}", name="paypal_success", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionAirportsBundle:Frontend:paypalSuccess.html.twig")
      */
     public function paypalSuccessAction($id)
@@ -277,7 +277,7 @@ class AirportsFrontendController extends Controller
     }
 
     /**
-     * @Route("/worldpay-success/{id}", name="worldpay_success")
+     * @Route("/worldpay-success/{id}{trailingSlash}", name="worldpay_success", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionAirportsBundle:Frontend:paypalSuccess.html.twig")
      */
     public function worldpaySuccessAction($id)
@@ -308,7 +308,7 @@ class AirportsFrontendController extends Controller
     }
 
     /**
-     * @Route("/paypal-error", name="paypal_error")
+     * @Route("/paypal-error{trailingSlash}", name="paypal_error", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionAirportsBundle:Frontend:paypalError.html.twig")
      */
     public function paypalErrorAction()
@@ -318,7 +318,7 @@ class AirportsFrontendController extends Controller
     }
 
     /**
-     * @Route("/worldpay-error/{msg}", name="worldpay_error")
+     * @Route("/worldpay-error/{msg}{trailingSlash}", name="worldpay_error", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionAirportsBundle:Frontend:paypalError.html.twig")
      */
     public function worldpayErrorAction($msg = null)

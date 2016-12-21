@@ -324,8 +324,8 @@ services:
             - { name: 'twig.extension' }
 
 re_captcha:
-    public_key: 6LeEPQ4UAAAAAPDHIEOp9PHllWxqqa6LMXeKSqYc
-    private_key: 6LeEPQ4UAAAAAKHCAVB10nvsngrPTtWWexkHAJOi
+    public_key: 6LfTeg8UAAAAAMU6OkN2uLjGN0FGSzL5thAgCDJO
+    private_key:  6LfTeg8UAAAAAP_oorpOXTVZKUCU7itqv5Fd0xNm
     locale: "%locale%"
 
 sonata_seo:
