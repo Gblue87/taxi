@@ -105,7 +105,8 @@ class ContactsFrontendController extends Controller
 
         return array(
             'form'        => $form->createView(),
-            'content'     => $content
+            'content'     => $content,
+            'breadCrumbs' => $breadCrumbs,
         );
     }
 }

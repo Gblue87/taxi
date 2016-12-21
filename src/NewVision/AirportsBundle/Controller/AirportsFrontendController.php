@@ -54,7 +54,8 @@ class AirportsFrontendController extends Controller
 
         return array(
             'airports'    => $airports,
-            'content'     => $content
+            'content'     => $content,
+            'breadCrumbs' => $this->generateBreadCrumbs($request),
         );
     }
 
@@ -192,6 +193,7 @@ class AirportsFrontendController extends Controller
             'offer' => json_encode($offer),
             'form' => $form->createView(),
             'terms' => $terms,
+            'breadCrumbs' => $this->generateBreadCrumbs($request),
         );
     }
 

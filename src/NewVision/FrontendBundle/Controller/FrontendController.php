@@ -231,6 +231,7 @@ class FrontendController extends Controller
             'fill' => json_encode($fill),
             'form' => $form->createView(),
             'terms' => $terms,
+            'breadCrumbs' => array($content->getTitle() => null),
         );
     }
 
@@ -551,9 +552,7 @@ class FrontendController extends Controller
                 $offerPrice = $offerPriceTmp;
             }
             $total += $offerPrice;
-            if ($passengers > 4) {
-                $total += 3;
-            }
+
         }
         return $total;
     }
@@ -582,7 +581,7 @@ class FrontendController extends Controller
         }
         if (in_array($requestData['date'], array_keys($specialDates))) {
             // $pricePerMile = $requestData['']
-            $offerPrice = $requestData['distance'] * $specialDates[$date] * $tariff;
+            $offerPrice = $requestData['distance'] * $specialDates[$requestData['date']] * $tariff;
             if ($requestData['returnDate'] != '') {
                 $offerPrice +=  $requestData['distance'] * $returnTariff;
                 if ($passengers > 4) {

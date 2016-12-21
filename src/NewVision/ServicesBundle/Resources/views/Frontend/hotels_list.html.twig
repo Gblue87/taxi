@@ -4,6 +4,7 @@
     <div id="content">
         <div class="inner-page">
             <div class="page-header">
+                {% include '::breadCrumbs.html.twig' with {'breadCrumbs':breadCrumbs} %}
                 <div class="center">
                     <h1 class="title">{{content.title}}</h1>
                 </div>

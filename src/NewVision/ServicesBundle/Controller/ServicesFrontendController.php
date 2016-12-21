@@ -19,7 +19,7 @@ class ServicesFrontendController extends Controller
 
     protected $matcher, $router;
     protected $contentPageId             = 9;
-    protected $mainRootName              = 'services_list';
+    protected $mainRootName              = 'hotels_list';
     protected $servicesCategoriesPerPage = 1000;
     protected $servicesPerPage           = 1000;
     protected $itemsRepo                 = 'NewVisionServicesBundle:Service';
@@ -44,7 +44,8 @@ class ServicesFrontendController extends Controller
 
         return array(
             'hotels'    => $hotels,
-            'content'     => $content
+            'content'     => $content,
+            'breadCrumbs' => $this->generateBreadCrumbs($request),
         );
     }
 
@@ -192,6 +193,7 @@ class ServicesFrontendController extends Controller
             'offer' => json_encode($offer),
             'form' => $form->createView(),
             'terms' => $terms,
+            'breadCrumbs' => $this->generateBreadCrumbs($request),
         );
     }
 }
