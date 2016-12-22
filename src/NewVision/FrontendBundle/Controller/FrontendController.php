@@ -539,7 +539,7 @@ class FrontendController extends Controller
 
         $yearDate = date('Y');
         $nextYear = $yearDate+1;
-        $specialDates = [$yearDate.'-12-24'=> 1.5, $yearDate.'-12-25' => 2, $yearDate.'-12-26' => 2, $yearDate.'-12-31' => 1.5, $nextYear.'-01-01' => 2, $yearDate.'-01-01' => 2];
+        $specialDates = [$yearDate.'-12-24'=> 2, $yearDate.'-12-25' => 2, $yearDate.'-12-26' => 2, $yearDate.'-12-31' => 2, $nextYear.'-01-01' => 2, $yearDate.'-01-01' => 2];
         $offerPriceTmp = $offerPrice;
         if (in_array($date, array_keys($specialDates))) {
             $offerPrice = $offerPrice * $specialDates[$date];
@@ -561,7 +561,7 @@ class FrontendController extends Controller
     {
         $yearDate = date('Y');
         $nextYear = $yearDate+1;
-        $specialDates = [$yearDate.'-12-24'=> 1.5, $yearDate.'-12-25' => 2, $yearDate.'-12-26' => 2, $yearDate.'-12-31' => 1.5, $nextYear.'-01-01' => 2, $yearDate.'-01-01' => 2];
+        $specialDates = [$yearDate.'-12-24'=> 2, $yearDate.'-12-25' => 2, $yearDate.'-12-26' => 2, $yearDate.'-12-31' => 2, $nextYear.'-01-01' => 2, $yearDate.'-01-01' => 2];
         $settings = $this->get('newvision.settings_manager');
         $night = $settings->get('night');
         $daily = $settings->get('daily');
