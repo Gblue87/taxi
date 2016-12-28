@@ -251,11 +251,12 @@ $('.index-top a.mbtn.mbtn-orange.mbtn-big').on('click',function(e){
         $('.index-top form').submit();
     }, 1200);
 });
-
-$('.slider-wrapper .slider').owlCarousel({
-    items: 6,
-    pagination: true
-})
+$(window).load(function() {
+    $('.slider-wrapper .slider').owlCarousel({
+        items: 6,
+        pagination: true
+    });    
+});
 $('#shcfrom').on('click',function(e){
     e.preventDefault();
     $(this).parent().toggleClass('closed')
