@@ -27,18 +27,19 @@ class ServicesFrontendController extends Controller
 
 
     /**
-     * @Route("/city-and-hotel-transfers/{page}{trailingSlash}", name="hotels_list", requirements={"page": "\d+", "trailingSlash" = "[/]{0,1}"}), defaults={"trailingSlash" = "/", "page" = 1}
+     * @Route("/city-and-hotel-transfers{trailingSlash}", name="hotels_list", requirements={"trailingSlash" = "[/]{0,1}"}), defaults={"trailingSlash" = "/"}
      * @Template("NewVisionServicesBundle:Frontend:hotels_list.html.twig")
      */
-    public function servicesListAction(Request $request, $page = 1)
+    public function servicesListAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $locale = $request->getLocale();
         $servicesRepo = $em->getRepository($this->itemsRepo);
         $content = $this->getContentPage();
 
-        $query = $servicesRepo->getServicesListingQuery(null, $locale, $page, $this->servicesPerPage);
-        $hotels = new Paginator($query, true);
+        $query = $servicesRepo->getServicesListingQuery(null, $locale, 1, $this->servicesPerPage);
+        //$hotels = new Paginator($query, true);
+        $hotels = $query->getResult();
 
         $this->generateSeoAndOgTags($content);
 
