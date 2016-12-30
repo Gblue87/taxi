@@ -454,19 +454,23 @@ class AirportsFrontendController extends Controller
             $result = self::paypalReturnQuery($p);
             $status = "payment-failed";
             if ($result == "verified") {
-                file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'INNNNN', FILE_APPEND);
-                $status = "paid";
-                if (!$this->checkPaypalTxnId()) {
-                    $status = "payment-failed";
-                }
-                $price = $order->getAmount() * $settingsManager->get('surcharge');
-                if (!$price || $price > (int) $requestData['mc_gross']) {
-                    $status = "payment-failed";
-                }
+                try {
+                    $status = "paid";
+                    if (!$this->checkPaypalTxnId()) {
+                        $status = "payment-failed";
+                    }
+                    $price = $order->getAmount() * $settingsManager->get('surcharge');
+                    file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'PRICE1'.$price.'PRICE2'.(float)$requestData['mc_gross'], FILE_APPEND);
+                    if (!$price || $price > (float)$requestData['mc_gross']) {
+                        $status = "payment-failed";
+                    }
 
-                if ($status == "paid") {
-                    $this->sendOrderAdminMail($order);
-                    $this->sendOrderUserMail($order);
+                    if ($status == "paid") {
+                        $this->sendOrderAdminMail($order);
+                        $this->sendOrderUserMail($order);
+                    }
+                } catch (\Exception $e) {
+                    file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'ERRORMSG'.$e->getMessage(), FILE_APPEND);
                 }
 
             }else{
