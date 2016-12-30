@@ -437,7 +437,7 @@ class AirportsFrontendController extends Controller
 
         $p = $requestData;
         $status = strtolower($p['payment_status']);
-        //file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', print_r($p, true), FILE_APPEND);
+        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', print_r($p, true), FILE_APPEND);
         if (in_array($status, array('denied', 'expired', 'failed'))) {
             $result = self::paypalReturnQuery($p);
             if ($result == 'verified'){
@@ -503,7 +503,8 @@ class AirportsFrontendController extends Controller
             if (!$this->checkPaypalTxnId($p['txn_id'])) {
                 return 'invalid';
             }
-                file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt','RESSULT: ' .$result, FILE_APPEND);
+            
+            file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt','RESSULT: ' .$result, FILE_APPEND);
 
             return strtolower($result);
         } catch (\Exception $e) {
