@@ -114,7 +114,7 @@ class FrontendController extends Controller
 
         $form = $this->container->get('form.factory')->create('order', new Order(), array(
             'method' => 'POST',
-            'action' => $this->generateUrl('new_order')
+            'action' => $this->generateUrl('new_order').'/'
         ));
 
         if ($request->isMethod('POST')) {
@@ -198,7 +198,7 @@ class FrontendController extends Controller
                     $data->setPaymentStatus('cash-order');
                     $em->persist($data);
                     $em->flush();
-                    return $this->redirectToRoute('cash_success', array('id' => $data->getNo()));
+                    return $this->redirectToRoute('cash_success', array('id' => $data->getNo())).'/';
                 }else{
                     throw new \Exception("No payment method found", 404);
                 }
