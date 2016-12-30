@@ -23,20 +23,6 @@ DirectoryIndex app.php
     RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
     RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
 
-    # RewriteCond %{REQUEST_URI} !^.*\.(jpg|css|js|gif|png|jpeg)$ [NC]
-    # RewriteCond %{REQUEST_URI} !^.*/_wdt/.*$ [NC]
-    # RewriteCond %{QUERY_STRING} ^.+$
-    # RewriteCond %{REQUEST_METHOD} !POST
-    # RewriteCond %{QUERY_STRING} !(.*)/$
-    # RewriteRule ^(.+)$ /$1?%{QUERY_STRING}/ [R=301,L]
-
-    # RewriteCond %{REQUEST_URI} !^.*\.(jpg|css|js|gif|png|jpeg)$ [NC]
-    # RewriteCond %{REQUEST_URI} !^.*/_wdt/.*$ [NC]
-    # RewriteCond %{QUERY_STRING} !.+$
-    # RewriteCond %{REQUEST_METHOD} !POST
-    # RewriteCond %{REQUEST_URI} !(.*)/$
-    # RewriteRule ^(.+)$ /$1/ [R=301,L]
-
     # Determine the RewriteBase automatically and set it as environment variable.
     # If you are using Apache aliases to do mass virtual hosting or installed the
     # project in a subdirectory, the base path will be prepended to allow proper
@@ -496,6 +482,20 @@ DirectoryIndex app.php
     RewriteCond %{QUERY_STRING} .
     RewriteCond %{REQUEST_URI}  ^/offers/chester-to-from-ruthin
     RewriteRule ^([^.]*)$ https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-ruthin/? [L,NE,R=301]
+
+    RewriteCond %{REQUEST_URI} !^.*\.(jpg|css|js|gif|png|jpeg)$ [NC]
+    RewriteCond %{REQUEST_URI} !^.*/_wdt/.*$ [NC]
+    RewriteCond %{QUERY_STRING} ^.+$
+    RewriteCond %{REQUEST_METHOD} !POST
+    RewriteCond %{QUERY_STRING} !(.*)/$
+    RewriteRule ^(.+)$ /$1?%{QUERY_STRING}/ [R=301,L]
+    
+    RewriteCond %{REQUEST_URI} !^.*\.(jpg|css|js|gif|png|jpeg)$ [NC]
+    RewriteCond %{REQUEST_URI} !^.*/_wdt/.*$ [NC]
+    RewriteCond %{QUERY_STRING} !.+$
+    RewriteCond %{REQUEST_METHOD} !POST
+    RewriteCond %{REQUEST_URI} !(.*)/$
+    RewriteRule ^(.+)$ /$1/ [R=301,L]
 </IfModule>
 
 <IfModule !mod_rewrite.c>
