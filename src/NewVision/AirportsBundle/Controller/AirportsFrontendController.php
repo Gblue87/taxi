@@ -397,19 +397,20 @@ class AirportsFrontendController extends Controller
                 // AMOUNT MISSMATCH
                 $price = $order->getAmount()*$settingsManager->get('surcharge');
                 file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'PRICE1:'.(float) $price.'       PRICE2:'.(float) $p['amount'], FILE_APPEND);
-                if (($price === false) ||
-                    ((float) $price > (float) $p['amount'])
-                )
+                if ((float) $price > (float) $p['amount'] || $price == false){
+                    file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'WHYYYYY', FILE_APPEND);
                     $status = "payment-failed";
-
-                // AMOUNT OK
-                else
+                }else{
+                    file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'SUUUUPER', FILE_APPEND);
                     $status = "paid";
-
+                }
+                file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'CHECHCHECK', FILE_APPEND);
                $order->setPaymentStatus($status);
                $order->setPaymentTransaction($p['transId']);
                $em->persist($order);
                $em->flush();
+
+               file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'STATUS:'.$status, FILE_APPEND);
 
                 // SEND MAILS IF OK
                 if ($status == "paid") {
