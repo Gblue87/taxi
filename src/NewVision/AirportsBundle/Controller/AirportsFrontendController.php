@@ -376,10 +376,11 @@ class AirportsFrontendController extends Controller
     // GET ORDER
 
             $id = substr($p['cartId'], strlen($this->container->getParameter('WPAY_CART_ID_PREFIX')));
-            if (!preg_match('/^\d+$/', $id))
-                return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
+            file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'ID1:'.$id, FILE_APPEND);
+            // if (!preg_match('/^\d+$/', $id))
+            //     return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
             $id -= $this->container->getParameter('WPAY_INVOICE_ID_ADD');
-
+             file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'ID2:'.$id, FILE_APPEND);
             $order = $em->getRepository('NewVisionFrontendBundle:Order')->findOneByNo($id);
 
             if (empty($order) || ($order->getPaymentStatus() != "new"))
