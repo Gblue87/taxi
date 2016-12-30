@@ -229,7 +229,7 @@ class AirportsFrontendController extends Controller
      * @Route("/success/{id}{trailingSlash}", name="cash_success", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionFrontendBundle:Frontend:cashSuccess.html.twig")
      */
-    public function cashSuccessAction(Request $request, $id)
+    public function cashSuccessAction($id)
     {
         $em = $this->getDoctrine()->getManager();
         $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
@@ -256,7 +256,7 @@ class AirportsFrontendController extends Controller
      * @Route("/paypal-success/{id}{trailingSlash}", name="paypal_success", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionAirportsBundle:Frontend:paypalSuccess.html.twig")
      */
-    public function paypalSuccessAction(Request $request, $id)
+    public function paypalSuccessAction($id)
     {
         $em = $this->getDoctrine()->getManager();
         $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
@@ -286,7 +286,7 @@ class AirportsFrontendController extends Controller
      * @Route("/worldpay-success/{id}{trailingSlash}", name="worldpay_success", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionAirportsBundle:Frontend:paypalSuccess.html.twig")
      */
-    public function worldpaySuccessAction(Request $request,$id)
+    public function worldpaySuccessAction($id)
     {
         $em = $this->getDoctrine()->getManager();
         $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
