@@ -27,7 +27,7 @@ class ServicesFrontendController extends Controller
 
 
     /**
-     * @Route("/city-and-hotel-transfers/{page}{trailingSlash}", name="hotels_list", requirements={"page": "\d+", "trailingSlash" = "[/]{0,1}"}), defaults={"trailingSlash" = "/"}
+     * @Route("/city-and-hotel-transfers/{page}{trailingSlash}", name="hotels_list", requirements={"page": "\d+", "trailingSlash" = "[/]{0,1}"}), defaults={"trailingSlash" = "/", "page" = 1}
      * @Template("NewVisionServicesBundle:Frontend:hotels_list.html.twig")
      */
     public function servicesListAction(Request $request, $page = 1)
