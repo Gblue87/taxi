@@ -396,7 +396,7 @@ class AirportsFrontendController extends Controller
                 // AMOUNT MISSMATCH
                 $price = $order->getAmount()*$settingsManager->get('surcharge');
                 if (($price === false) ||
-                    ((int) $price > (int) $p['amount'])
+                    ((float) $price > (float) $p['amount'])
                 )
                     $status = "payment-failed";
 
