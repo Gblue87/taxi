@@ -2,6 +2,7 @@ airports_bundle:
     resource: "@NewVisionAirportsBundle/Controller"
     type:     annotation
     prefix:   /{_locale}
+    schemes:  [https]
     requirements:
         _locale: "[a-z]{2}"
 # NewVisionAccentsBundle routes
@@ -17,6 +18,7 @@ custom_blocks:
     resource: "@NewVisionCustomBlocksBundle/Controller"
     type:     annotation
     prefix:   /{_locale}
+    schemes:  [https]
     requirements:
         _locale: "[a-z]{2}"
 
@@ -25,6 +27,7 @@ services_bundle:
     resource: "@NewVisionServicesBundle/Controller"
     type:     annotation
     prefix:   /{_locale}
+    schemes:  [https]
     requirements:
         _locale: "[a-z]{2}"
 
@@ -41,6 +44,7 @@ frontend_bundle:
     resource: "@NewVisionFrontendBundle/Controller"
     type:     annotation
     prefix:   /{_locale}
+    schemes:  [https]
     requirements:
         _locale: "[a-z]{2}"
 
@@ -65,6 +69,7 @@ contacts_bundle:
     resource: "@NewVisionContactsBundle/Controller"
     type:     annotation
     prefix:   /{_locale}
+    schemes:  [https]
     requirements:
         _locale: "[a-z]{2}"
 
@@ -87,57 +92,70 @@ contacts_bundle:
 admin:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
     prefix: /admin
+    schemes:  [https]
 
 _sonata_admin:
     resource: .
     type: sonata_admin
     prefix: /admin
+    schemes:  [https]
 
 gallery:
     resource: '@SonataMediaBundle/Resources/config/routing/gallery.xml'
     prefix: /media/gallery
+    schemes:  [https]
 
 media:
     resource: '@SonataMediaBundle/Resources/config/routing/media.xml'
     prefix: /media
+    schemes:  [https]
 
 sonata_user:
     resource: '@SonataUserBundle/Resources/config/routing/admin_security.xml'
     prefix: /admin
+    schemes:  [https]
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
     prefix: /{_locale}/
+    schemes:  [https]
 
 fos_user_resetting:
     resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
     prefix: /resetting
+    schemes:  [https]
 
 fos_user_profile_show:
     pattern: /{_locale}/profile
+    schemes:  [https]
     defaults: { _controller: ApplicationSonataUserBundle:FrontendProfile:edit }
 
 fos_user_register:
     resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
     prefix: /{_locale}/register
+    schemes:  [https]
 
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /{_locale}/profile
+    schemes:  [https]
 
 newvision_content:
     resource: "@NewVisionContentBundle/Controller/"
     type:     annotation
     prefix:   /{_locale}
+    schemes:  [https]
     requirements:
         _locale: "[a-z]{2}"
 
 newvision_tiny_mce:
     resource: "@NewVisionTinyMCEBundle/Controller/"
     type:     annotation
+    schemes:  [https]
 
 no_culture:
     pattern:   /
+    schemes:  [https]
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
         route: homepage
