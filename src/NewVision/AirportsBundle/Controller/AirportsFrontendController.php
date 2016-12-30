@@ -249,6 +249,7 @@ class AirportsFrontendController extends Controller
 
         return array(
             'order' => $order,
+            'content' => $content
         );
     }
 
@@ -279,6 +280,7 @@ class AirportsFrontendController extends Controller
         // $this->sendOrderUserMail($order);
         return array(
             'order' => $order,
+            'content' => $content
         );
     }
 
@@ -310,6 +312,7 @@ class AirportsFrontendController extends Controller
         // $this->sendOrderUserMail($order);
         return array(
             'order' => $order,
+            'content' => $content
         );
     }
 
