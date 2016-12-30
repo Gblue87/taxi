@@ -65,6 +65,7 @@ class OrdersAdmin extends Admin
             ->addIdentifier('phone', null, array('label' => 'Phone'))
             ->addIdentifier('email', null, array('label' => 'Email'))
             ->addIdentifier('paymentStatus', null, array('label' => 'Payment status'))
+            ->addIdentifier('paymentType', null, array('label' => 'Payment type'))
             ->addIdentifier('meet', null, array('label' => 'Meet and greet'))
             ->add('createdAt', null, array('label' => 'createdAt'))
             ->add('_action', 'actions', array(
