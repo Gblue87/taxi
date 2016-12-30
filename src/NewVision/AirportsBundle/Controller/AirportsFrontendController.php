@@ -470,10 +470,12 @@ class AirportsFrontendController extends Controller
             }else{
                 $status = "payment-failed";
             }
+            file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'lastSTATUS'.$status, FILE_APPEND);
             $order->setPaymentStatus($status);
             $order->setPaymentTransaction($p['txn_id']);
             $em->persist($order);
             $em->flush();
+            file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'FINISSSSSSHHHHHHHHHH', FILE_APPEND);
         }
     }
 
