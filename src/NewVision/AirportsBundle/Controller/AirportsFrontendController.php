@@ -144,24 +144,24 @@ class AirportsFrontendController extends Controller
                 }elseif($data->getPaymentType() != null && $data->getPaymentType() == 'worldpay'){
                     if (empty($data) || ($data->getPaymentStatus() != "new"))
                         throw $this->createNotFoundException();
-                    $testMode = $this->container->getParameter('WPAY_TEST_MODE'); ? "100" : "0";
-                    $signature = md5($this->container->getParameter('WPAY_MD5_SECRET'); . ":" . $this->container->getParameter('WPAY_CURRENCY'); . ":$price:$testMode:" . $this->container->getParameter('WPAY_INSTALLATION_ID'););
+                    $testMode = $this->container->getParameter('WPAY_TEST_MODE') ? "100" : "0";
+                    $signature = md5($this->container->getParameter('WPAY_MD5_SECRET') . ":" . $this->container->getParameter('WPAY_CURRENCY'); . ":$price:$testMode:" . $this->container->getParameter('WPAY_INSTALLATION_ID'));
 
                     $worldPay = array(
 
-                        'action' => $this->container->getParameter('WPAY_TEST_MODE');
+                        'action' => $this->container->getParameter('WPAY_TEST_MODE')
                             ? "https://secure-test.worldpay.com/wcc/purchase"
                             : "https://secure.worldpay.com/wcc/purchase",
 
                         'fields' => array(
-                            'instId' => $this->container->getParameter('WPAY_INSTALLATION_ID');,
+                            'instId' => $this->container->getParameter('WPAY_INSTALLATION_ID'),
                             'amount' => $price,
-                            'cartId' => $this->container->getParameter('WPAY_CART_ID_PREFIX'); . ($data->getNo() + $this->container->getParameter('WPAY_INVOICE_ID_ADD');),
-                            'currency' => $this->container->getParameter('WPAY_CURRENCY');,
+                            'cartId' => $this->container->getParameter('WPAY_CART_ID_PREFIX') . ($data->getNo() + $this->container->getParameter('WPAY_INVOICE_ID_ADD')),
+                            'currency' => $this->container->getParameter('WPAY_CURRENCY'),
                             'testMode' => $testMode,
                             'desc' => "TaxiChester Order #$data->getNo()",
                             'authMode' => "A",
-                            'accId1' => $this->container->getParameter('WPAY_ACCOUNT_ID');,
+                            'accId1' => $this->container->getParameter('WPAY_ACCOUNT_ID'),
                             'withDelivery' => "false",
                             'fixContact' => "false",
                             'hideContact' => "false",
@@ -365,19 +365,19 @@ class AirportsFrontendController extends Controller
                 if (!isset($p[$key]))
                     return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error', array('msg' => $translator->trans('missing_property', array(), 'NewVisionFrontendBundle'))))));
             if (
-                $p['instId'] != $this->container->getParameter('WPAY_INSTALLATION_ID'); ||
-                $p['callbackPW'] != $this->container->getParameter('WPAY_RESPONSE_PASSWORD'); ||
-                $p['currency'] != $this->container->getParameter('WPAY_CURRENCY'); ||
-                (substr($p['AVS'], 0, 1) != "2" && (!$this->container->getParameter('WPAY_TEST_MODE'); || substr($p['AVS'], 0, 1) != "1")) || !preg_match('/^\d+$/', $p['transId']))
+                $p['instId'] != $this->container->getParameter('WPAY_INSTALLATION_ID') ||
+                $p['callbackPW'] != $this->container->getParameter('WPAY_RESPONSE_PASSWORD') ||
+                $p['currency'] != $this->container->getParameter('WPAY_CURRENCY') ||
+                (substr($p['AVS'], 0, 1) != "2" && (!$this->container->getParameter('WPAY_TEST_MODE') || substr($p['AVS'], 0, 1) != "1")) || !preg_match('/^\d+$/', $p['transId']))
             {
                 return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error', array('msg' => $translator->trans('wrong_data', array(), 'NewVisionFrontendBundle'))))));
             }
     // GET ORDER
 
-            $id = substr($p['cartId'], strlen($this->container->getParameter('WPAY_CART_ID_PREFIX');));
+            $id = substr($p['cartId'], strlen($this->container->getParameter('WPAY_CART_ID_PREFIX')));
             if (!preg_match('/^\d+$/', $id))
                 return $this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error')));
-            $id -= $this->container->getParameter('WPAY_INVOICE_ID_ADD');;
+            $id -= $this->container->getParameter('WPAY_INVOICE_ID_ADD');
 
             $order = $em->getRepository('NewVisionFrontendBundle:Order')->findOneByNo($id);
 

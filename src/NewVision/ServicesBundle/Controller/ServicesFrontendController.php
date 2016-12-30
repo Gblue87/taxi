@@ -138,24 +138,24 @@ class ServicesFrontendController extends Controller
                     if (empty($data) || ($data->getPaymentStatus() != "new"))
                         throw $this->createNotFoundException();
 
-                    $testMode = $this->container->getParameter('WPAY_TEST_MODE'); ? "100" : "0";
-                    $signature = md5($this->container->getParameter('WPAY_MD5_SECRET'); . ":" . $this->container->getParameter('WPAY_CURRENCY'); . ":$price:$testMode:" . $this->container->getParameter('WPAY_INSTALLATION_ID'););
+                    $testMode = $this->container->getParameter('WPAY_TEST_MODE') ? "100" : "0";
+                    $signature = md5($this->container->getParameter('WPAY_MD5_SECRET') . ":" . $this->container->getParameter('WPAY_CURRENCY') . ":$price:$testMode:" . $this->container->getParameter('WPAY_INSTALLATION_ID'));
 
                     $worldPay = array(
 
-                        'action' => $this->container->getParameter('WPAY_TEST_MODE');
+                        'action' => $this->container->getParameter('WPAY_TEST_MODE')
                             ? "https://secure-test.worldpay.com/wcc/purchase"
                             : "https://secure.worldpay.com/wcc/purchase",
 
                         'fields' => array(
-                            'instId' => $this->container->getParameter('WPAY_INSTALLATION_ID');,
+                            'instId' => $this->container->getParameter('WPAY_INSTALLATION_ID'),
                             'amount' => $price,
-                            'cartId' => $this->container->getParameter('WPAY_CART_ID_PREFIX'); . ($data->getNo() + $this->container->getParameter('WPAY_INVOICE_ID_ADD');),
-                            'currency' => $this->container->getParameter('WPAY_CURRENCY');,
+                            'cartId' => $this->container->getParameter('WPAY_CART_ID_PREFIX') . ($data->getNo() + $this->container->getParameter('WPAY_INVOICE_ID_ADD')),
+                            'currency' => $this->container->getParameter('WPAY_CURRENCY'),
                             'testMode' => $testMode,
                             'desc' => "TaxiChester Order #".$data->getNo(),
                             'authMode' => "A",
-                            'accId1' => $this->container->getParameter('WPAY_ACCOUNT_ID');,
+                            'accId1' => $this->container->getParameter('WPAY_ACCOUNT_ID'),
                             'withDelivery' => "false",
                             'fixContact' => "false",
                             'hideContact' => "false",
