@@ -27,7 +27,7 @@ class ServicesFrontendController extends Controller
 
 
     /**
-     * @Route("/city-and-hotel-transfers{trailingSlash}", name="hotels_list", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
+     * @Route("/city-and-hotel-transfers{trailingSlash}", name="hotels_list", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"}
      * @Template("NewVisionServicesBundle:Frontend:hotels_list.html.twig")
      */
     public function servicesListAction(Request $request)
@@ -99,11 +99,11 @@ class ServicesFrontendController extends Controller
 
                     //LIVE "https://www.paypal.com/cgi-bin/webscr",
                     $paypalForm = array(
-                        'action' => "https://www.sandbox.paypal.com/cgi-bin/webscr",
+                        'action' => "https://www.paypal.com/cgi-bin/webscr",
                         'fields' => array(
                             'cmd' => "_ext-enter",
                             'redirect_cmd' => "_xclick",
-                            'business' => 'paypal-facilitator@chestertraveltaxies.co.uk',
+                            'business' => 'paypal@taxichester.uk',
                             'invoice' => $data->getNo(),
                             'amount' => $price,
                             'currency_code' => 'GBP',
@@ -146,7 +146,7 @@ class ServicesFrontendController extends Controller
                             'cartId' => WPAY_CART_ID_PREFIX . ($data->getNo() + WPAY_INVOICE_ID_ADD),
                             'currency' => WPAY_CURRENCY,
                             'testMode' => $testMode,
-                            'desc' => "TaxiChester Order #$data->getNo()",
+                            'desc' => "TaxiChester Order #".$data->getNo(),
                             'authMode' => "A",
                             'accId1' => WPAY_ACCOUNT_ID,
                             'withDelivery' => "false",

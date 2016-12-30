@@ -107,11 +107,11 @@ class AirportsFrontendController extends Controller
                 if ($data->getPaymentType() != null && $data->getPaymentType() == 'paypal') {
                     //LIVE "https://www.paypal.com/cgi-bin/webscr",
                     $paypalForm = array(
-                        'action' => "https://www.sandbox.paypal.com/cgi-bin/webscr",
+                        'action' => "https://www.paypal.com/cgi-bin/webscr",
                         'fields' => array(
                             'cmd' => "_ext-enter",
                             'redirect_cmd' => "_xclick",
-                            'business' => 'paypal-facilitator@chestertraveltaxies.co.uk',
+                            'business' => 'paypal@taxichester.uk',
                             'invoice' => $data->getNo(),
                             'amount' => $price,
                             'currency_code' => 'GBP',

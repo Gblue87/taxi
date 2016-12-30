@@ -16,7 +16,7 @@ use JMS\Payment\CoreBundle\PluginController\Result;
 use JMS\Payment\CoreBundle\Form\ChoosePaymentMethodType;
 use NewVision\FrontendBundle\Entity\Order;
 
-define('WPAY_TEST_MODE',            true);
+define('WPAY_TEST_MODE',            false);
 define('WPAY_INSTALLATION_ID',      1110266);
 define('WPAY_ACCOUNT_ID',           "CHESTERTRAV1M2");
 define('WPAY_CURRENCY',             "GBP");
@@ -134,11 +134,11 @@ class FrontendController extends Controller
                 if ($data->getPaymentType() != null && $data->getPaymentType() == 'paypal') {
                     //LIVE "https://www.paypal.com/cgi-bin/webscr",
                     $paypalForm = array(
-                        'action' => "https://www.sandbox.paypal.com/cgi-bin/webscr",
+                        'action' => "https://www.paypal.com/cgi-bin/webscr",
                         'fields' => array(
                             'cmd' => "_ext-enter",
                             'redirect_cmd' => "_xclick",
-                            'business' => 'paypal-facilitator@chestertraveltaxies.co.uk',
+                            'business' => 'paypal@taxichester.uk',
                             'invoice' => $data->getNo(),
                             'amount' => $price,
                             'currency_code' => 'GBP',
