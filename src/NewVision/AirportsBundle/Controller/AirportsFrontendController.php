@@ -549,7 +549,7 @@ class AirportsFrontendController extends Controller
         $adminMessage = \Swift_Message::newInstance()
             ->setSubject($translator->trans('contact.admin_message_subject', array(), 'NewVisionFrontendBundle'))
             ->setFrom($settingsManager->get('sender_email'))
-            ->setTo($settingsManager->get('contact_email'))
+            ->setTo(explode(',', $settingsManager->get('contact_email')))
             ->setBody(
                 $this->renderView(
                     'NewVisionFrontendBundle:Email:admin_payment.html.twig', array(
