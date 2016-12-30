@@ -354,10 +354,10 @@ class AirportsFrontendController extends Controller
             $em = $this->getDoctrine()->getManager();
             $settingsManager = $this->get('newvision.settings_manager');
             $ip = $this->container->get('request')->getClientIp();
-            if (empty($ip) ||
-                (substr(gethostbyaddr($ip), -13) != ".worldpay.com")
-            )
+            if (empty($ip) || (substr(gethostbyaddr($ip), -13) != ".worldpay.com")){
+                file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'IP:'.(substr(gethostbyaddr($ip), -13) != ".worldpay.com"), FILE_APPEND);
                 return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error', array('msg' => $translator->trans('wrong_ip', array(), 'NewVisionFrontendBundle'))))));
+            }
 
             $p = $request->request->all();
             $checks = explode(' ', "instId callbackPW AVS cartId currency amount transId transStatus");
