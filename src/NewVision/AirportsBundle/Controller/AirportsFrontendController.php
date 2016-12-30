@@ -504,12 +504,12 @@ class AirportsFrontendController extends Controller
             if ($result === false)
                 file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt','ERROR: ' . curl_error($ch), FILE_APPEND);
 
-            curl_close($ch);
             if (!$this->checkPaypalTxnId($p['txn_id'])) {
                 file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'INVALID: TRUE', FILE_APPEND);
                 return 'invalid';
             }
             file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'RESULT2: '.$result, FILE_APPEND);
+            curl_close($ch);
             return strtolower($result);
         } catch (\Exception $e) {
             file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', $e->getMessage(), FILE_APPEND);
