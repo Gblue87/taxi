@@ -446,7 +446,7 @@ class AirportsFrontendController extends Controller
                 $em->flush();
             }
 
-        } elseif ($status == "completed") {
+        } elseif ($status == "completed" || $status == 'refunded') {
 
             $result = self::paypalReturnQuery($p);
 
