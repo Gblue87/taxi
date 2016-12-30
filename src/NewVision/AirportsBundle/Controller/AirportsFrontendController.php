@@ -386,7 +386,7 @@ class AirportsFrontendController extends Controller
             if (empty($order) || ($order->getPaymentStatus() != "new"))
                 return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_error', array('msg' => $translator->trans('wrong_status', array(), 'NewVisionFrontendBundle'))))));
 
-
+            file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', print_r($p, true), FILE_APPEND);
     // TRANSACTION - FAILED
             if (($p['transStatus'] != 'Y')){
                 $order->setPaymentStatus('payment-failed');
@@ -396,6 +396,7 @@ class AirportsFrontendController extends Controller
 
                 // AMOUNT MISSMATCH
                 $price = $order->getAmount()*$settingsManager->get('surcharge');
+                file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'PRICE1:'.(float) $price.'       PRICE2:'.(float) $p['amount'], FILE_APPEND);
                 if (($price === false) ||
                     ((float) $price > (float) $p['amount'])
                 )
