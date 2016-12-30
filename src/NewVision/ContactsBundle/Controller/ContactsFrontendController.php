@@ -40,7 +40,7 @@ class ContactsFrontendController extends Controller
         $translator = $this->get('translator');
         $settings = $this->get('newvision.settings_manager');
         $action = array(
-            'action' => $this->generateUrl('contacts', array(), true).'/'
+            'action' => $this->generateUrl('contacts', array()).'/'
         );
 
         $path = null;
