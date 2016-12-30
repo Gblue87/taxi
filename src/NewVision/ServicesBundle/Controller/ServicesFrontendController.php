@@ -32,6 +32,9 @@ class ServicesFrontendController extends Controller
      */
     public function servicesListAction(Request $request)
     {
+        if (substr($request->getUri(), -1) != '/') {
+            return $this->redirect($request->getUri().'/');
+        }
         $em = $this->getDoctrine()->getManager();
         $locale = $request->getLocale();
         $servicesRepo = $em->getRepository($this->itemsRepo);
