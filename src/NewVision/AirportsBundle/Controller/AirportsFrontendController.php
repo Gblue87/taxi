@@ -397,7 +397,7 @@ class AirportsFrontendController extends Controller
                 // AMOUNT MISSMATCH
                 $price = $order->getAmount()*$settingsManager->get('surcharge');
                 file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'PRICE1:'.(float) $price.'       PRICE2:'.(float) $p['amount'], FILE_APPEND);
-                if ((float) $price > (float) $p['amount'] || $price == false){
+                if ((float)$price != (float)$p['amount']){
                     file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'WHYYYYY', FILE_APPEND);
                     $status = "payment-failed";
                 }else{
