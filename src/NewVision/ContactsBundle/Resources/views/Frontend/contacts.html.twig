@@ -28,7 +28,7 @@
             {% endif %}
             {% form_theme form with 'NewVisionContactsBundle:Form:contact_form.html.twig' %}
             <div class="cform">
-                <form id="cform" method="post" name="cform" action="{{ path("contacts") }}">
+                <form id="cform" method="post" name="cform" action="{{form.vars.action}}">
                     {{ form_row(form.name) }}
                     {{ form_row(form.email) }}
                     {{ form_row(form.phone) }}

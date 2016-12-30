@@ -33,7 +33,7 @@ class ContactsFrontendController extends Controller
             return $this->redirect($request->getUri().'/');
         }
         if ($request->get('_route') == 'contact_success' && $request->headers->get('referer') == null) {
-            return $this->redirect($this->generateUrl('contacts'));
+            return $this->redirect($this->generateUrl('contacts')).'/';
         }
 
         $em = $this->getDoctrine()->getManager();
