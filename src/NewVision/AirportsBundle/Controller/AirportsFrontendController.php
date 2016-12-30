@@ -348,6 +348,7 @@ class AirportsFrontendController extends Controller
      */
     public function worldpayNotifyAction(Request $request)
     {
+        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'IM HERE! WORLDPAY', FILE_APPEND);
         try {
             $translator = $this->get('translator');
             $em = $this->getDoctrine()->getManager();
