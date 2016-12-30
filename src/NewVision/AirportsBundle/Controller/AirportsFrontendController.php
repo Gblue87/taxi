@@ -553,13 +553,18 @@ class AirportsFrontendController extends Controller
 
     public function checkPaypalTxnId($id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
-        $result = $ordersRepository->findOneByPaymentTransaction($id);
-        if (!$result) {
-            return true;
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
+            $result = $ordersRepository->findOneByPaymentTransaction($id);
+            file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'CHECKRES: '.print_r($result, true), FILE_APPEND);
+            if (!$result) {
+                return true;
+            }
+            return false;
+        } catch (\Exception $e) {
+            file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'ERRORMSG: '.$e->getMessage(), FILE_APPEND);
         }
-        return false;
     }
 
     protected function sendOrderUserMail($order) {
