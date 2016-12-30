@@ -50,6 +50,12 @@
         <td>{{order.via}}<br />{# ({{order.viaLng}}, {{order.viaLat}}) #}</td>
     </tr>
 {% endif %}
+{% if order.meet is defined and order.meet is not null and order.meet|length %}
+    <tr>
+        <th>Meet and greet:</th>
+        <td>{{order.meet}}<br />{# ({{order.viaLng}}, {{order.viaLat}}) #}</td>
+    </tr>
+{% endif %}
 <tr>
     <th>End point:</th>
     <td>{{order.to}}<br />{# ({{order.toLng}}, {{order.toLat}}) #}</td>

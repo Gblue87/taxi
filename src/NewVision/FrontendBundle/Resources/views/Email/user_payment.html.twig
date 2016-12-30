@@ -44,17 +44,23 @@
 {% endif %}
 <tr>
     <th>Starting point:</th>
-    <td>{{order.from}}<br />({{order.fromLng}}, {{order.fromLat}})</td>
+    <td>{{order.from}}<br />{# ({{order.fromLng}}, {{order.fromLat}}) #}</td>
 </tr>
 {% if order.via is defined and order.via is not null and order.via|length %}
     <tr>
         <th>Waypoint:</th>
-        <td>{{order.via}}<br />({{order.viaLng}}, {{order.viaLat}})</td>
+        <td>{{order.via}}<br />{# ({{order.viaLng}}, {{order.viaLat}}) #}</td>
+    </tr>
+{% endif %}
+{% if order.meet is defined and order.meet is not null and order.meet|length %}
+    <tr>
+        <th>Meet and greet:</th>
+        <td>{{order.meet}}<br />{# ({{order.viaLng}}, {{order.viaLat}}) #}</td>
     </tr>
 {% endif %}
 <tr>
     <th>End point:</th>
-    <td>{{order.to}}<br />({{order.toLng}}, {{order.toLat}})</td>
+    <td>{{order.to}}<br />{# ({{order.toLng}}, {{order.toLat}}) #}</td>
 </tr>
 <tr>
     <th>Distance:</th>

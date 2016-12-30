@@ -265,8 +265,6 @@ class AirportsFrontendController extends Controller
         if (!preg_match('/^\d+$/', $id))
             throw $this->createNotFoundException();
         $order = $ordersRepository->findOneByNo($id);
-        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'SUCCESSID: '.$id, FILE_APPEND);
-        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', print_r($order, true), FILE_APPEND);
         if (empty($order))
             throw $this->createNotFoundException();
 
