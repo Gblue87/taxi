@@ -276,8 +276,8 @@ class AirportsFrontendController extends Controller
         $event = new \NewVision\SEOBundle\Event\SeoEvent($content);
         $dispatcher->dispatch('newvision.seo', $event);
 
-        // $this->sendOrderAdminMail($order);
-        // $this->sendOrderUserMail($order);
+        $this->sendOrderAdminMail($order);
+        $this->sendOrderUserMail($order);
         return array(
             'order' => $order,
             'content' => $content
@@ -308,8 +308,8 @@ class AirportsFrontendController extends Controller
         }
 
 
-        // $this->sendOrderAdminMail($order);
-        // $this->sendOrderUserMail($order);
+        $this->sendOrderAdminMail($order);
+        $this->sendOrderUserMail($order);
         return array(
             'order' => $order,
             'content' => $content
@@ -437,7 +437,7 @@ class AirportsFrontendController extends Controller
 
         $p = $requestData;
         $status = strtolower($p['payment_status']);
-
+        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', print_r($p, true));
         if (in_array($status, array('denied', 'expired', 'failed'))) {
             $result = self::paypalReturnQuery($p);
             if ($result == 'verified'){
@@ -520,7 +520,7 @@ class AirportsFrontendController extends Controller
             $result = curl_exec($ch);
 
             if ($result === false)
-                file_put_contents('/home/simplec/taxi/web/test.txt','ERROR: ' . curl_error($ch), FILE_APPEND);
+                file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt','ERROR: ' . curl_error($ch), FILE_APPEND);
 
             curl_close($ch);
             if (!$this->checkPaypalTxnId($p['txn_id'])) {
@@ -529,7 +529,7 @@ class AirportsFrontendController extends Controller
 
             return strtolower($result);
         } catch (\Exception $e) {
-            file_put_contents('/home/simplec/taxi/web/test.txt', $e->getMessage(), FILE_APPEND);
+            file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', $e->getMessage(), FILE_APPEND);
         }
     }
 
