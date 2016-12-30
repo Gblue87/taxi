@@ -60,20 +60,20 @@ DirectoryIndex app.php
     # Rewrite all other queries to the front controller.
     RewriteRule .? %{ENV:BASE}/app.php [L]
 
-    RewriteCond %{REQUEST_URI} !^.*\.(jpg|css|js|gif|png|jpeg)$ [NC]
-    RewriteCond %{REQUEST_URI} !^.*/_wdt/.*$ [NC]
-    RewriteCond %{QUERY_STRING} ^.+$
-    RewriteCond %{REQUEST_METHOD} !POST
-    RewriteCond %{QUERY_STRING} !(.*)/$
-    RewriteRule ^(.+)$ /$1?%{QUERY_STRING}/ [R=301,L]
-    
-    RewriteCond %{REQUEST_URI} !^.*\.(jpg|css|js|gif|png|jpeg)$ [NC]
-    RewriteCond %{REQUEST_URI} !^.*/_wdt/.*$ [NC]
-    RewriteCond %{QUERY_STRING} !.+$
-    RewriteCond %{REQUEST_METHOD} !POST
-    RewriteCond %{REQUEST_URI} !(.*)/$
-    RewriteRule ^(.+)$ /$1/ [R=301,L]
-    
+    #RewriteCond %{REQUEST_URI} !^.*\.(jpg|css|js|gif|png|jpeg)$ [NC]
+    #RewriteCond %{REQUEST_URI} !^.*/_wdt/.*$ [NC]
+    #RewriteCond %{QUERY_STRING} ^.+$
+    #RewriteCond %{REQUEST_METHOD} !POST
+    #RewriteCond %{QUERY_STRING} !(.*)/$
+    #RewriteRule ^(.+)$ /$1?%{QUERY_STRING}/ [R=301,L]
+    #
+    #RewriteCond %{REQUEST_URI} !^.*\.(jpg|css|js|gif|png|jpeg)$ [NC]
+    #RewriteCond %{REQUEST_URI} !^.*/_wdt/.*$ [NC]
+    #RewriteCond %{QUERY_STRING} !.+$
+    #RewriteCond %{REQUEST_METHOD} !POST
+    #RewriteCond %{REQUEST_URI} !(.*)/$
+    #RewriteRule ^(.+)$ /$1/ [R=301,L]
+
     Redirect 301 /airport-transfer  https://taxichester.uk/en/airport-transfers
     Redirect 301 /city-hotel-transfers  https://taxichester.uk/en/city-and-hotel-transfers/
     Redirect 301 /about-us  https://taxichester.uk/en/about-us/
