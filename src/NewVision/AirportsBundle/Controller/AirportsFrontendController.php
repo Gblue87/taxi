@@ -41,7 +41,7 @@ class AirportsFrontendController extends Controller
      */
     public function airportsListAction(Request $request)
     {
-        if (substr($request->getUri(), -1) != '/') {
+        if (substr(urldecode($request->getUri()), -1) != '/') {
             return $this->redirect($request->getUri().'/');
         }
         $em = $this->getDoctrine()->getManager();
@@ -68,7 +68,7 @@ class AirportsFrontendController extends Controller
      */
     public function airportsOrderAction(Request $request, $slug)
     {
-        if (substr($request->getUri(), -1) != '/') {
+        if (substr(urldecode($request->getUri()), -1) != '/') {
             return $this->redirect($request->getUri().'/');
         }
         $settingsManager = $this->get('newvision.settings_manager');
@@ -231,7 +231,7 @@ class AirportsFrontendController extends Controller
      */
     public function cashSuccessAction(Request $request, $id)
     {
-        if (substr($request->getUri(), -1) != '/') {
+        if (substr(urldecode($request->getUri()), -1) != '/') {
             return $this->redirect($request->getUri().'/');
         }
         $em = $this->getDoctrine()->getManager();
@@ -261,7 +261,7 @@ class AirportsFrontendController extends Controller
      */
     public function paypalSuccessAction(Request $request, $id)
     {
-        if (substr($request->getUri(), -1) != '/') {
+        if (substr(urldecode($request->getUri()), -1) != '/') {
             return $this->redirect($request->getUri().'/');
         }
         $em = $this->getDoctrine()->getManager();
@@ -294,7 +294,7 @@ class AirportsFrontendController extends Controller
      */
     public function worldpaySuccessAction(Request $request,$id)
     {
-        if (substr($request->getUri(), -1) != '/') {
+        if (substr(urldecode($request->getUri()), -1) != '/') {
             return $this->redirect($request->getUri().'/');
         }
         $em = $this->getDoctrine()->getManager();
@@ -328,7 +328,7 @@ class AirportsFrontendController extends Controller
      */
     public function paypalErrorAction(Request $request)
     {
-        if (substr($request->getUri(), -1) != '/') {
+        if (substr(urldecode($request->getUri()), -1) != '/') {
             return $this->redirect($request->getUri().'/');
         }
         return array(
@@ -341,7 +341,7 @@ class AirportsFrontendController extends Controller
      */
     public function worldpayErrorAction(Request $request,$msg = null)
     {
-        if (substr($request->getUri(), -1) != '/') {
+        if (substr(urldecode($request->getUri()), -1) != '/') {
             return $this->redirect($request->getUri().'/');
         }
         return array(

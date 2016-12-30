@@ -102,7 +102,7 @@ class FrontendController extends Controller
      */
     public function renderNewOrderAction(Request $request)
     {
-        if (substr($request->getUri(), -1) != '/') {
+        if (substr(urldecode($request->getUri()), -1) != '/') {
             return $this->redirect($request->getUri().'/');
         }
         $em = $this->getDoctrine()->getManager();

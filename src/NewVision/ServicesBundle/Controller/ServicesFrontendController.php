@@ -32,7 +32,7 @@ class ServicesFrontendController extends Controller
      */
     public function servicesListAction(Request $request)
     {
-        if (substr($request->getUri(), -1) != '/') {
+        if (substr(urldecode($request->getUri()), -1) != '/') {
             return $this->redirect($request->getUri().'/');
         }
         $em = $this->getDoctrine()->getManager();
@@ -59,7 +59,7 @@ class ServicesFrontendController extends Controller
      */
     public function hotelOrderAction(Request $request, $slug)
     {
-        if (substr($request->getUri(), -1) != '/') {
+        if (substr(urldecode($request->getUri()), -1) != '/') {
             return $this->redirect($request->getUri().'/');
         }
         $to = false;
