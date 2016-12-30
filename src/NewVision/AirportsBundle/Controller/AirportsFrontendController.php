@@ -231,9 +231,6 @@ class AirportsFrontendController extends Controller
      */
     public function cashSuccessAction(Request $request, $id)
     {
-        if (substr(urldecode($request->getUri()), -1) != '/') {
-            return $this->redirect($request->getUri().'/');
-        }
         $em = $this->getDoctrine()->getManager();
         $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
         $content = $em->getRepository('NewVisionContentBundle:Content')->findOneById(27);
@@ -261,9 +258,6 @@ class AirportsFrontendController extends Controller
      */
     public function paypalSuccessAction(Request $request, $id)
     {
-        if (substr(urldecode($request->getUri()), -1) != '/') {
-            return $this->redirect($request->getUri().'/');
-        }
         $em = $this->getDoctrine()->getManager();
         $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
         $content = $em->getRepository('NewVisionContentBundle:Content')->findOneById(27);
@@ -294,9 +288,6 @@ class AirportsFrontendController extends Controller
      */
     public function worldpaySuccessAction(Request $request,$id)
     {
-        if (substr(urldecode($request->getUri()), -1) != '/') {
-            return $this->redirect($request->getUri().'/');
-        }
         $em = $this->getDoctrine()->getManager();
         $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
         $content = $em->getRepository('NewVisionContentBundle:Content')->findOneById(27);
