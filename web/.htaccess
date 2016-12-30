@@ -73,7 +73,7 @@ DirectoryIndex app.php
     # Rewrite all other queries to the front controller.
     RewriteRule .? %{ENV:BASE}/app.php [L]
 
-    Redirect 301 /airport-transfer  https://taxichester.uk//en/airport-transfers
+    Redirect 301 /airport-transfer  https://taxichester.uk/en/airport-transfers
     Redirect 301 /city-hotel-transfers  https://taxichester.uk/en/city-and-hotel-transfers/
     Redirect 301 /about-us  https://taxichester.uk/en/about-us/
     Redirect 301 /contact-us  https://taxichester.uk/en/contact-us/
@@ -86,6 +86,8 @@ DirectoryIndex app.php
     Redirect 301 /offers/heathrow-airport-transfers  https://taxichester.uk/en/airport-transfer/chester-to-or-from-heathrow-airport/
     Redirect 301 /offers/luton-airport-transfers  https://taxichester.uk/en/airport-transfer/chester-to-or-from-luton-airport/
     Redirect 301 /offers/carden-park-hotel  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-carden-park-hotel/
+    RewriteCond %{QUERY_STRING} ^point=([^&]+)$
+    RewriteRule ^/offers/peckforton-castle$ https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-peckforton-castle/ [L,R=301]
     Redirect 301 /offers/peckforton-castle?point=to  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-peckforton-castle/
     Redirect 301 /offers/macdonald-craxton-wood-hotel-spa  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-macdonald-craxton-wood-hotel-spa/
     Redirect 301 /offers/grosvenor-hotel-pulford-taxi-transfer  https://taxichester.uk/en/city-and-hotel-transfers/chester-to-from-grosvenor-hotel-pulford/
