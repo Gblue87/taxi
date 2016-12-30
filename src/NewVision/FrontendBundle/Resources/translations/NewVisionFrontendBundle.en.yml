@@ -60,6 +60,7 @@ contact:
     error: 'An error occured!'
     success: 'Enquiry sent successfuly!'
     user_message_subject: 'Enquiry sent to administrator'
+    header: Chester Travel Taxis
 order:
     form:
         name: 'First Name'
