@@ -132,7 +132,6 @@ class ServicesFrontendController extends Controller
                             'page_style' => "PayPal"
                         )
                     );
-                    var_dump($paypalForm);exit;
                     $this->get('session')->set('paypalForm', $paypalForm);
                     return $this->redirectToRoute('paypal_gateway');
                 }elseif($data->getPaymentType() != null && $data->getPaymentType() == 'worldpay'){

@@ -437,7 +437,7 @@ class AirportsFrontendController extends Controller
 
         $p = $requestData;
         $status = strtolower($p['payment_status']);
-        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', print_r($p, true));
+        //file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', print_r($p, true), FILE_APPEND);
         if (in_array($status, array('denied', 'expired', 'failed'))) {
             $result = self::paypalReturnQuery($p);
             if ($result == 'verified'){
@@ -471,29 +471,6 @@ class AirportsFrontendController extends Controller
             $order->setPaymentTransaction($p['txn_id']);
             $em->persist($order);
             $em->flush();
-        }elseif ($status == "pending") {
-            $result = self::paypalReturnQuery($p);
-            if ($result == "verified") {
-                $status = "paid";
-
-                $price = $order->getAmount() * $settingsManager->get('surcharge');
-                if (!$price || $price > (int) $requestData['mc_gross']) {
-                    $status = "payment-failed";
-                }
-
-
-                if ($status == "paid") {
-                    $this->sendOrderAdminMail($order);
-                    $this->sendOrderUserMail($order);
-                }
-            }else{
-                $status = "payment-failed";
-            }
-
-            $order->setPaymentStatus($status);
-            $order->setPaymentTransaction($p['txn_id']);
-            $em->persist($order);
-            $em->flush();
         }
     }
 
@@ -502,10 +479,10 @@ class AirportsFrontendController extends Controller
     {
         //return "verified";
         try {
-            $url = "www.sandbox.paypal.com";
+            $url = "www.paypal.com";
             $url = "https://$url:443/cgi-bin/webscr";
 
-            $p['receiver_email'] = "paypal-facilitator@chestertraveltaxies.co.uk";
+            $p['receiver_email'] = "paypal@taxichester.uk";
             $p['cmd'] = '_notify-validate';
 
             $ch = curl_init();
@@ -515,7 +492,7 @@ class AirportsFrontendController extends Controller
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $p);
             curl_setopt($ch, CURLOPT_SSLVERSION, 6);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // On dev server only!
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1); // On dev server only!
 
             $result = curl_exec($ch);
 
@@ -526,6 +503,7 @@ class AirportsFrontendController extends Controller
             if (!$this->checkPaypalTxnId($p['txn_id'])) {
                 return 'invalid';
             }
+                file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt','RESSULT: ' .$result, FILE_APPEND);
 
             return strtolower($result);
         } catch (\Exception $e) {
