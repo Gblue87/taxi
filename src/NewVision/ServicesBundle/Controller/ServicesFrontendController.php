@@ -59,6 +59,9 @@ class ServicesFrontendController extends Controller
      */
     public function hotelOrderAction(Request $request, $slug)
     {
+        if (substr($request->getUri(), -1) != '/') {
+            return $this->redirect($request->getUri().'/');
+        }
         $to = false;
         $from = false;
         $em = $this->getDoctrine()->getManager();

@@ -41,6 +41,9 @@ class AirportsFrontendController extends Controller
      */
     public function airportsListAction(Request $request)
     {
+        if (substr($request->getUri(), -1) != '/') {
+            return $this->redirect($request->getUri().'/');
+        }
         $em = $this->getDoctrine()->getManager();
         $locale = $request->getLocale();
         $airportsRepo = $em->getRepository($this->itemsRepo);
@@ -65,6 +68,9 @@ class AirportsFrontendController extends Controller
      */
     public function airportsOrderAction(Request $request, $slug)
     {
+        if (substr($request->getUri(), -1) != '/') {
+            return $this->redirect($request->getUri().'/');
+        }
         $settingsManager = $this->get('newvision.settings_manager');
         $to = false;
         $from = false;
@@ -223,8 +229,11 @@ class AirportsFrontendController extends Controller
      * @Route("/success/{id}{trailingSlash}", name="cash_success", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionFrontendBundle:Frontend:cashSuccess.html.twig")
      */
-    public function cashSuccessAction($id)
+    public function cashSuccessAction(Request $request, $id)
     {
+        if (substr($request->getUri(), -1) != '/') {
+            return $this->redirect($request->getUri().'/');
+        }
         $em = $this->getDoctrine()->getManager();
         $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
         $content = $em->getRepository('NewVisionContentBundle:Content')->findOneById(27);
@@ -250,8 +259,11 @@ class AirportsFrontendController extends Controller
      * @Route("/paypal-success/{id}{trailingSlash}", name="paypal_success", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionAirportsBundle:Frontend:paypalSuccess.html.twig")
      */
-    public function paypalSuccessAction($id)
+    public function paypalSuccessAction(Request $request, $id)
     {
+        if (substr($request->getUri(), -1) != '/') {
+            return $this->redirect($request->getUri().'/');
+        }
         $em = $this->getDoctrine()->getManager();
         $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
         $content = $em->getRepository('NewVisionContentBundle:Content')->findOneById(27);
@@ -280,8 +292,11 @@ class AirportsFrontendController extends Controller
      * @Route("/worldpay-success/{id}{trailingSlash}", name="worldpay_success", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionAirportsBundle:Frontend:paypalSuccess.html.twig")
      */
-    public function worldpaySuccessAction($id)
+    public function worldpaySuccessAction(Request $request,$id)
     {
+        if (substr($request->getUri(), -1) != '/') {
+            return $this->redirect($request->getUri().'/');
+        }
         $em = $this->getDoctrine()->getManager();
         $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
         $content = $em->getRepository('NewVisionContentBundle:Content')->findOneById(27);
@@ -311,8 +326,11 @@ class AirportsFrontendController extends Controller
      * @Route("/paypal-error{trailingSlash}", name="paypal_error", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionAirportsBundle:Frontend:paypalError.html.twig")
      */
-    public function paypalErrorAction()
+    public function paypalErrorAction(Request $request)
     {
+        if (substr($request->getUri(), -1) != '/') {
+            return $this->redirect($request->getUri().'/');
+        }
         return array(
         );
     }
@@ -321,8 +339,11 @@ class AirportsFrontendController extends Controller
      * @Route("/worldpay-error/{msg}{trailingSlash}", name="worldpay_error", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
      * @Template("NewVisionAirportsBundle:Frontend:paypalError.html.twig")
      */
-    public function worldpayErrorAction($msg = null)
+    public function worldpayErrorAction(Request $request,$msg = null)
     {
+        if (substr($request->getUri(), -1) != '/') {
+            return $this->redirect($request->getUri().'/');
+        }
         return array(
             'msg' => $msg,
         );

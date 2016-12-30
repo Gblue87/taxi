@@ -29,6 +29,9 @@ class ContactsFrontendController extends Controller
      */
     public function contactsAction(Request $request, $item = null)
     {
+        if (substr($request->getUri(), -1) != '/') {
+            return $this->redirect($request->getUri().'/');
+        }
         if ($request->get('_route') == 'contact_success' && $request->headers->get('referer') == null) {
             return $this->redirect($this->generateUrl('contacts'));
         }
