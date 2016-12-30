@@ -456,13 +456,13 @@ class AirportsFrontendController extends Controller
             if ($result == "verified") {
                 try {
                     $status = "paid";
-                    file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'ORDERTXNID'.$order->getPaymentTransaction(), FILE_APPEND);
-                    if (!$this->checkPaypalTxnId($requestData['txn_id'])) {
-                        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'ORDERTXNIDFAILER'.$order->getPaymentTransaction(), FILE_APPEND);
-                        $status = "payment-failed";
-                    }
+                    // file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'ORDERTXNID'.$order->getPaymentTransaction(), FILE_APPEND);
+                    // if (!$this->checkPaypalTxnId($requestData['txn_id'])) {
+                    //     file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'ORDERTXNIDFAILER'.$order->getPaymentTransaction(), FILE_APPEND);
+                    //     $status = "payment-failed";
+                    // }
                     $price = $order->getAmount() * $settingsManager->get('surcharge');
-                    file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'PRICE1'.$price.'PRICE2'.(float)$requestData['mc_gross'], FILE_APPEND);
+                    // file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'PRICE1'.$price.'PRICE2'.(float)$requestData['mc_gross'], FILE_APPEND);
                     if (!$price || $price > (float)$requestData['mc_gross']) {
                         $status = "payment-failed";
                     }
@@ -483,7 +483,6 @@ class AirportsFrontendController extends Controller
             $order->setPaymentTransaction($p['txn_id']);
             $em->persist($order);
             $em->flush();
-            file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'FINISSSSSSHHHHHHHHHH', FILE_APPEND);
         }
     }
 
