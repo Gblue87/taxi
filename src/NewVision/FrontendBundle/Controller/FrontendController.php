@@ -198,7 +198,7 @@ class FrontendController extends Controller
                     $data->setPaymentStatus('cash-order');
                     $em->persist($data);
                     $em->flush();
-                    return $this->redirectToRoute('cash_success', array('id' => $data->getNo())).'/';
+                    return $this->redirectToRoute('cash_success', array('id' => $data->getNo()));
                 }else{
                     throw new \Exception("No payment method found", 404);
                 }
