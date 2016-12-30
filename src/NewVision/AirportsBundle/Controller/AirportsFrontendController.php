@@ -254,7 +254,7 @@ class AirportsFrontendController extends Controller
     }
 
     /**
-     * @Route("/paypal-success/{id}{trailingSlash}", name="paypal_success", requirements={"trailingSlash" = "[/]{0,1}"}, defaults={"trailingSlash" = "/"})
+     * @Route("/paypal-success/{id}", name="paypal_success")
      * @Template("NewVisionAirportsBundle:Frontend:paypalSuccess.html.twig")
      */
     public function paypalSuccessAction($id)
@@ -265,6 +265,8 @@ class AirportsFrontendController extends Controller
         if (!preg_match('/^\d+$/', $id))
             throw $this->createNotFoundException();
         $order = $ordersRepository->findOneByNo($id);
+        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'SUCCESSID: '.$id, FILE_APPEND);
+        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', print_r($order, true), FILE_APPEND);
         if (empty($order))
             throw $this->createNotFoundException();
 
@@ -434,6 +436,7 @@ class AirportsFrontendController extends Controller
         $em = $this->getDoctrine()->getManager();
         $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
         $order = $ordersRepository->findOneByNo($id);
+        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', print_r($order, true), FILE_APPEND);
 
         $p = $requestData;
         $status = strtolower($p['payment_status']);
