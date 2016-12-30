@@ -145,7 +145,7 @@
 
     <div class="clear"></div>
 </form>
-<form class="checkout" action="{{ airport is defined ? path('airport_view', {slug: airport.slug}) : hotel is defined ? path('hotel_view', {'slug': hotel.slug}) : path('new_order')}}" method="post" name="orderForm">
+<form class="checkout" action="{{form.action}}" method="post" name="orderForm">
     <div id="step2" class="step2 hidden">
         <input type="hidden" name="order[from]">
         <input type="hidden" name="order[to]">
