@@ -450,7 +450,7 @@ class AirportsFrontendController extends Controller
 
             $result = self::paypalReturnQuery($p);
             $status = "payment-failed";
-
+            file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'RESULT: '.$result, FILE_APPEND);
             if ($result == "verified") {
                 $status = "paid";
 
@@ -495,15 +495,16 @@ class AirportsFrontendController extends Controller
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1); // On dev server only!
 
             $result = curl_exec($ch);
-
+            file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'RESULT1: '.$result, FILE_APPEND);
             if ($result === false)
                 file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt','ERROR: ' . curl_error($ch), FILE_APPEND);
 
             curl_close($ch);
             if (!$this->checkPaypalTxnId($p['txn_id'])) {
+                file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'INVALID: TRUE', FILE_APPEND);
                 return 'invalid';
             }
-
+            file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'RESULT2: '.$result, FILE_APPEND);
             return strtolower($result);
         } catch (\Exception $e) {
             file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', $e->getMessage(), FILE_APPEND);
