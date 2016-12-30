@@ -33,14 +33,14 @@ class ContactsFrontendController extends Controller
             return $this->redirect($request->getUri().'/');
         }
         if ($request->get('_route') == 'contact_success' && $request->headers->get('referer') == null) {
-            return $this->redirect($this->generateUrl('contacts')).'/';
+            return $this->redirect($this->generateUrl('contacts'));
         }
 
         $em = $this->getDoctrine()->getManager();
         $translator = $this->get('translator');
         $settings = $this->get('newvision.settings_manager');
         $action = array(
-            'action' => $this->generateUrl('contacts', array(), true)
+            'action' => $this->generateUrl('contacts', array(), true).'/'
         );
 
         $path = null;
