@@ -94,6 +94,7 @@ class ServicesFrontendController extends Controller
                 $data->setNo(rand(5, 16).time());
                 $data->setType('hotel');
                 $data->setPaymentType($data->getPaymentType());
+                $data->setPaymentStatus('new');
                 $em->persist($data);
                 $em->flush();
 
