@@ -456,7 +456,9 @@ class AirportsFrontendController extends Controller
             if ($result == "verified") {
                 try {
                     $status = "paid";
-                    if (!$this->checkPaypalTxnId()) {
+                    file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'ORDERTXNID'.$order->getPaymentTransaction(), FILE_APPEND);
+                    if (!$this->checkPaypalTxnId($requestData['txn_id'])) {
+                        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'ORDERTXNIDFAILER'.$order->getPaymentTransaction(), FILE_APPEND);
                         $status = "payment-failed";
                     }
                     $price = $order->getAmount() * $settingsManager->get('surcharge');
