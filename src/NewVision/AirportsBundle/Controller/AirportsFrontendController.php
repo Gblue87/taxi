@@ -145,7 +145,7 @@ class AirportsFrontendController extends Controller
                     if (empty($data) || ($data->getPaymentStatus() != "new"))
                         throw $this->createNotFoundException();
                     $testMode = $this->container->getParameter('WPAY_TEST_MODE') ? "100" : "0";
-                    $signature = md5($this->container->getParameter('WPAY_MD5_SECRET') . ":" . $this->container->getParameter('WPAY_CURRENCY'); . ":$price:$testMode:" . $this->container->getParameter('WPAY_INSTALLATION_ID'));
+                    $signature = md5($this->container->getParameter('WPAY_MD5_SECRET') . ":" . $this->container->getParameter('WPAY_CURRENCY') . ":$price:$testMode:" . $this->container->getParameter('WPAY_INSTALLATION_ID'));
 
                     $worldPay = array(
 
