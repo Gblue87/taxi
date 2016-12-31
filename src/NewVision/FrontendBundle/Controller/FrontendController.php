@@ -93,9 +93,9 @@ class FrontendController extends Controller
      */
     public function renderNewOrderAction(Request $request)
     {
-        if (substr(urldecode($request->getUri()), -1) != '/') {
-            return $this->redirectToRoute('new_order', array('trailingSlash' => '/', 'request' => $request));
-        }
+        // if (substr(urldecode($request->getUri()), -1) != '/') {
+        //     return $this->redirectToRoute('new_order', array('trailingSlash' => '/', 'request' => $request));
+        // }
         $em = $this->getDoctrine()->getManager();
         $contentRepository = $em->getRepository('NewVisionContentBundle:Content');
 
@@ -108,7 +108,7 @@ class FrontendController extends Controller
             'action' => $this->generateUrl('new_order').'/'
         ));
 
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST') && $form->isSubmitted()) {
             $form->handleRequest($request);
             $settingsManager = $this->get('newvision.settings_manager');
             $session = $this->get('session');
