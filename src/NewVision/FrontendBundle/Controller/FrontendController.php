@@ -94,7 +94,7 @@ class FrontendController extends Controller
     public function renderNewOrderAction(Request $request)
     {
         if (substr(urldecode($request->getUri()), -1) != '/') {
-            return $this->redirect($request->getUri().'/');
+            return $this->redirectToRoute('new_order', array('trailingSlash' => '/', 'request' => $request));
         }
         $em = $this->getDoctrine()->getManager();
         $contentRepository = $em->getRepository('NewVisionContentBundle:Content');
