@@ -72,7 +72,7 @@ class ServicesFrontendController extends Controller
         $contentRepository = $em->getRepository('NewVisionContentBundle:Content');
         $hotel = $servicesRepo->findOneBySlugAndLocale($slug, $locale);
 
-        if ($point == 'from') {
+        if ($point == 'from' || $point == 'from/') {
             $from = true;
         }else{
             $to = true;

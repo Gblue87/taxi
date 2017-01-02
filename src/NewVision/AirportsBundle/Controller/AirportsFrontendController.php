@@ -80,8 +80,8 @@ class AirportsFrontendController extends Controller
         $contentRepository = $em->getRepository('NewVisionContentBundle:Content');
         $point = $request->query->get('point');
         $airport = $servicesRepo->findOneBySlugAndLocale($slug, $locale);
-        var_dump($point, $point == 'from');exit;
-        if ($point == 'from') {
+    
+        if ($point == 'from' || $point == 'from/') {
             $from = true;
         }else{
             $to = true;
@@ -193,7 +193,6 @@ class AirportsFrontendController extends Controller
 
         $this->generateOgTags($airport);
         $offer['id'] = $airport->getId();
-        var_dump($from, $to);exit;
         return array(
             'airport' => $airport,
             'from' => $from,
