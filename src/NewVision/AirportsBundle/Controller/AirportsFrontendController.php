@@ -266,6 +266,7 @@ class AirportsFrontendController extends Controller
         if (!preg_match('/^\d+$/', $id))
             throw $this->createNotFoundException();
         $order = $ordersRepository->findOneByNo($id);
+        var_dump($order->getPaymentStatus());exit;
         if (empty($order))
             throw $this->createNotFoundException();
 
