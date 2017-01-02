@@ -430,7 +430,7 @@ class AirportsFrontendController extends Controller
         $order = $ordersRepository->findOneByNo($id);
         $p = $requestData;
         $status = strtolower($p['payment_status']);
-        if ($order->getPaymentStatus() != 'paid') {
+
             if (in_array($status, array('denied', 'expired', 'failed'))) {
                 $result = self::paypalReturnQuery($p);
                 if ($result == 'verified'){
@@ -473,7 +473,7 @@ class AirportsFrontendController extends Controller
                 $em->persist($order);
                 $em->flush();
             }
-        }
+        
     }
 
 
