@@ -105,7 +105,7 @@ class FrontendController extends Controller
 
         $form = $this->container->get('form.factory')->create('order', new Order(), array(
             'method' => 'POST',
-            'action' => $this->generateUrl('new_order').'/'
+            'action' => $this->generateUrl('new_order')
         ));
 
         if ($request->isMethod('POST') && $form->isSubmitted()) {

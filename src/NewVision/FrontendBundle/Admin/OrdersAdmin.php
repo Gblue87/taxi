@@ -53,6 +53,7 @@ class OrdersAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+            ->addIdentifier('no', null, array('label' => 'ID'))
             ->addIdentifier('from', null, array('label' => 'From'))
             ->addIdentifier('to', null, array('label' => 'To'))
             ->addIdentifier('date', null, array('label' => 'Date'))
@@ -66,7 +67,7 @@ class OrdersAdmin extends Admin
             ->addIdentifier('email', null, array('label' => 'Email'))
             ->addIdentifier('paymentStatus', null, array('label' => 'Payment status'))
             ->addIdentifier('paymentType', null, array('label' => 'Payment type'))
-            ->addIdentifier('meet', null, array('label' => 'Meet and greet'))
+            ->addIdentifier('meet', 'boolean', array('label' => 'Meet and greet'))
             ->add('createdAt', null, array('label' => 'createdAt'))
             ->add('_action', 'actions', array(
                 'actions' => array(
