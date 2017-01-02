@@ -430,7 +430,7 @@ class AirportsFrontendController extends Controller
         $order = $ordersRepository->findOneByNo($id);
         $p = $requestData;
         $status = strtolower($p['payment_status']);
-
+        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'Status: '.$status, FILE_APPEND);
             if (in_array($status, array('denied', 'expired', 'failed'))) {
                 $result = self::paypalReturnQuery($p);
                 if ($result == 'verified'){
@@ -497,6 +497,9 @@ class AirportsFrontendController extends Controller
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1); // On dev server only!
 
             $result = curl_exec($ch);
+
+            file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'RESULT: '.$result, FILE_APPEND);
+
             curl_close($ch);
             return strtolower($result);
         } catch (\Exception $e) {
