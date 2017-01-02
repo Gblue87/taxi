@@ -53,7 +53,7 @@ class OrdersAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('no', null, array('label' => 'ID'))
+            ->addIdentifier('no', 'string', array('label' => 'ID'))
             ->addIdentifier('from', null, array('label' => 'From'))
             ->addIdentifier('to', null, array('label' => 'To'))
             ->addIdentifier('date', null, array('label' => 'Date'))
