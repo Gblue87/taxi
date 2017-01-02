@@ -122,7 +122,7 @@ class AirportsFrontendController extends Controller
                             'amount' => $price,
                             'currency_code' => 'GBP',
                             'paymentaction' => "sale",
-                            'return' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_success', array('id' => $data->getNo())),
+                            'return' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_success'),
                             'cancel_return' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_success', array('id' => $data->getNo())),
                             'notify_url' => $request->getSchemeAndHttpHost().$this->generateUrl('paypal_notify', array('id' => $data->getNo())),
                             'item_name' => "TaxiChester Order #".$data->getNo(),
@@ -255,11 +255,12 @@ class AirportsFrontendController extends Controller
     }
 
     /**
-     * @Route("/paypal-success/{id}", name="paypal_success")
+     * @Route("/paypal-success", name="paypal_success")
      * @Template("NewVisionAirportsBundle:Frontend:paypalSuccess.html.twig")
      */
-    public function paypalSuccessAction($id)
+    public function paypalSuccessAction(Request $request)
     {
+        var_dump($request->request->all());exit;
         $em = $this->getDoctrine()->getManager();
         $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
         $content = $em->getRepository('NewVisionContentBundle:Content')->findOneById(27);
