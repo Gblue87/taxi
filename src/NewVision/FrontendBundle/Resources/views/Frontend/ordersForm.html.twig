@@ -59,6 +59,7 @@
         <div class="options-top">
             <div class="left">
                 <div class="ffield">
+                    {{dump(from, to)}}
                     <label>{{ 'from'|trans({}, "NewVisionFrontendBundle")}}</label>
                     <input id="from" type="text" name="from" placeholder="Enter location" {{ from is defined and from is sameas(true) ? 'readonly' : ''}} value="{{ from is defined and from is sameas(true) ? item.to : ''}}" title="{{ from is defined and from is sameas(true) ? item.to : 'Offer from'}}">
                 </div>
