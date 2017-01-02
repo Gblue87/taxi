@@ -192,6 +192,7 @@ class AirportsFrontendController extends Controller
 
         $this->generateOgTags($airport);
         $offer['id'] = $airport->getId();
+        var_dump($from, $to);exit;
         return array(
             'airport' => $airport,
             'from' => $from,
