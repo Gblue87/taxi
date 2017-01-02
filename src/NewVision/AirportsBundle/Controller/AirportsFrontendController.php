@@ -423,14 +423,12 @@ class AirportsFrontendController extends Controller
     {
         $settingsManager = $this->get('newvision.settings_manager');
         $requestData = $request->request->all();
-
+        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', print_r($requestData), FILE_APPEND);
         if (!isset($requestData['invoice']) || !isset($requestData['payment_status']) || !isset($requestData['mc_gross']))
             return false;
         $em = $this->getDoctrine()->getManager();
         $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
         $order = $ordersRepository->findOneByNo($id);
-        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', print_r($order, true), FILE_APPEND);
-
         $p = $requestData;
         $status = strtolower($p['payment_status']);
         file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'STATUS: '.$status, FILE_APPEND);
@@ -455,7 +453,7 @@ class AirportsFrontendController extends Controller
                     //     $status = "payment-failed";
                     // }
                     $price = $order->getAmount() * $settingsManager->get('surcharge');
-                    // file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'PRICE1'.$price.'PRICE2'.(float)$requestData['mc_gross'], FILE_APPEND);
+                    file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'PRICE1'.$price.'PRICE2'.(float)$requestData['mc_gross'], FILE_APPEND);
                     if (!$price || $price > (float)$requestData['mc_gross']) {
                         $status = "payment-failed";
                     }
@@ -468,8 +466,6 @@ class AirportsFrontendController extends Controller
                     file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'ERRORMSG'.$e->getMessage(), FILE_APPEND);
                 }
 
-            }else{
-                $status = "payment-failed";
             }
             file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'lastSTATUS'.$status, FILE_APPEND);
             $order->setPaymentStatus($status);
