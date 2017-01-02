@@ -53,7 +53,7 @@
 {% if order.meet is defined and order.meet is not null and order.meet|length %}
     <tr>
         <th>Meet and greet:</th>
-        <td>{{order.meet}}<br />{# ({{order.viaLng}}, {{order.viaLat}}) #}</td>
+        <td>{{order.meet == 'false' ? 'No' : 'Yes'}}<br />{# ({{order.viaLng}}, {{order.viaLat}}) #}</td>
     </tr>
 {% endif %}
 <tr>
