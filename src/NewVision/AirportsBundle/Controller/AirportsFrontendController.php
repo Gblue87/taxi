@@ -423,7 +423,7 @@ class AirportsFrontendController extends Controller
     {
         $settingsManager = $this->get('newvision.settings_manager');
         $requestData = $request->request->all();
-        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', print_r($requestData), FILE_APPEND);
+        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', print_r($requestData, true), FILE_APPEND);
         if (!isset($requestData['invoice']) || !isset($requestData['payment_status']) || !isset($requestData['mc_gross']))
             return false;
         $em = $this->getDoctrine()->getManager();

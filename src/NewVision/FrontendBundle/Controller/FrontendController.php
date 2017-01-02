@@ -108,7 +108,7 @@ class FrontendController extends Controller
             'action' => $this->generateUrl('new_order')
         ));
 
-        if ($request->isMethod('POST') && $form->isSubmitted()) {
+        if ($request->isMethod('POST') && !isset($requestData['homepage'])) {
             $form->handleRequest($request);
             $settingsManager = $this->get('newvision.settings_manager');
             $session = $this->get('session');
