@@ -60,7 +60,7 @@
             <div class="left">
                 <div class="ffield">
                     <label>{{ 'from'|trans({}, "NewVisionFrontendBundle")}}</label>
-                    <input id="from" type="text" name="from" placeholder="Enter location" {{ from is defined and from is sameas(true) ? 'readonly' : ''}} value="{{ from is defined and from is sameas(true) ? item.to : ''}}" title="{{ from is defined and from is sameas(true) ? item.to : 'Offer from'}}">
+                    <input id="from" type="text" name="from" placeholder="Enter location" {{ from is defined and from is sameas(true) ? 'readonly' : ''}} value="{{ from is defined and from is sameas(true) ? item.from : ''}}" title="{{ from is defined and from is sameas(true) ? item.from : 'Offer from'}}">
                 </div>
                 <div class="ffield">
                     <label>{{ 'to'|trans({}, "NewVisionFrontendBundle")}}</label>
