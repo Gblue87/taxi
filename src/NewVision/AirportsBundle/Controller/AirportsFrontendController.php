@@ -131,6 +131,7 @@ class AirportsFrontendController extends Controller
                             'no_shipping' => "1",
                             'no_note' => "1",
                             'image_url' => "",
+                            'rm' => 2,
                             'email' => $data->getEmail(),
                             'first_name' => $data->getName(),
                             'last_name' => $data->getFamily(),
