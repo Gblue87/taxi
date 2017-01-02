@@ -255,12 +255,11 @@ class AirportsFrontendController extends Controller
     }
 
     /**
-     * @Route("/paypal-success", name="paypal_success")
+     * @Route("/paypal-success/{id}", name="paypal_success")
      * @Template("NewVisionAirportsBundle:Frontend:paypalSuccess.html.twig")
      */
-    public function paypalSuccessAction(Request $request)
+    public function paypalSuccessAction($id)
     {
-        var_dump($request->request->all());exit;
         $em = $this->getDoctrine()->getManager();
         $ordersRepository = $em->getRepository('NewVisionFrontendBundle:Order');
         $content = $em->getRepository('NewVisionContentBundle:Content')->findOneById(27);
