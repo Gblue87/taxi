@@ -258,6 +258,15 @@ class Order
      *
      * @var string
      *
+     * @ORM\Column(name="isset_message", type="boolean")
+     */
+    protected $isSendMessage;
+
+    /**
+     * Phone of the person
+     *
+     * @var string
+     *
      * @ORM\Column(name="meet", type="string", length=255, nullable=true)
      */
     protected $meet;
@@ -1132,6 +1141,30 @@ class Order
     public function setMeet($meet)
     {
         $this->meet = $meet;
+
+        return $this;
+    }
+
+    /**
+     * Gets the Phone of the person.
+     *
+     * @return string
+     */
+    public function getIsSendMessage()
+    {
+        return $this->isSendMessage;
+    }
+
+    /**
+     * Sets the Phone of the person.
+     *
+     * @param string $isSendMessage the is send message
+     *
+     * @return self
+     */
+    public function setIsSendMessage($isSendMessage)
+    {
+        $this->isSendMessage = $isSendMessage;
 
         return $this;
     }

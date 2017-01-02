@@ -276,8 +276,6 @@ class AirportsFrontendController extends Controller
         $event = new \NewVision\SEOBundle\Event\SeoEvent($content);
         $dispatcher->dispatch('newvision.seo', $event);
 
-        $this->sendOrderAdminMail($order);
-        $this->sendOrderUserMail($order);
         return array(
             'order' => $order,
             'content' => $content
@@ -306,10 +304,6 @@ class AirportsFrontendController extends Controller
         if ($order->getPaymentStatus() != 'paid') {
             return $this->redirectToRoute('paypal_error');
         }
-
-
-        $this->sendOrderAdminMail($order);
-        $this->sendOrderUserMail($order);
         return array(
             'order' => $order,
             'content' => $content
@@ -395,7 +389,7 @@ class AirportsFrontendController extends Controller
             else {
 
                 // AMOUNT MISSMATCH
-                $status = "paid";
+               $status = "paid";
                $order->setPaymentStatus($status);
                $order->setPaymentTransaction($p['transId']);
                $em->persist($order);
@@ -405,8 +399,13 @@ class AirportsFrontendController extends Controller
 
                 // SEND MAILS IF OK
                 if ($status == "paid") {
-                    $this->sendOrderAdminMail($order);
-                    $this->sendOrderUserMail($order);
+                    if (!$order->getIsSendMessage()) {   
+                        $this->sendOrderAdminMail($order);
+                        $this->sendOrderUserMail($order);
+                        $order->setIsSendMessage(true);
+                        $em->persist($order);
+                        $em->flush();
+                    }
                     return new Response($this->renderView('NewVisionFrontendBundle:Frontend:redirect.html.twig', array('url' => $request->getSchemeAndHttpHost().$this->generateUrl('worldpay_success', array('id' => $order->getNo())))));
                 }
             }
@@ -431,47 +430,49 @@ class AirportsFrontendController extends Controller
         $order = $ordersRepository->findOneByNo($id);
         $p = $requestData;
         $status = strtolower($p['payment_status']);
-        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'STATUS: '.$status, FILE_APPEND);
-        if (in_array($status, array('denied', 'expired', 'failed'))) {
-            $result = self::paypalReturnQuery($p);
-            if ($result == 'verified'){
-                $order->setPaymentStatus('payment-failed');
+        if ($order->getPaymentStatus() != 'paid') {
+            if (in_array($status, array('denied', 'expired', 'failed'))) {
+                $result = self::paypalReturnQuery($p);
+                if ($result == 'verified'){
+                    $order->setPaymentStatus('payment-failed');
+                    $em->persist($order);
+                    $em->flush();
+                }
+
+            } elseif ($status == "completed" || $status == 'refunded') {
+
+                $result = self::paypalReturnQuery($p);
+                $status = "payment-failed";
+                if ($result == "verified") {
+                    try {
+                        $status = "paid";
+                        // file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'ORDERTXNID'.$order->getPaymentTransaction(), FILE_APPEND);
+                        // if (!$this->checkPaypalTxnId($requestData['txn_id'])) {
+                        //     file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'ORDERTXNIDFAILER'.$order->getPaymentTransaction(), FILE_APPEND);
+                        //     $status = "payment-failed";
+                        // }
+                        $price = $order->getAmount() * $settingsManager->get('surcharge');
+                        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'PRICE1'.$price.'PRICE2'.(float)$requestData['mc_gross'], FILE_APPEND);
+                        if (!$price || $price > (float)$requestData['mc_gross']) {
+                            $status = "payment-failed";
+                        }
+
+                        if ($status == "paid" && !$order->getIsSendMessage()) {
+                            $this->sendOrderAdminMail($order);
+                            $this->sendOrderUserMail($order);
+                            $order->setIsSendMessage(true);
+                        }
+                    } catch (\Exception $e) {
+                        file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'ERRORMSG'.$e->getMessage(), FILE_APPEND);
+                    }
+
+                }
+                file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'lastSTATUS'.$status, FILE_APPEND);
+                $order->setPaymentStatus($status);
+                $order->setPaymentTransaction($p['txn_id']);
                 $em->persist($order);
                 $em->flush();
             }
-
-        } elseif ($status == "completed" || $status == 'refunded') {
-
-            $result = self::paypalReturnQuery($p);
-            $status = "payment-failed";
-            if ($result == "verified") {
-                try {
-                    $status = "paid";
-                    // file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'ORDERTXNID'.$order->getPaymentTransaction(), FILE_APPEND);
-                    // if (!$this->checkPaypalTxnId($requestData['txn_id'])) {
-                    //     file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'ORDERTXNIDFAILER'.$order->getPaymentTransaction(), FILE_APPEND);
-                    //     $status = "payment-failed";
-                    // }
-                    $price = $order->getAmount() * $settingsManager->get('surcharge');
-                    file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'PRICE1'.$price.'PRICE2'.(float)$requestData['mc_gross'], FILE_APPEND);
-                    if (!$price || $price > (float)$requestData['mc_gross']) {
-                        $status = "payment-failed";
-                    }
-
-                    if ($status == "paid") {
-                        $this->sendOrderAdminMail($order);
-                        $this->sendOrderUserMail($order);
-                    }
-                } catch (\Exception $e) {
-                    file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'ERRORMSG'.$e->getMessage(), FILE_APPEND);
-                }
-
-            }
-            file_put_contents('/var/www/tax1chester/www/taxi/web/test.txt', 'lastSTATUS'.$status, FILE_APPEND);
-            $order->setPaymentStatus($status);
-            $order->setPaymentTransaction($p['txn_id']);
-            $em->persist($order);
-            $em->flush();
         }
     }
 
