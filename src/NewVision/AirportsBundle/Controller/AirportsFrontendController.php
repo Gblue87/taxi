@@ -539,7 +539,7 @@ class AirportsFrontendController extends Controller
                 'text/html'
             )
         ;
-        var_dump($adminMessage);exit;
+        var_dump($adminMessage->getBody());exit;
 
         $mailer = $this->get('mailer');
         $mailer->send($adminMessage);
