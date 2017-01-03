@@ -1168,4 +1168,15 @@ class Order
 
         return $this;
     }
+
+    /**
+     * Gets the Phone of the person.
+     *
+     * @return string
+     */
+    public function getNewMeet()
+    {
+        return $this->getMeet() == 'false' ? false : true;
+    }
+
 }
