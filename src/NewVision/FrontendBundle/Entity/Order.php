@@ -1179,7 +1179,7 @@ class Order
         if ($this->getType() == 'hotel') {
             return 'N/A';
         }
-        return $this->getMeet() == 'false' ? false : true;
+        return $this->getMeet() == 'false' ? 'No' : 'Yes';
     }
 
 }
