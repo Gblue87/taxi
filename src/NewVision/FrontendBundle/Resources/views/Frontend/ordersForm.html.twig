@@ -757,6 +757,7 @@
                 amount8 = {{item.doublePrice}},
                 offer = {{offer|raw}},
                 offerPoint = '{{offerPoint}}';
+                offerPoint = offerPoint.slice(0, -1);
 
                 $('.checkout input:checkbox, .checkout input:radio').transForm();
 
