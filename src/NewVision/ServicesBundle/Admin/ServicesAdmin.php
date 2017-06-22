@@ -222,12 +222,17 @@ class ServicesAdmin extends Admin
                         // ),
                         'price' => array(
                             'field_type' => 'text',
-                            'label' => 'form.price',
+                            'label' => 'Цена до 4 човека',
+                            'required' => false
+                        ),
+                        'middlePrice' => array(
+                            'field_type' => 'text',
+                            'label' => 'Цена от 4 до 6 човека',
                             'required' => false
                         ),
                         'doublePrice' => array(
                             'field_type' => 'text',
-                            'label' => 'form.doublePrice',
+                            'label' => 'Цена от 6 до 8 човека',
                             'required' => false
                         ),
                         // 'youTubeVideo' => array(

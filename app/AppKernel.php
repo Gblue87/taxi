@@ -43,7 +43,7 @@ class AppKernel extends Kernel
             new NewVision\SEOBundle\NewVisionSEOBundle(),
             new NewVision\TinyMCEBundle\NewVisionTinyMCEBundle(),
             //new NewVision\NotificationsBundle\NewVisionNotificationsBundle(),
-            //new NewVision\SearchBundle\NewVisionSearchBundle(),
+            new NewVision\SearchBundle\NewVisionSearchBundle(),
             new NewVision\ContactsBundle\NewVisionContactsBundle(),
             new NewVision\MenuBundle\NewVisionMenuBundle(),
             //new NewVision\NewsletterBundle\NewVisionNewsletterBundle(),

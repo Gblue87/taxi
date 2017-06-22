@@ -754,6 +754,7 @@
                 var offerPoint;
                 var userPoint,
                 amount4 = {{item.price}},
+                amount6 = {{ item.middlePrice}},
                 amount8 = {{item.doublePrice}},
                 offer = {{offer|raw}},
                 offerPoint = '{{offerPoint}}';
@@ -908,8 +909,9 @@
                         data: data,
                         success: function(resp) {
                             amount4 = resp.amount4;
+                            amount6 = resp.amount6;
                             amount8 = resp.amount8;
-                            var amount = (passengers > 4) ? amount8 : amount4;
+                            var amount = passengers <= 4 ? amount4 : passengers > 6 ? amount8 : amount6;
 
                             $('#step2 [name="order[amount]"]').val(amount);
                             $('#price_1').text(amount);
@@ -990,7 +992,7 @@
 
                 // {* PASSENGERS CHANGE *}
                 $('.passengers input').change(function() {
-                    var price = (this.value > 4) ? amount8 : amount4;
+                    var price = this.value <= 4 ? amount4 : this.value > 6 ? amount8 : amount6;
 
                     $('#price_1').text(price);
                     $('#price span').text(price);
@@ -1078,8 +1080,9 @@
                             success: function(resp) {
                                 if (resp.success) {
                                     amount4 = resp.amount4;
+                                    amount6 = resp.amount6;
                                     amount8 = resp.amount8;
-                                    var amount = (passengers > 4) ? amount8 : amount4;
+                                    var amount = passengers <= 4 ? amount4 : passengers > 6 ? amount8 : amount6;
                                     $('#price_1').text(amount);
                                     $('#average').text((amount / passengers).toFixed(2));
                                 }else{

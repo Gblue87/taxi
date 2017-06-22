@@ -86,3 +86,10 @@ order:
         viaLat: Via Latitude
         viaLng: Via Longitude
         baggageDetails: Baggage Details (Optional)
+
+search:
+    for: 'Search for'
+    found: 'Results'
+    see_more: 'See more »'
+    services: 'Results from city & hotels:'
+    airports: 'Results from airport transfers:'

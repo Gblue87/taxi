@@ -87,6 +87,12 @@ class ServiceTranslation extends AbstractTranslation
 
     /**
      * @Gedmo\Versioned
+     * @ORM\Column(name="middle_price", type="string", length=255, nullable=true)
+     */
+    protected $middlePrice;
+
+    /**
+     * @Gedmo\Versioned
      * @ORM\Column(name="double_price", type="string", length=255, nullable=true)
      */
     protected $doublePrice;
@@ -391,5 +397,29 @@ class ServiceTranslation extends AbstractTranslation
     public function getDoublePrice()
     {
         return $this->doublePrice;
+    }
+
+    /**
+     * Gets the value of middlePrice.
+     *
+     * @return mixed
+     */
+    public function getMiddlePrice()
+    {
+        return $this->middlePrice;
+    }
+
+    /**
+     * Sets the value of middlePrice.
+     *
+     * @param mixed $middlePrice the middle price
+     *
+     * @return self
+     */
+    public function setMiddlePrice($middlePrice)
+    {
+        $this->middlePrice = $middlePrice;
+
+        return $this;
     }
 }

@@ -427,7 +427,7 @@ class FrontendController extends Controller
     public function custom503Action()
     {
         $em = $this->getDoctrine()->getManager();
-        $content = $em->getRepository("NewVisionContentBundle:Content")->findOneById(20);
+        $content = $em->getRepository("NewVisionContentBundle:Content")->findOneById(29);
 
         if (!$content) {
             throw $this->createNotFoundException("Page not found");
@@ -475,7 +475,8 @@ class FrontendController extends Controller
 
             $data = array(
                 'amount4' => $this->_getTaxedPrice($item->getPrice(), $requestData['date'], $requestData['returnDate'], 0),
-                'amount8' => $this->_getTaxedPrice($item->getDoublePrice(), $requestData['date'], $requestData['returnDate'], 6),
+                'amount6' => $this->_getTaxedPrice($item->getMiddlePrice(), $requestData['date'], $requestData['returnDate'], 6),
+                'amount8' => $this->_getTaxedPrice($item->getDoublePrice(), $requestData['date'], $requestData['returnDate'], 8),
                 'success' => true
             );
             if (isset($requestData['meet']) && $requestData['meet']) {
@@ -608,5 +609,22 @@ class FrontendController extends Controller
 
         }
         return $offerPrice;
+    }
+
+    /**
+     * @Route("/maintenance", name="maintenance")
+     * @Template("NewVisionFrontendBundle:Frontend:maintenance.html.twig")
+     */
+    public function maintenanceAction(Request $request)
+    {
+        $this->get('session')->set('maintenance', null);
+        $content = $this->getDoctrine()->getManager()->getRepository('NewVisionContentBundle:Content')->findOneById(29);
+        if(!$content){
+            throw $this->createNotFoundException();
+        }
+        $response = new Response(['content' => $content]);
+        $response->headers->set('Retry-After', date('F j, Y, G:i', strtotime('+1 hour')));
+        $response->setStatusCode(503);
+        return $response;
     }
 }

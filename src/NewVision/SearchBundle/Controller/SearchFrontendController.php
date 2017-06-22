@@ -20,59 +20,25 @@ class SearchFrontendController extends Controller
         $locale = $request->getLocale();
 
         $em = $this->getDoctrine()->getManager();
-        $contentObj = $em->getRepository('NewVisionContentBundle:Content')->findOneById(10);
+        $contentObj = $em->getRepository('NewVisionContentBundle:Content')->findOneById(28);
         if(!$contentObj){
             throw $this->createNotFoundException();
         }
 
-        $contentPages = array();
-        $products = array();
-        $productCategories = array();
-        $news = array();
-        $newsCategories = array();
         $services = array();
-        $serviceCategories = array();
-        $careers = array();
-        $galleries = array();
+        $airports = array();
 
         $bundles = $this->container->getParameter('kernel.bundles');
         if (array_key_exists('NewVisionContentBundle', $bundles)) {
-            $contentPages = $this->search($em, 'NewVisionContentBundle:Content', 'NewVisionContentBundle:ContentTranslation', $search, $locale);
-        }
-
-        if (array_key_exists('NewVisionProductsBundle', $bundles)) {
-            $products = $this->search($em, 'NewVisionProductsBundle:Product', 'NewVisionProductsBundle:ProductTranslation', $search, $locale);
-            $productCategories = $this->search($em, 'NewVisionProductsBundle:ProductCategory', 'NewVisionProductsBundle:ProductCategoryTranslation', $search, $locale);
-        }
-
-        if (array_key_exists('NewVisionNewsBundle', $bundles)) {
-            $news = $this->search($em, 'NewVisionNewsBundle:News', 'NewVisionNewsBundle:NewsTranslation', $search, $locale);
-            $newsCategories = $this->search($em, 'NewVisionNewsBundle:NewsCategory', 'NewVisionNewsBundle:NewsCategoryTranslation', $search, $locale);
+            $airports = $this->search($em, 'NewVisionAirportsBundle:Airport', 'NewVisionAirportsBundle:AirportTranslation', $search, $locale);
         }
 
         if (array_key_exists('NewVisionServicesBundle', $bundles)) {
             $services = $this->search($em, 'NewVisionServicesBundle:Service', 'NewVisionServicesBundle:ServiceTranslation', $search, $locale);
-            $serviceCategories = $this->search($em, 'NewVisionServicesBundle:ServiceCategory', 'NewVisionServicesBundle:ServiceCategoryTranslation', $search, $locale);
         }
-
-        if (array_key_exists('NewVisionCareersBundle', $bundles)) {
-            $careers = $this->search($em, 'NewVisionCareersBundle:Career', 'NewVisionCareersBundle:CareerTranslation', $search, $locale);
-        }
-
-        if (array_key_exists('NewVisionGalleriesBundle', $bundles)) {
-            $galleries = $this->search($em, 'NewVisionGalleriesBundle:Gallery', 'NewVisionGalleriesBundle:GalleryTranslation', $search, $locale);
-        }
-
         $results = array_merge_recursive(
-            $contentPages,
-            $products,
-            $productCategories,
-            $news,
-            $newsCategories,
             $services,
-            $serviceCategories,
-            $careers,
-            $galleries
+            $airports
         );
 
         $totalResults = count($results);
@@ -83,15 +49,8 @@ class SearchFrontendController extends Controller
         $dispatcher->dispatch('newvision.seo', $event);
 
         return array(
-            'contentPages'      => $contentPages,
-            'products'          => $products,
-            'productCategories' => $productCategories,
-            'news'              => $news,
-            'newsCategories'    => $newsCategories,
+            'airports'          => $airports,
             'services'          => $services,
-            'serviceCategories' => $serviceCategories,
-            'careers'           => $careers,
-            'galleries'         => $galleries,
             'content'           => $contentObj,
             'search'            => $search,
             'totalResults'      => $totalResults,
@@ -105,8 +64,6 @@ class SearchFrontendController extends Controller
         $rsm = new ResultSetMapping();
         $rsm->addEntityResult($entityClass, 't');
         $rsm->addFieldResult('t', 'id', 'id');
-        $rsm->addFieldResult('t', 'lvl', 'lvl');
-        $rsm->addFieldResult('t', 'isSystem', 'isSystem');
         $rsm->addJoinedEntityResult($i18nClass, 'i18n', 't', 'translations');
         $rsm->addFieldResult('i18n', 'i_id', 'id');
         $rsm->addFieldResult('i18n', 'slug', 'slug');
@@ -115,97 +72,25 @@ class SearchFrontendController extends Controller
         $tableName = $em->getClassMetadata($entityClass)->getTableName();
         $tableI18nName = $em->getClassMetadata($i18nClass)->getTableName();
 
-        if($entityClass == 'NewVisionContentBundle:Content') {
-            $query = $em->createNativeQuery(
-                "SELECT t.id, i18n.id as i_id, i18n.slug, i18n.title, t.is_system
-                FROM {$tableName} t left join {$tableI18nName} i18n on t.id=i18n.object_id
-                WHERE
-                i18n.locale = ?
-                AND
-                (
-                    LOWER(i18n.title) REGEXP ?
-                    OR
-                    LOWER(i18n.description) REGEXP ?
-                )
-                ",$rsm
+
+        $query = $em->createNativeQuery(
+            "SELECT t.id, i18n.id as i_id, i18n.slug, i18n.title, i18n.description
+            FROM {$tableName} t
+            LEFT JOIN {$tableI18nName} i18n on t.id=i18n.object_id
+            WHERE
+            i18n.locale = ?
+            AND
+            (
+                LOWER(i18n.title) REGEXP ?
+                OR
+                LOWER(i18n.description) REGEXP ?
             )
-            ->setParameter(1, $locale)
-            ->setParameter(2, '[[:<:]]'.$search.'[[:>:]]')
-            ->setParameter(3, '[[:<:]]'.$search.'[[:>:]]');
-        } elseif ($entityClass == 'NewVisionProductsBundle:Product') {
-            $query = $em->createNativeQuery(
-                "SELECT t.id, i18n.id as i_id, i18n.slug, i18n.title, pc.productcategory_id
-                FROM {$tableName} t
-                LEFT JOIN {$tableI18nName} i18n on t.id=i18n.object_id
-                LEFT JOIN products_categories pc on t.id=pc.product_id
-                WHERE
-                i18n.locale = ?
-                AND
-                (
-                    LOWER(i18n.title) REGEXP ?
-                    OR
-                    LOWER(i18n.description) REGEXP ?
-                )
-                ",$rsm
-            )
-            ->setParameter(1, $locale)
-            ->setParameter(2, '[[:<:]]'.$search.'[[:>:]]')
-            ->setParameter(3, '[[:<:]]'.$search.'[[:>:]]');
-        } elseif ($entityClass == 'NewVisionNewsBundle:News') {
-            $query = $em->createNativeQuery(
-                "SELECT t.id, i18n.id as i_id, i18n.slug, i18n.title, nc.newscategory_id
-                FROM {$tableName} t
-                LEFT JOIN {$tableI18nName} i18n on t.id=i18n.object_id
-                LEFT JOIN news_categories_m2m nc on t.id=nc.news_id
-                WHERE
-                i18n.locale = ?
-                AND
-                (
-                    LOWER(i18n.title) REGEXP ?
-                    OR
-                    LOWER(i18n.description) REGEXP ?
-                )
-                ",$rsm
-            )
-            ->setParameter(1, $locale)
-            ->setParameter(2, '[[:<:]]'.$search.'[[:>:]]')
-            ->setParameter(3, '[[:<:]]'.$search.'[[:>:]]');
-        }
-        elseif ($entityClass == 'NewVisionServicesBundle:Service') {
-            $query = $em->createNativeQuery(
-                "SELECT t.id, i18n.id as i_id, i18n.slug, i18n.title, nc.newscategory_id
-                FROM {$tableName} t
-                LEFT JOIN {$tableI18nName} i18n on t.id=i18n.object_id
-                LEFT JOIN news_categories_m2m nc on t.id=nc.news_id
-                WHERE
-                i18n.locale = ?
-                AND
-                (
-                    LOWER(i18n.title) REGEXP ?
-                    OR
-                    LOWER(i18n.description) REGEXP ?
-                )
-                ",$rsm
-            )
-            ->setParameter(1, $locale)
-            ->setParameter(2, '[[:<:]]'.$search.'[[:>:]]')
-            ->setParameter(3, '[[:<:]]'.$search.'[[:>:]]');
-        }
-        else {
-            $query = $em->createNativeQuery(
-                "SELECT t.id, i18n.id as i_id, i18n.slug, i18n.title
-                FROM {$tableName} t left join {$tableI18nName} i18n on t.id=i18n.object_id
-                WHERE
-                i18n.locale = ?
-                AND
-                (
-                    LOWER(i18n.title) REGEXP ?
-                )
-                ",$rsm
-            )
-            ->setParameter(1, $locale)
-            ->setParameter(2, '[[:<:]]'.$search.'[[:>:]]');
-        }
+            ",$rsm
+        )
+        ->setParameter(1, $locale)
+        ->setParameter(2, '[[:<:]]'.$search.'[[:>:]]')
+        ->setParameter(3, '[[:<:]]'.$search.'[[:>:]]');
+
         return $query->getResult();
     }
 }

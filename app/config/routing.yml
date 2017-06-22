@@ -68,13 +68,13 @@ contacts_bundle:
     requirements:
         _locale: "[a-z]{2}"
 
-# # NewVisionSearchBundle routes
-# search_bundle:
-#     resource: "@NewVisionSearchBundle/Controller"
-#     type:     annotation
-#     prefix:   /{_locale}
-#     requirements:
-#         _locale: "[a-z]{2}"
+# NewVisionSearchBundle routes
+search_bundle:
+    resource: "@NewVisionSearchBundle/Controller"
+    type:     annotation
+    prefix:   /{_locale}
+    requirements:
+        _locale: "[a-z]{2}"
 
 # NewVisionNotificationsBundle routes
 # notifications_bundle:

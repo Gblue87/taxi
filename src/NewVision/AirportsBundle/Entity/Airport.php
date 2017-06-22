@@ -140,6 +140,13 @@ class Airport implements PublishWorkflowInterface, SeoAwareInterface
     /**
      * @Gedmo\Versioned
      * @Gedmo\Translatable
+     * @ORM\Column(name="middle_price", type="string", length=255, nullable=true)
+     */
+    protected $middlePrice;
+
+    /**
+     * @Gedmo\Versioned
+     * @Gedmo\Translatable
      * @ORM\Column(name="double_price", type="string", length=255, nullable=true)
      */
     protected $doublePrice;
@@ -696,6 +703,30 @@ class Airport implements PublishWorkflowInterface, SeoAwareInterface
     public function setIsHomepage($isHomepage)
     {
         $this->isHomepage = $isHomepage;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of middlePrice.
+     *
+     * @return mixed
+     */
+    public function getMiddlePrice()
+    {
+        return $this->middlePrice;
+    }
+
+    /**
+     * Sets the value of middlePrice.
+     *
+     * @param mixed $middlePrice the middle price
+     *
+     * @return self
+     */
+    public function setMiddlePrice($middlePrice)
+    {
+        $this->middlePrice = $middlePrice;
 
         return $this;
     }

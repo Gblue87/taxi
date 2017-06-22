@@ -20,124 +20,37 @@
 
 {% block main %}
     {% include '::breadCrumbs.html.twig' with {'breadCrumbs':breadCrumbs} %}
+    <div class="inner-page">
+            <div class="page-header">
+                {% include '::breadCrumbs.html.twig' with {'breadCrumbs':breadCrumbs} %}
+                <div class="center">
+                    <h1 class="title">{{content.title}}</h1>
+                </div>
+            </div>
+            <div class="center">
+                <p><strong>{{ 'search.for'|trans({}, "NewVisionFrontendBundle")}}</strong> {{ app.request.get('q') }}</p>
+                <p>{{ 'search.found'|trans({}, "NewVisionFrontendBundle")}} {{ totalResults }}</p>
 
-    <section id="main">
-        {% include '::headerImage.html.twig' with {'content':content} %}
+                <hr />
+                {% if airports is defined and airports is not null and airports|length %}
+                    <h5>{{ 'search.airports'|trans({}, 'NewVisionFrontendBundle')}}</h5>
 
-        <div class="mainBody">
-            <div class="wrapper">
-                <div class="mainContent full">
-                    <article class="article articleSearch">
-                        <h1>{{ content.title }}</h1>
+                    <ul>
+                        {% for airport in airports %}
+                            {{ method.renderResult(airport) }}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
 
-                        <p><strong>{{ 'search.for'|trans({}, "messages")}}</strong> {{ app.request.get('q') }}</p>
-                        <p>{{ 'search.found'|trans({}, "messages")}} {{ totalResults }}</p>
+                {% if services is defined and services is not null and services|length %}
+                    <h5>{{ 'search.services'|trans({}, 'NewVisionFrontendBundle')}}</h5>
 
-                        <hr />
-
-                        {% if contentPages is defined and contentPages is not null and contentPages|length %}
-                            <h5>{{ 'search.contentPages'|trans({}, 'messages')}}</h5>
-
-                            <ul>
-                                {% for contentPage in contentPages %}
-                                    {{ method.renderResult(contentPage) }}
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-
-                        {% if products is defined and products is not null and products|length %}
-                            <h5>{{ 'search.products'|trans({}, 'messages')}}</h5>
-
-                            <ul>
-                                {% for product in products %}
-                                    {% if product.productCategories is defined and product.productCategories is not null and product.productCategories|length %}
-                                        {% for category in product.productCategories %}
-                                            {{ method.renderResult(product, path(product.route, product.routeParams({'categorySlug':category.slug}))) }}
-                                        {% endfor %}
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-
-                        {% if productCategories is defined and productCategories is not null and productCategories|length %}
-                            <h5>{{ 'search.productCategories'|trans({}, 'messages')}}</h5>
-
-                            <ul>
-                                {% for pc in productCategories %}
-                                    {{ method.renderResult(pc) }}
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-
-                        {% if news is defined and news is not null and news|length %}
-                            <h5>{{ 'search.news'|trans({}, 'messages')}}</h5>
-                            <ul>
-                                {% for item in news %}
-                                    {% if item.postsCategories is defined and item.postsCategories is not null and item.postsCategories|length %}
-                                        {% for category in item.postsCategories %}
-                                            {{ method.renderResult(item, path('post_without_category', item.routeParams({'categorySlug':category.slug}))) }}
-                                        {% endfor %}
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-
-                        {% if newsCategories is defined and newsCategories is not null and newsCategories|length %}
-                            <h5>{{ 'search.newsCategories'|trans({}, 'messages')}}</h5>
-
-                            <ul>
-                                {% for nc in newsCategories %}
-                                    {{ method.renderResult(nc, path('news_categories', {'categorySlug':nc.slug})) }}
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-
-                        {% if services is defined and services is not null and services|length %}
-                            <h5>{{ 'search.services'|trans({}, 'messages')}}</h5>
-
-                            <ul>
-                                {% for service in services %}
-                                    {% if service.categories is defined and service.categories is not null and service.categories|length %}
-                                        {% for category in service.categories %}
-                                            {{ method.renderResult(service, path(service.route, service.routeParams({'categorySlug':category.slug}))) }}
-                                        {% endfor %}
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-
-                        {% if serviceCategories is defined and serviceCategories is not null and serviceCategories|length %}
-                            <h5>{{ 'search.serviceCategories'|trans({}, 'messages')}}</h5>
-
-                            <ul>
-                                {% for sc in serviceCategories %}
-                                    {{ method.renderResult(sc, path('service_category', {'slug':sc.slug})) }}
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-
-                        {% if careers is defined and careers is not null and careers|length %}
-                            <h5>{{ 'search.careers'|trans({}, 'messages')}}</h5>
-
-                            <ul>
-                                {% for career in careers %}
-                                    {{ method.renderResult(career) }}
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-
-                        {% if galleries is defined and galleries is not null and galleries|length %}
-                            <h5>{{ 'search.galleries'|trans({}, 'messages')}}</h5>
-
-                            <ul>
-                                {% for item in galleries %}
-                                    {{ method.renderResult(item) }}
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-                    </article>
-                </div><!-- /.mainContent -->
-            </div><!-- /.wrapper -->
-        </div><!-- /.mainBody -->
-    </section>
+                    <ul>
+                        {% for service in services %}
+                            {{ method.renderResult(service) }}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+        </div><!-- /.mainContent -->
+    </div><!-- /.wrapper -->
 {% endblock %}
