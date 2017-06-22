@@ -1085,6 +1085,7 @@
                                     var amount = passengers <= 4 ? amount4 : passengers > 6 ? amount8 : amount6;
                                     $('#price_1').text(amount);
                                     $('#average').text((amount / passengers).toFixed(2));
+				    $('#price span').text(amount);
                                 }else{
                                     showError('System error! Please contact administrators.')
                                 }
