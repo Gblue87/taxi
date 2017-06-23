@@ -610,21 +610,4 @@ class FrontendController extends Controller
         }
         return $offerPrice;
     }
-
-    /**
-     * @Route("/maintenance", name="maintenance")
-     * @Template("NewVisionFrontendBundle:Frontend:maintenance.html.twig")
-     */
-    public function maintenanceAction(Request $request)
-    {
-        $this->get('session')->set('maintenance', null);
-        $content = $this->getDoctrine()->getManager()->getRepository('NewVisionContentBundle:Content')->findOneById(29);
-        if(!$content){
-            throw $this->createNotFoundException();
-        }
-        $response = new Response(['content' => $content]);
-        $response->headers->set('Retry-After', date('F j, Y, G:i', strtotime('+1 hour')));
-        $response->setStatusCode(503);
-        return $response;
-    }
 }
