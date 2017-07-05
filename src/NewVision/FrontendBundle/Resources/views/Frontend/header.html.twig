@@ -17,10 +17,15 @@
 				<label for="menu"><span></span></label>
 				{{ knp_menu_render('NewVisionFrontendBundle:Builder:mainMenu', {'currentClass': 'active'}) }}
 			</nav>
-			<form action="{{ path("search") }}">
-				<input type="text" name="q">
-				<input type="submit" name="submit" value="submit">
-			</form>
+			<span class="searchButton"></span>
+			<div class="searchContainer">
+				<div class="center">
+					<form action="{{ path("search") }}">
+						<input type="text" name="q" class="search-input" placeholder="Search...">
+						<input type="submit" name="submit" value="submit" class="search-submit">
+					</form>
+				</div>
+			</div>
 			<div class="right phone">
 				<a href="{{ path("new_order") }}" class="mbtn mbtn-orange sticky">Book now</a>
 				<div class="static"><i></i><span>{{ settings.get('header_phone_1') }}<br>{{ settings.get('header_phone_2') }}</span></div>

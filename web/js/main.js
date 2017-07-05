@@ -265,6 +265,13 @@ $('#shcfrom').on('click',function(e){
 
 });
 
+// search filed toggle
+$('.searchButton').click(function() {
+    $('body').toggleClass('openedSearchPanel');
+    $('.searchContainer .search-input').focus();
+
+})
+
 $('.shcfrom').on('click',function(e){
     if ($('#shcfrom').parent().hasClass('closed')){
         e.preventDefault();
