@@ -19,7 +19,6 @@
 {% import _self as method %}
 
 {% block main %}
-    {% include '::breadCrumbs.html.twig' with {'breadCrumbs':breadCrumbs} %}
     <div class="inner-page">
             <div class="page-header">
                 {% include '::breadCrumbs.html.twig' with {'breadCrumbs':breadCrumbs} %}
@@ -27,8 +26,8 @@
                     <h1 class="title">{{content.title}}</h1>
                 </div>
             </div>
-            <div class="center">
-                <p><strong>{{ 'search.for'|trans({}, "NewVisionFrontendBundle")}}</strong> {{ app.request.get('q') }}</p>
+            <div class="center search-page">
+                <p>{{ 'search.for'|trans({}, "NewVisionFrontendBundle")}} <strong>{{ app.request.get('q') }}</strong></p>
                 <p>{{ 'search.found'|trans({}, "NewVisionFrontendBundle")}} {{ totalResults }}</p>
 
                 <hr />

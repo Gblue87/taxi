@@ -4,7 +4,6 @@ services:
     # KernelRequest listener
     extension.listener:
         class: NewVision\ContentBundle\Listener\DoctrineExtensionListener
-        class: NewVision\NewsBundle\Listener\DoctrineExtensionListener
         calls:
             - [ setContainer, [ @service_container ] ]
         tags:
