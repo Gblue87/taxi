@@ -39,7 +39,7 @@ class DoctrineExtensionListener implements ContainerAwareInterface
         if($maintenanceMode == 1 && strpos($event->getRequest()->getRequestUri(), 'admin') === false && $this->container->get('session')->get('maintenance', null) === null && (!in_array($ip, $allowedIps))){
                 $this->container->get('session')->set('maintenance', true);
                 $templating = $this->container->get('templating');
-                //$content = $this->container->get('doctrine')->getManager()->getRepository('NewVisionContentBundle:Content')->findOneById(29);
+                $content = $this->container->get('doctrine')->getManager()->getRepository('NewVisionContentBundle:Content')->findOneById(29);
                 $template = $templating->render('NewVisionFrontendBundle:Frontend:maintenance.html.twig', ['content' => $content, 'breadCrumbs' => [$content->getTitle() => null]]);
                 $response = new Response($template, Response::HTTP_SERVICE_UNAVAILABLE, array('Retry-After' => date('F j, Y, G:i', strtotime('+1 hour'))));
                 $event->setResponse($response);
