@@ -80,7 +80,7 @@ class AirportsFrontendController extends Controller
         $contentRepository = $em->getRepository('NewVisionContentBundle:Content');
         $point = $request->query->get('point');
         $airport = $servicesRepo->findOneBySlugAndLocale($slug, $locale);
-    
+
         if ($point == 'from' || $point == 'from/') {
             $from = true;
         }else{
@@ -244,6 +244,9 @@ class AirportsFrontendController extends Controller
 
         $this->sendOrderAdminMail($order);
         $this->sendOrderUserMail($order);
+        $order->setIsSendMessage(true);
+        $em->persist($order);
+        $em->flush();
 
         $dispatcher = $this->get('event_dispatcher');
         $event = new \NewVision\SEOBundle\Event\SeoEvent($content);
@@ -401,7 +404,7 @@ class AirportsFrontendController extends Controller
 
                 // SEND MAILS IF OK
                 if ($status == "paid") {
-                    if (!$order->getIsSendMessage()) {   
+                    if (!$order->getIsSendMessage()) {
                         $this->sendOrderAdminMail($order);
                         $this->sendOrderUserMail($order);
                         $order->setIsSendMessage(true);
@@ -475,7 +478,7 @@ class AirportsFrontendController extends Controller
                 $em->persist($order);
                 $em->flush();
             }
-        
+
     }
 
 
