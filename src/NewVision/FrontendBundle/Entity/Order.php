@@ -258,7 +258,7 @@ class Order
      *
      * @var string
      *
-     * @ORM\Column(name="isset_message", type="boolean")
+     * @ORM\Column(name="isset_message", type="boolean", nullable=true)
      */
     protected $isSendMessage;
 
