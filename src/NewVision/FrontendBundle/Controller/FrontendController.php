@@ -487,9 +487,9 @@ class FrontendController extends Controller
                     $data['amount8'] += $meet;
                 }
             }
-            $data['amount'] = ($requestData['passengers'] > 4)
-                ? $data['amount8']
-                : $data['amount4'];
+            $data['amount'] = ($requestData['passengers'] <= 4)
+                ? $data['amount4']
+                : ($requestData['passengers'] > 6) ? $data['amount8'] : $data['amount6'];
         }
 
         return new JsonResponse($data);
