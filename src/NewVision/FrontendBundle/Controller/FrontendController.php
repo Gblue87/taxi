@@ -483,6 +483,7 @@ class FrontendController extends Controller
                 if ($requestData['meet'] == 'true') {
                     $meet = (int)$this->get('newvision.settings_manager')->get('meet_and_greet', 0);
                     $data['amount4'] += $meet;
+                    $data['amount6'] += $meet;
                     $data['amount8'] += $meet;
                 }
             }
