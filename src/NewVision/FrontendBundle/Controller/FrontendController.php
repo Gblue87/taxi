@@ -39,7 +39,7 @@ class FrontendController extends Controller
 
         $airports = $em->getRepository('NewVisionAirportsBundle:Airport')->findHomepageAirports($locale);
         $hotels = $em->getRepository('NewVisionServicesBundle:Service')->findHomepageHotels($locale);
-        $orderTime = $this->container->get('newvision.settings_manager')->get('order_time', 10);
+        $orderTime = $this->get('newvision.settings_manager')->get('order_time', 10);
 
         $dispatcher = $this->get('event_dispatcher');
         $event = new \NewVision\SEOBundle\Event\SeoEvent($content);
@@ -109,7 +109,7 @@ class FrontendController extends Controller
             'method' => 'POST',
             'action' => $this->generateUrl('new_order')
         ));
-        $orderTime = $this->container->get('newvision.settings_manager')->get('order_time', 10);
+        $orderTime = $this->get('newvision.settings_manager')->get('order_time', 10);
 
         if ($request->isMethod('POST') && !isset($requestData['homepage'])) {
             $form->handleRequest($request);
@@ -245,7 +245,7 @@ class FrontendController extends Controller
         $requestData = $request->request->all();
 
         $fields = explode('|', "from|to|date_submit|time_submit|passengers|date2_submit|time2_submit|vias_location");
-        $orderTime = $this->container->get('newvision.settings_manager')->get('order_time', 10);
+        $orderTime = $this->get('newvision.settings_manager')->get('order_time', 10);
         $fill = array();
         foreach ($fields as $field)
             if (isset($requestData[$field]) && strlen($requestData[$field]))

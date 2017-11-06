@@ -71,7 +71,7 @@ class ServicesFrontendController extends Controller
         $point = $request->query->get('point');
         $contentRepository = $em->getRepository('NewVisionContentBundle:Content');
         $hotel = $servicesRepo->findOneBySlugAndLocale($slug, $locale);
-
+        $orderTime = $this->get('newvision.settings_manager')->get('order_time', 10);
         if ($point == 'from' || $point == 'from/') {
             $from = true;
         }else{
@@ -201,6 +201,7 @@ class ServicesFrontendController extends Controller
             'offer' => json_encode($offer),
             'form' => $form->createView(),
             'terms' => $terms,
+            'orderTime' => $orderTime,
             'breadCrumbs' => $this->generateBreadCrumbs($request),
         );
     }

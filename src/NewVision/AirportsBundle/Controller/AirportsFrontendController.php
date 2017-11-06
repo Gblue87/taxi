@@ -80,6 +80,7 @@ class AirportsFrontendController extends Controller
         $contentRepository = $em->getRepository('NewVisionContentBundle:Content');
         $point = $request->query->get('point');
         $airport = $servicesRepo->findOneBySlugAndLocale($slug, $locale);
+        $orderTime = $this->get('newvision.settings_manager')->get('order_time', 10);
 
         if ($point == 'from' || $point == 'from/') {
             $from = true;
@@ -201,6 +202,7 @@ class AirportsFrontendController extends Controller
             'offer' => json_encode($offer),
             'form' => $form->createView(),
             'terms' => $terms,
+            'orderTime' => $orderTime,
             'breadCrumbs' => $this->generateBreadCrumbs($request),
         );
     }
