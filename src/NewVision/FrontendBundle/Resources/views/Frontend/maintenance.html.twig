@@ -1,3 +1,36 @@
+<style>
+    * { padding: 0; margin: 0; box-sizing: border-box; }
+    a { color: #fac017; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    ul { list-style-type: none; }
+    body { background: #15172C; font-family: Arial; }
+    .center { max-width: 1200px; margin: 0 auto; }
+    header { height: 125px; position: relative; }
+    header .center { padding-top: 24px; }
+    .logo { float: left; }
+    .right { float: right; }
+    .phone { margin-top: 3px; color: white; font: normal 17px/22px; height: 60px; }
+    .phone span { display: inline-block; vertical-align: middle; margin-top: -10px; }
+    .inner-page { background: white; padding-bottom: 40px; }
+    .page-header { background: #f0f0f0; padding: 18px 0; margin-bottom: 20px; position: relative; z-index: 2; }
+    .breadcrumbs { margin-bottom: 10px; font-size: 14px; }
+    .breadcrumbs li { display: inline-block; }
+    .breadcrumbs li a:after { content: "/"; display: inline-block; margin: 0 10px; text-decoration: none; }
+    .title {  font-size: 27px; line-height: 36px; color: #15172c; }
+    .inner-page article { min-height: 500px; }
+    article { color: #32495e; font: normal 14px/22px Arial; }
+    article ul, article ol, article p { margin: 10px 0; }
+</style>
+<header>
+    <div class="center">
+        <span class="logo">
+            <img src="/images/logo.png" alt="TaxiChester.uk" >
+        </span>
+        <div class="clear"></div>
+    </div>
+    <div class="push"></div>
+</header>
+<div class="clear"></div>
 <div class="inner-page">
     <div class="page-header">
         {% include '::breadCrumbs.html.twig' with {'breadCrumbs':breadCrumbs} %}
@@ -13,4 +46,3 @@
         {% endif %}
     </div>
 </div>
-

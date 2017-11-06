@@ -288,6 +288,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCtm2xZxd09GKAPHypwLhKwjFiVKxDZIW4"></script>
     <script type="text/javascript">
         var offerType = '{{airport is defined and airport is not null and airport|length ? 'airport' : 'hotel'}}';
+	orderTime = 5;
         $(function(){
             var $form = $('form[name="orderForm"]');
             var formValidator = $form.formValidator({
