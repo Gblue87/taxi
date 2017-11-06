@@ -245,7 +245,7 @@ class FrontendController extends Controller
         $requestData = $request->request->all();
 
         $fields = explode('|', "from|to|date_submit|time_submit|passengers|date2_submit|time2_submit|vias_location");
-
+        $orderTime = $this->container->get('newvision.settings_manager')->get('order_time', 10);
         $fill = array();
         foreach ($fields as $field)
             if (isset($requestData[$field]) && strlen($requestData[$field]))
@@ -265,6 +265,7 @@ class FrontendController extends Controller
         return array(
             'content' => $content,
             'fill' => json_encode($fill),
+            'orderTime' => $orderTime
         );
     }
 
