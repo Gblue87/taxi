@@ -139,7 +139,7 @@
             var orderTime = 5;
             if ($('#date').length){
                 (function(){
-
+                    console.log(orderTime);
                     var minTime = [0, 0],
                         maxTime = [23, 55],
                         minReturnTime = 15, // minutes
@@ -172,7 +172,6 @@
                         tomorrow = function() {
                             return new Date(today().getTime() + hours(24));
                         },
-                        console.log(orderTime);
                         enabledFrom = function(offsetMins) {
                             if (!offsetMins) offsetMins = 0;
                             return new Date(new Date().getTime() + hours(orderTime) + minutes(offsetMins));
