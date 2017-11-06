@@ -136,10 +136,9 @@
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCtm2xZxd09GKAPHypwLhKwjFiVKxDZIW4"></script>
     <script>
         $(function(){
-            var orderTime = 2;
+            var orderTime = {{ orderTime }};
             if ($('#date').length){
                 (function(){
-                    console.log(orderTime);
                     var minTime = [0, 0],
                         maxTime = [23, 55],
                         minReturnTime = 15, // minutes
@@ -174,7 +173,7 @@
                         },
                         enabledFrom = function(offsetMins) {
                             if (!offsetMins) offsetMins = 0;
-                            return new Date(new Date().getTime() + hours(orderTime) + minutes(offsetMins));
+                            return new Date(new Date().getTime() + hours(parseInt(orderTime)) + minutes(offsetMins));
                         },
 
                         lastDisabledDay = function(offsetMins) {

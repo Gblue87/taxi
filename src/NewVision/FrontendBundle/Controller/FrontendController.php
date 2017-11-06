@@ -39,6 +39,7 @@ class FrontendController extends Controller
 
         $airports = $em->getRepository('NewVisionAirportsBundle:Airport')->findHomepageAirports($locale);
         $hotels = $em->getRepository('NewVisionServicesBundle:Service')->findHomepageHotels($locale);
+        $orderTime = $this->container->get('newvision.settings_manager')->get('order_time', 10);
 
         $dispatcher = $this->get('event_dispatcher');
         $event = new \NewVision\SEOBundle\Event\SeoEvent($content);
@@ -53,6 +54,7 @@ class FrontendController extends Controller
             'airports' => $airports,
             'sliderBlock' => $sliderBlock,
             'aboutUsBlock' => $aboutUsBlock,
+            'orderTime' => $orderTime
         );
     }
 
@@ -107,6 +109,7 @@ class FrontendController extends Controller
             'method' => 'POST',
             'action' => $this->generateUrl('new_order')
         ));
+        $orderTime = $this->container->get('newvision.settings_manager')->get('order_time', 10);
 
         if ($request->isMethod('POST') && !isset($requestData['homepage'])) {
             $form->handleRequest($request);
@@ -225,6 +228,7 @@ class FrontendController extends Controller
             'fill' => json_encode($fill),
             'form' => $form->createView(),
             'terms' => $terms,
+            'orderTime' => $orderTime,
             'breadCrumbs' => array($content->getTitle() => null),
         );
     }
